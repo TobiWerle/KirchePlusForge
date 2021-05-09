@@ -1,0 +1,49 @@
+/s Ich begrüße Sie rechtherzlich in unserer Kirche, wo sich heute <Frau1> und <Frau2> das Ja-Wort geben werden
+
+/s Liebes Brautpaar! Sie sind in dieser entscheidenden Stunde Ihres Lebens nicht allein
+
+/s Sie sind umgeben von Menschen, die Ihnen nahestehen
+
+/s Sie dürfen die Gewissheit haben, dass Sie mit dieser (unserer) Gemeinde und mit allen Christen in der Gemeinschaft der Kirche verbunden sind
+
+/s Zugleich sollen Sie wissen: Gott ist bei Ihnen
+
+/s Er ist der Gott Ihres Lebens und Ihrer Liebe. Er heiligt Ihre Liebe und vereint Sie zu einem untrennbaren Lebensbund
+
+/s Ich bitte Sie nun öffentlich zu bekunden, dass Sie zu dieser christlichen Ehe entschlossen sind
+
+
+		Der Geistliche fragt den Braut:
+
+
+/s <Frau1>, ich frage Sie, sind Sie hierhergekommen, um nach reiflicher Überlegung und aus freiem Entschluss mit Ihrer Braut <Frau2> den Bund der Ehe zu Schließen dann antworten Sie mit: Ja ich will
+
+
+		Der Geistliche fragt die Braut:
+
+/s <Frau2>, ich frage Sie, sind Sie hierhergekommen, um nach reiflicher Überlegung und aus freiem Entschluss mit Ihrer Braut <Frau1> den Bund der Ehe zu Schließen dann antworten Sie mit: Ja ich will
+
+
+
+/s <Frau1>, wollen sie ihre Frau lieben und achten und ihr die Treue halten Alle Tage Ihres Lebens?
+
+/s <Frau2>, wollen sie ihre Frau lieben und achten und ihr die Treue halten Alle Tage Ihres Lebens?
+
+
+		Beide Brautleute werden gefragt:
+
+
+/s Sind Sie beide bereit, die Kinder anzunehmen, die Gott Ihnen schenken will, und sie im Geist Christi und seiner Kirche zu erziehen?
+
+/s Sind Sie beide bereit, als christliche Eheleute Mitverantwortung in der Kirche und in der Welt zu übernehmen?
+
+/s Nun Frage ich sie Beide, Möchten sie sich Ehren, Lieben und Unterstützen bis zum Ende ihrer Tage? Dann antworten sie mit:"Ja mit Gottes Hilfe"
+
+/s Mit der von Gott mir verliehenen Kraft, und mit der Kraft meines Amtes, Erkläre ich sie Hiermit zu Frau und Frau
+
+
+
+[/marry (Spieler mit dem Geld) (Spieler 2)]
+
+
+/s Ihr dürft euch nun küssen
