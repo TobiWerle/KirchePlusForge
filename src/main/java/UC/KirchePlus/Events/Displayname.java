@@ -1,16 +1,9 @@
 package UC.KirchePlus.Events;
 
 
-import java.awt.Color;
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import UC.KirchePlus.Commands.Brot_Command;
 import UC.KirchePlus.Config.KircheConfig;
 import UC.KirchePlus.Utils.Brot_User;
 import UC.KirchePlus.Utils.HV_User;
@@ -19,14 +12,11 @@ import UC.KirchePlus.main.main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayer.EnumChatVisibility;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
 @Mod.EventBusSubscriber(Side.CLIENT)
@@ -48,14 +38,14 @@ public class Displayname {
 			String prefix = "";
 			String suffix = "";
 			
-			if(main.HVList.contains(p.getName())) {
+			if(HVs.containsKey(p.getName())) {
 				if(KircheConfig.HV == true) {
 					if(TabellenMethoden.isDayNotOver(HVs.get(p.getName()).getBis())){
 						prefix = KircheConfig.prefixHV.replace("&", "§") + "§f ";	
 					}
 				}
 			}
-			if(main.BrotList.contains(p.getName())) {
+			if(BrotUser.containsKey(p.getName())) {
 				if(KircheConfig.Brot == true) {
 					if(TabellenMethoden.isSameDay(BrotUser.get(p.getName()).getDatum())){
 						suffix = "§r " + KircheConfig.prefixBrot.replace("&", "§");

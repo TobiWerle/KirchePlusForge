@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -18,17 +17,13 @@ import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.testing.json.MockJsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
-import com.google.api.services.sheets.v4.model.Sheet;
 import com.google.api.services.sheets.v4.model.ValueRange;
 
 import UC.KirchePlus.Events.Displayname;
-import UC.KirchePlus.Utils.MarryFile.types;
 import UC.KirchePlus.main.main;
 
 
@@ -89,7 +84,6 @@ public class TabellenMethoden {
 	}
 	
 	public static void getHVList() throws IOException, GeneralSecurityException {
-		main.HVList.clear();
 		Displayname.HVs.clear();
 		
 		String range = "Hausverbote!B8:G81";
@@ -103,7 +97,6 @@ public class TabellenMethoden {
 		}else {
 			for(List row : values) {
 				try {
-					main.HVList.add(row.get(0).toString());		
 					new HV_User(row.get(0).toString(), row.get(1).toString(), row.get(2).toString(), row.get(4).toString(), row.get(5).toString(), row.get(3).toString());	
 				} catch (Exception e) {}
 			}
@@ -111,7 +104,6 @@ public class TabellenMethoden {
 	}
 	
 	public static void getBrotList() throws IOException, GeneralSecurityException {
-		main.BrotList.clear();
 		Displayname.BrotUser.clear();
 		
 		String range = "Brot!B6:E65";
@@ -125,7 +117,6 @@ public class TabellenMethoden {
 		}else {
 			for(List row : values) {
 				try {
-					main.BrotList.add(row.get(1).toString());
 					new Brot_User(row.get(0).toString(), row.get(1).toString(), row.get(2).toString());
 				} catch (Exception e) {}
 			}

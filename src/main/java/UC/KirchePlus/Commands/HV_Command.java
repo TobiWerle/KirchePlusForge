@@ -21,7 +21,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.IClientCommand;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class HV_Command extends CommandBase implements IClientCommand {																																																																				
 
@@ -82,7 +81,7 @@ public class HV_Command extends CommandBase implements IClientCommand {
 						TextFormatting.DARK_AQUA + "========"+
 						TextFormatting.DARK_BLUE + "[]"));
 				ArrayList<String> online = new ArrayList<String>();
-				for(String name : main.HVList) {
+				for(String name : Displayname.HVs.keySet()) {
 					if(!isOnline(name)) {
 						if(TabellenMethoden.isDayNotOver(Displayname.HVs.get(name).getBis())) {
 							Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - "+name));	
@@ -156,7 +155,7 @@ public class HV_Command extends CommandBase implements IClientCommand {
 			
 			if(args.length == 2) {
 				String start = args[1].toLowerCase();
-				for(String names : main.HVList) {
+				for(String names : Displayname.HVs.keySet()) {
 					if(names.toLowerCase().startsWith(start)) {
 						tabs.add(names);	
 					}
@@ -165,7 +164,7 @@ public class HV_Command extends CommandBase implements IClientCommand {
 			}
 			
 			
-			for(String names : main.HVList) {
+			for(String names : Displayname.HVs.keySet()) {
 				tabs.add(names);
 			}
 			

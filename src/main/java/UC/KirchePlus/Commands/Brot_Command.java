@@ -5,12 +5,10 @@ package UC.KirchePlus.Commands;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import UC.KirchePlus.Events.Displayname;
 import UC.KirchePlus.Utils.Brot_User;
-import UC.KirchePlus.Utils.HV_User;
 import UC.KirchePlus.Utils.TabellenMethoden;
 import UC.KirchePlus.main.main;
 import net.minecraft.client.Minecraft;
@@ -90,7 +88,7 @@ public class Brot_Command extends CommandBase implements IClientCommand {
 				
 				ArrayList<String> online = new ArrayList<String>();
 		
-				for(String name : main.BrotList) {
+				for(String name : Displayname.BrotUser.keySet()) {
 					if(!isOnline(name)) {
 						Brot_User user = Displayname.BrotUser.get(name);
 						String color = " §a";
@@ -152,7 +150,7 @@ public class Brot_Command extends CommandBase implements IClientCommand {
 			
 			if(args.length == 2) {
 				String start = args[1].toLowerCase();
-				for(String names : main.BrotList) {
+				for(String names : Displayname.BrotUser.keySet()) {
 					if(names.toLowerCase().startsWith(start)) {
 						tabs.add(names);	
 					}
@@ -161,7 +159,7 @@ public class Brot_Command extends CommandBase implements IClientCommand {
 			}
 			
 			
-			for(String names : main.BrotList) {
+			for(String names : Displayname.BrotUser.keySet()) {
 				tabs.add(names);
 			}
 			
