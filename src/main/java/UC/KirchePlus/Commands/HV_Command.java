@@ -83,7 +83,7 @@ public class HV_Command extends CommandBase implements IClientCommand {
 				ArrayList<String> online = new ArrayList<String>();
 				for(String name : Displayname.HVs.keySet()) {
 					if(!isOnline(name)) {
-						if(TabellenMethoden.isDayNotOver(Displayname.HVs.get(name).getBis())) {
+						if(!TabellenMethoden.isDayOver(Displayname.HVs.get(name).getBis())) {
 							Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - "+name));	
 						}else {
 							Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - "+ TextFormatting.RED +name));
@@ -91,7 +91,7 @@ public class HV_Command extends CommandBase implements IClientCommand {
 					}else online.add(name);
 				}
 				for(String name : online) {
-					if(TabellenMethoden.isDayNotOver(Displayname.HVs.get(name).getBis())) {
+					if(!TabellenMethoden.isDayOver(Displayname.HVs.get(name).getBis())) {
 						Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.GREEN + " - " +name));
 					}else {
 						Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.GREEN + " - " +TextFormatting.RED +name));

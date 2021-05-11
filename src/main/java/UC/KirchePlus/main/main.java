@@ -1,7 +1,5 @@
 package UC.KirchePlus.main;
 
-import java.util.ArrayList;
-
 import UC.KirchePlus.Commands.Brot_Command;
 import UC.KirchePlus.Commands.HV_Command;
 import UC.KirchePlus.Commands.MarryRP_Command;
@@ -27,8 +25,6 @@ public class main{
     		TabellenMethoden.getHVList();
     		TabellenMethoden.getBrotList();
 		} catch (Exception e) {}
-    	
-
     }
     @EventHandler
     public void preInit(FMLPreInitializationEvent e) {

@@ -40,7 +40,7 @@ public class Displayname {
 			
 			if(HVs.containsKey(p.getName())) {
 				if(KircheConfig.HV == true) {
-					if(TabellenMethoden.isDayNotOver(HVs.get(p.getName()).getBis())){
+					if(!TabellenMethoden.isDayOver(HVs.get(p.getName()).getBis())){
 						prefix = KircheConfig.prefixHV.replace("&", "§") + "§f ";	
 					}
 				}

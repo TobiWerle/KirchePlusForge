@@ -67,7 +67,7 @@ public class Brot_Command extends CommandBase implements IClientCommand {
 					((EntityPlayer) e).refreshDisplayName();
 				}
 			}
-			Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.AQUA + "Die Brotliste wurden synchronisiert!"));
+			Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.AQUA + "Die Brotliste wurde synchronisiert!"));
 		}
 		
 		if(args.length == 1) {
