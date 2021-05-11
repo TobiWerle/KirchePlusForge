@@ -7,8 +7,8 @@ import java.util.List;
 
 import UC.KirchePlus.Events.Displayname;
 import UC.KirchePlus.Utils.HV_User;
+import UC.KirchePlus.Utils.PlayerCheck;
 import UC.KirchePlus.Utils.TabellenMethoden;
-import UC.KirchePlus.main.main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -69,6 +69,7 @@ public class HV_Command extends CommandBase implements IClientCommand {
 			if(args[0].equalsIgnoreCase("help")) {
 				displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv " + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "synchronisiere die Hausverbote mit dem Client."));
 				displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv list" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Gibt eine Liste mit allen Spielern aus, die Hausverbot haben."));
+				displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv namecheck" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Überprüft ob es Fehler bei den eingetragenen Spielernamen gibt."));
 				displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv info <User>" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Zeigt die Hausverbot-Infos zum Spieler."));
 			}else
 			if(args[0].equalsIgnoreCase("list")) {
@@ -84,7 +85,7 @@ public class HV_Command extends CommandBase implements IClientCommand {
 				for(String name : Displayname.HVs.keySet()) {
 					if(!isOnline(name)) {
 						if(!TabellenMethoden.isDayOver(Displayname.HVs.get(name).getBis())) {
-							Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - "+name));	
+							Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - "+name ));
 						}else {
 							Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - "+ TextFormatting.RED +name));
 						}
@@ -98,6 +99,20 @@ public class HV_Command extends CommandBase implements IClientCommand {
 					}
 				}
 				return;
+			}else
+				if(args[0].equalsIgnoreCase("namecheck")){
+					ArrayList<String> nameError = new ArrayList<>();
+					for(String name : Displayname.HVs.keySet()) {
+						if(!isOnline(name)) {
+							if(PlayerCheck.checkName(name) == false) nameError.add(name);
+						}
+					}
+					if(nameError.size() == 0) {
+						Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.BLUE + " - Es wurden keine Spieler mit fehlerhaften Namen gefunden!"));
+					}else Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - Spieler mit Fehler im Namen:"));
+					for(String player : nameError){
+						Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - "+ TextFormatting.RED +player));
+					}
 			}else
 			if(args[0].equalsIgnoreCase("info")) {
 				displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv info <User>" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Zeigt die Hausverbot-Infos zum Spieler."));
@@ -148,7 +163,8 @@ public class HV_Command extends CommandBase implements IClientCommand {
 		if(args.length == 1) {
 			tabs.add("list");
 			tabs.add("help");
-			tabs.add("info");	
+			tabs.add("info");
+			tabs.add("namecheck");
 		}	
 		if(args[0].equalsIgnoreCase("info")) {
 			tabs.clear();
