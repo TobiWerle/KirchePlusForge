@@ -16,9 +16,11 @@ Befehle:
  - /hv | Synchronisiert die Hausverbotler der Kirche mit Minecraft. Spieler mit Hausverbot werden im Spielernamen markiert.
      - /hv list | Zeigt alle Spieler mit Hausverbot im Chat an. Spieler die Online oder Offline sind, werden anders markiert.
      - /hv info <Name> | Zeigt die Informationen zum Hausverbot an. Bis wann? Wer hat es erteilt? Wann wurde es erteilt? etc
+     - /hv check | Zeigt an ob sich ein Spieler umbennant hat oder der Name falsch eingetragen worden ist.
  - /brot | Synchronisiert die Brotliste der Kirche mit Minecraft. Spieler mit die Brot bekommen haben, werden im Spielernamen markiert.
-     - /hv list | Zeigt alle Spieler an, die in der Brotliste stehen. Auch hier werden die Online und Offline Spieler anders markiert.
-     - /hv info <Name> | Zeigt die Informationen des Spielers an. Wann hat er Brot bekommen? Von wem? etc
+     - /brot list | Zeigt alle Spieler an, die in der Brotliste stehen. Auch hier werden die Online und Offline Spieler anders markiert.
+     - /brot info <Name> | Zeigt die Informationen des Spielers an. Wann hat er Brot bekommen? Von wem? etc
+     - /brot check | Zeigt an ob sich ein Spieler umbennant hat oder der Name falsch eingetragen worden ist.
 
 Settings:
   - Stellt den Prefix der HV und Brotliste nach eurem Geschmack ein!
