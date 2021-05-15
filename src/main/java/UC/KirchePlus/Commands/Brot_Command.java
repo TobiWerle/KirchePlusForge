@@ -55,19 +55,26 @@ public class Brot_Command extends CommandBase implements IClientCommand {
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		if(args.length == 0) {
-			try {
-				TabellenMethoden.getBrotList();
-			} catch (IOException | GeneralSecurityException e1) {}
-			for(EntityPlayer p : Displayname.players) {
-				p.refreshDisplayName();
-			}
-			for(Entity e : Minecraft.getMinecraft().world.loadedEntityList) {
-				if(e instanceof EntityPlayer) {
-					EntityPlayer p = (EntityPlayer) e;
-					((EntityPlayer) e).refreshDisplayName();
+			Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.GRAY + " Die Brotliste wird synchronisiert! Dies könnte paar Sekunden dauern!"));
+			Thread thread = new Thread(){
+				@Override
+				public void run() {
+					try {
+						TabellenMethoden.getBrotList();
+					} catch (IOException | GeneralSecurityException e1) {}
+					for(EntityPlayer p : Displayname.players) {
+						p.refreshDisplayName();
+					}
+					for(Entity e : Minecraft.getMinecraft().world.loadedEntityList) {
+						if(e instanceof EntityPlayer) {
+							EntityPlayer p = (EntityPlayer) e;
+							((EntityPlayer) e).refreshDisplayName();
+						}
+					}
+					Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.AQUA + "Die Brotliste wurde synchronisiert!"));
 				}
-			}
-			Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.AQUA + "Die Brotliste wurde synchronisiert!"));
+			};
+			thread.start();
 		}
 		
 		if(args.length == 1) {
@@ -105,18 +112,25 @@ public class Brot_Command extends CommandBase implements IClientCommand {
 				}
 			}else
 			if(args[0].equalsIgnoreCase("namecheck")){
-				ArrayList<String> nameError = new ArrayList<>();
-				for(String name : Displayname.BrotUser.keySet()) {
-					if(!isOnline(name)) {
-						if(PlayerCheck.checkName(name) == false) nameError.add(name);
+				Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.GRAY + " NameCheck wird ausgeführt! Dies könnte paar Sekunden dauern!"));
+				Thread thread = new Thread(){
+					@Override
+					public void run() {
+						ArrayList<String> nameError = new ArrayList<>();
+						for(String name : Displayname.BrotUser.keySet()) {
+							if(!isOnline(name)) {
+								if(PlayerCheck.checkName(name) == false) nameError.add(name);
+							}
+						}
+						if(nameError.size() == 0) {
+							Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.BLUE + " - Es wurden keine Spieler mit fehlerhaften Namen gefunden!"));
+						}else Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - Spieler mit Fehler im Namen:"));
+						for(String player : nameError){
+							Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - "+ TextFormatting.RED +player));
+						}
 					}
-				}
-				if(nameError.size() == 0) {
-					Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.BLUE + " - Es wurden keine Spieler mit fehlerhaften Namen gefunden!"));
-				}else Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - Spieler mit Fehler im Namen:"));
-				for(String player : nameError){
-					Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - "+ TextFormatting.RED +player));
-				}
+				};
+				thread.start();
 			}
 		}
 		if(args.length == 2) {
