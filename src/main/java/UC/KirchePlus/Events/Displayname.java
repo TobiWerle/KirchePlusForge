@@ -12,6 +12,7 @@ import UC.KirchePlus.main.main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -52,8 +53,9 @@ public class Displayname {
 					}
 				}
 			}
-			e.setDisplayname(prefix + p.getName() + suffix);
-			
+			if(!isMasked(p)) {
+				e.setDisplayname(prefix + p.getName() + suffix);
+			}
 			
 		} catch (Exception e2) {
 			e2.printStackTrace();
@@ -84,7 +86,12 @@ public class Displayname {
 		}
 	}
 	
-	
+	private static boolean isMasked(EntityPlayer ep){
+		if(ScorePlayerTeam.formatPlayerName(ep.getTeam(), ep.getName()).contains("§k")){
+			return true;
+		}
+		return false;
+	}
 	
 
 }

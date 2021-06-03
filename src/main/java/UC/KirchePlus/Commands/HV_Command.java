@@ -21,7 +21,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.IClientCommand;
-import org.apache.logging.log4j.core.appender.db.jpa.converter.ThrowableAttributeConverter;
 
 public class HV_Command extends CommandBase implements IClientCommand {																																																																				
 
