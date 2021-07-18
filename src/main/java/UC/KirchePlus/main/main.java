@@ -11,6 +11,9 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+
 @Mod(modid = main.MODID, version = main.VERSION)
 public class main{
 	
@@ -18,12 +21,12 @@ public class main{
     public static final String VERSION = "1.2";
     
     @EventHandler
-    public void init(FMLInitializationEvent event){
+    public void init(FMLInitializationEvent event) {
     	TabellenMethoden.init();
     	MarryFile.load();
-    	try {
-    		TabellenMethoden.getHVList();
-    		TabellenMethoden.getBrotList();
+		try {
+			TabellenMethoden.getHVList();
+			TabellenMethoden.getBrotList();
 		} catch (Exception e) {}
     }
     @EventHandler

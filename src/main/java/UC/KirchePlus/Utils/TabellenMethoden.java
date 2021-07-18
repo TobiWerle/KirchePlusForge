@@ -85,7 +85,7 @@ public class TabellenMethoden {
 	public static void getHVList() throws IOException, GeneralSecurityException {
 		Displayname.HVs.clear();
 		
-		String range = "Hausverbote!B8:G81";
+		String range = "Hausverbote!B19:G92";
 		
 		ValueRange response = sheetsService.spreadsheets().values()
 				.get(SPREADSHEET_ID, range)
@@ -97,6 +97,23 @@ public class TabellenMethoden {
 			for(List row : values) {
 				try {
 					new HV_User(row.get(0).toString(), row.get(1).toString(), row.get(2).toString(), row.get(4).toString(), row.get(5).toString(), row.get(3).toString());	
+				} catch (Exception e) {}
+			}
+		}
+
+		//Perma
+		String range2 = "Hausverbote!B9:G17";
+
+		ValueRange response2 = sheetsService.spreadsheets().values()
+				.get(SPREADSHEET_ID, range2)
+				.execute();
+		List<List<Object>> values2 = response2.getValues();
+		if(values2 == null || values2.isEmpty()) {
+			System.out.println("No data found!");
+		}else {
+			for(List row : values2) {
+				try {
+					new HV_User(row.get(0).toString(), row.get(1).toString(), row.get(2).toString(), row.get(4).toString(), "Nie", "Permanent");
 				} catch (Exception e) {}
 			}
 		}
@@ -123,6 +140,9 @@ public class TabellenMethoden {
 	}
 	
     public static boolean isSameDay(String s) {
+		if(s.equals("Nie")){
+			return false;
+		}
         Calendar calendar = Calendar.getInstance();
         int currentday = calendar.get(Calendar.DAY_OF_MONTH);
         int currentmonth = calendar.get(Calendar.MONTH)+1;
@@ -145,6 +165,9 @@ public class TabellenMethoden {
     }
     
     public static boolean isDayOver(String s) {
+		if(s.equals("Nie")){
+			return false;
+		}
         Calendar calendar = Calendar.getInstance();
         int currentday = calendar.get(Calendar.DAY_OF_MONTH);
         int currentmonth = calendar.get(Calendar.MONTH)+1;
