@@ -1,10 +1,5 @@
 package UC.KirchePlus.Commands;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.util.ArrayList;
-import java.util.List;
-
 import UC.KirchePlus.Events.Displayname;
 import UC.KirchePlus.Utils.HV_User;
 import UC.KirchePlus.Utils.PlayerCheck;
@@ -21,6 +16,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.IClientCommand;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HV_Command extends CommandBase implements IClientCommand {																																																																				
 

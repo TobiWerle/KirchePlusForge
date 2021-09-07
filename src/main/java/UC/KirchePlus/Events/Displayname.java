@@ -1,14 +1,10 @@
 package UC.KirchePlus.Events;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import UC.KirchePlus.Config.KircheConfig;
 import UC.KirchePlus.Utils.Brot_User;
 import UC.KirchePlus.Utils.HV_User;
 import UC.KirchePlus.Utils.TabellenMethoden;
-import UC.KirchePlus.main.main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,6 +15,9 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class Displayname {
@@ -92,6 +91,5 @@ public class Displayname {
 		}
 		return false;
 	}
-	
 
 }

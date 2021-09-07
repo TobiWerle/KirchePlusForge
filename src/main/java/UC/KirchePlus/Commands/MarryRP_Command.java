@@ -1,9 +1,5 @@
 package UC.KirchePlus.Commands;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import UC.KirchePlus.Utils.MarryFile;
 import UC.KirchePlus.Utils.MarryFile.types;
 import net.minecraft.client.Minecraft;
@@ -17,6 +13,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.IClientCommand;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class MarryRP_Command extends CommandBase implements IClientCommand{
 

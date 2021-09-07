@@ -1,16 +1,7 @@
 package UC.KirchePlus.Utils;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.security.GeneralSecurityException;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
-
+import UC.KirchePlus.Events.Displayname;
+import UC.KirchePlus.main.main;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -21,9 +12,21 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
+import com.google.api.services.sheets.v4.model.Sheet;
+import com.google.api.services.sheets.v4.model.Spreadsheet;
 import com.google.api.services.sheets.v4.model.ValueRange;
 
-import UC.KirchePlus.Events.Displayname;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.security.GeneralSecurityException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
 
 
 public class TabellenMethoden {
@@ -31,7 +34,7 @@ public class TabellenMethoden {
 	private static Sheets sheetsService;
 	private static String APPLICATION_NAME = "Hausverbot Kirche";
 	private static String SPREADSHEET_ID = "1qBE8L2aL22BRdwfOOdsTd7rBRzwGjGFx2Bui0ZOaf0s";
-	
+	private static ArrayList<String> memberSheets = new ArrayList<>();
 	
 	
 	public static Credential authorize()throws IOException, GeneralSecurityException{
@@ -118,26 +121,60 @@ public class TabellenMethoden {
 			}
 		}
 	}
-	
-	public static void getBrotList() throws IOException, GeneralSecurityException {
-		Displayname.BrotUser.clear();
-		
-		String range = "Brot!B6:E65";
-		
-		ValueRange response = sheetsService.spreadsheets().values()
-				.get(SPREADSHEET_ID, range)
-				.execute();
-		List<List<Object>> values = response.getValues();
-		if(values == null || values.isEmpty()) {
-			System.out.println("No data found!");
-		}else {
-			for(List row : values) {
-				try {
-					new Brot_User(row.get(0).toString(), row.get(1).toString(), row.get(2).toString());
-				} catch (Exception e) {}
+
+	//LoadÖffi
+
+
+	public static void checkDonations() throws IOException {
+		main.spender.clear();
+		for (String members : TabellenMethoden.memberSheets) {
+			String Spenden1 = members + "!C76:D91";
+			String Spenden2 = members + "!H76:I91";
+			List<List<Object>> list1 = TabellenMethoden.getList(Spenden1);
+			List<List<Object>> list2 = TabellenMethoden.getList(Spenden2);
+			try {
+				for (List row : list1) {
+					if (SpenderInfo.exists(row.get(0).toString())) {
+						SpenderInfo.getByName(row.get(0).toString()).addAmount(Integer.valueOf(row.get(1).toString()).intValue());
+						continue;
+					}
+					main.spender.add(new SpenderInfo(row.get(0).toString(), row.get(1).toString()));
+				}
+			} catch (Exception exception) {}
+			try {
+				for (List row : list2) {
+					if (SpenderInfo.exists(row.get(0).toString())) {
+						SpenderInfo.getByName(row.get(0).toString()).addAmount(Integer.valueOf(row.get(1).toString()).intValue());
+						continue;
+					}
+					main.spender.add(new SpenderInfo(row.get(0).toString(), row.get(1).toString()));
+				}
+			} catch (Exception exception) {}
+		}
+		System.out.println("Done Tabellen");
+	}
+
+	private static List<List<Object>> getList(String range) throws IOException {
+		ValueRange response2 = sheetsService.spreadsheets().values().get(SPREADSHEET_ID, range).execute();
+		List<List<Object>> values = response2.getValues();
+		return values;
+	}
+
+	public static void getAllMemberSheets() throws IOException {
+		Spreadsheet sp = sheetsService.spreadsheets().get(SPREADSHEET_ID).execute();
+		List<Sheet> sheets = sp.getSheets();
+		for(Sheet sheet : sheets){
+			String[] sortOut = {"Übersicht","Hausverbote","Vorlage Tabelle"};
+			String name = sheet.getProperties().getTitle();
+			if(!Arrays.stream(sortOut).anyMatch(name::contains) && !name.toLowerCase().contains("frei")){
+				memberSheets.add(name);
 			}
 		}
+		for(String s : memberSheets){
+			//System.out.println(s);
+		}
 	}
+
 	
     public static boolean isSameDay(String s) {
 		if(s.equals("Nie")){

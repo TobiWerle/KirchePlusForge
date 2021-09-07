@@ -1,10 +1,6 @@
 package UC.KirchePlus.Utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -76,15 +72,17 @@ public class MarryFile {
 	
 	
 	public static void createMarryRP(types Type, String Name1, String Name2) {
-		createCopyFromFile(Type, Name1, Name2);
+		createCopyFromFile(Type, Name1, Name2, false);
 	}
 	
 	
-	private static void createCopyFromFile(types Type, String Name1, String Name2) {
+	private static void createCopyFromFile(types Type, String Name1, String Name2, boolean oneDrive) {
 		FileOutputStream outstream = null;
  
-    	try{	
-    	    File outfile = new File(System.getProperty("user.home") + "/Desktop/"+ "MarryRP - "+Type.name()+" "+Name1+"-"+Name2+".txt");
+    	try{
+    		String onedrive = "";
+    		if(oneDrive == true) onedrive = "/OneDrive";
+    	    File outfile = new File(System.getProperty("user.home") + onedrive +"/Desktop/"+ "MarryRP "+Type.name()+" "+Name1+"-"+Name2+".txt");
     	    InputStream instream = getFile(Type);    	    
     	    outstream = new FileOutputStream(outfile);
  
@@ -107,6 +105,10 @@ public class MarryFile {
     	    outstream.close();
     	    
     	}catch(IOException ioe){
+    		if(oneDrive == false){
+    			createCopyFromFile(Type, Name1, Name2, true);
+    			return;
+			}
     		ioe.printStackTrace();
     	 }
     }

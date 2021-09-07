@@ -3,7 +3,8 @@ package UC.KirchePlus.Utils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.URL;
 
 public class PlayerCheck {
