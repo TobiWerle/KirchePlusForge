@@ -44,7 +44,7 @@ public class TeamSpeak {
 
                         String name = "";
                         int amount = 0;
-                        if(splitInfo[0].contains("[UC]")){
+                        if(splitInfo[1].contains("[UC]")){
                             name = splitInfo[2];
                             amount = Integer.parseInt(splitInfo[4].replace(".", ""));
                         }else{
