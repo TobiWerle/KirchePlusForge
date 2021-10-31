@@ -23,7 +23,7 @@ public class main{
     public static final String VERSION = "1.2";
     public static ArrayList<SpenderInfo> spender = new ArrayList<>();
     public static TSClientQuery client = null;
-    //Öffi: 227 TEST
+    //Öffi: 227
     @EventHandler
     public void init(FMLInitializationEvent event) {
     	TabellenMethoden.init();
