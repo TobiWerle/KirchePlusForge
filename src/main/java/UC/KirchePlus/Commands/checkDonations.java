@@ -2,7 +2,7 @@ package UC.KirchePlus.Commands;
 
 import UC.KirchePlus.Utils.SpenderInfo;
 import UC.KirchePlus.Utils.TabellenMethoden;
-import UC.KirchePlus.Utils.TeamSpeak;
+import UC.KirchePlus.Utils.SpenderUtils;
 import UC.KirchePlus.main.main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
@@ -15,7 +15,6 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.IClientCommand;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,15 +58,15 @@ public class checkDonations extends CommandBase implements IClientCommand {
                 @Override
                 public void run() {
                     try {
-                        TeamSpeak.loadDescription();
+                        TabellenMethoden.getDonations();
                         TabellenMethoden.checkDonations();
                         HashMap<String, Integer> inPublic = new HashMap<String, Integer>();
                         HashMap<String, Integer> notPublic = new HashMap<String, Integer>();
                         for (SpenderInfo spender : main.spender) {
                             if (isInPublic(spender.getName())) {
-                                inPublic.put(spender.getName(), spender.getAmount() + TeamSpeak.getAmountByName(spender.getName()));
+                                inPublic.put(spender.getName(), spender.getAmount() + SpenderUtils.getAmountByName(spender.getName()));
                                 displayMessage(new TextComponentString(TextFormatting.GRAY + " - " + TextFormatting.GOLD + spender.getName() + TextFormatting.AQUA + " Steht im Öffentlich-Channel : "
-                                        + TextFormatting.GOLD + (spender.getAmount() + TeamSpeak.getAmountByName(spender.getName())) + TextFormatting.GREEN + "(+" + spender.getAmount() + ")"));
+                                        + TextFormatting.GOLD + (spender.getAmount() + SpenderUtils.getAmountByName(spender.getName())) + TextFormatting.GREEN + "(+" + spender.getAmount() + ")"));
                             }
                             if (spender.getAmount() >= 5000) {
                                 if (!isInPublic(spender.getName())) {
@@ -79,13 +78,6 @@ public class checkDonations extends CommandBase implements IClientCommand {
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                        try {
-                            main.client.stop();
-                            main.client.start();
-                        } catch (IOException ioException) {
-                            System.err.println("Fehler beim restart");
-                            e.printStackTrace();
-                        }
                     }
                     inTask = false;
                 }
@@ -118,7 +110,7 @@ public class checkDonations extends CommandBase implements IClientCommand {
     }
 
     private boolean isInPublic(String name){
-        for(Map.Entry map : TeamSpeak.publicDonations.entrySet()){
+        for(Map.Entry map : SpenderUtils.publicDonations.entrySet()){
             if(map.getKey().toString().equalsIgnoreCase(name)){
                 return true;
             }

@@ -1,7 +1,7 @@
 package UC.KirchePlus.Config;
 
 import UC.KirchePlus.Events.Displayname;
-import UC.KirchePlus.Utils.TeamSpeak;
+import UC.KirchePlus.Utils.SpenderUtils;
 import UC.KirchePlus.main.main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -33,9 +33,9 @@ public class KircheConfig {
 @Config.Comment("Stelle ein, wie die Spieler mit Brot gekennzeichnet werden sollen.")
     public static String prefixBrot = "&8[&2✔&8]";
 
-@Config.Name("TSQuery")
-@Config.Comment("Stelle eine Verbindung zur TeamSpeak Client Query her")
-	public static String Query = "";
+@Config.Name("ownGMail")
+@Config.Comment("Stelle eine Verbindung zu deiner eigenen GMail her, um Schreibrechte auf eine Tabelle zu erhalten.")
+	public static boolean ownGMail = false;
 	
 	
 	@SubscribeEvent
@@ -50,6 +50,5 @@ public class KircheConfig {
 				((EntityPlayer) entity).refreshDisplayName();
 			}
 		}
-		TeamSpeak.connect(Query);
 	}
 }

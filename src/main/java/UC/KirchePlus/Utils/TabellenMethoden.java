@@ -1,5 +1,6 @@
 package UC.KirchePlus.Utils;
 
+import UC.KirchePlus.Config.KircheConfig;
 import UC.KirchePlus.Events.Displayname;
 import UC.KirchePlus.main.main;
 import com.google.api.client.auth.oauth2.Credential;
@@ -23,36 +24,46 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 
 public class TabellenMethoden {
 	
-	private static Sheets sheetsService;
+	public static Sheets sheetsService;
 	private static String APPLICATION_NAME = "Hausverbot Kirche";
-	private static String SPREADSHEET_ID = "1qBE8L2aL22BRdwfOOdsTd7rBRzwGjGFx2Bui0ZOaf0s";
+	public static String SPREADSHEET_ID = "1qBE8L2aL22BRdwfOOdsTd7rBRzwGjGFx2Bui0ZOaf0s";
 	private static ArrayList<String> memberSheets = new ArrayList<>();
 	
 	
 	public static Credential authorize()throws IOException, GeneralSecurityException{
 		InputStream in = TabellenMethoden.class.getResourceAsStream("/credentials.json");
-		GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(
-				JacksonFactory.getDefaultInstance(), new InputStreamReader(in));
+		GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JacksonFactory.getDefaultInstance(), new InputStreamReader(in));
 		
 		List<String> scopes = Arrays.asList(SheetsScopes.SPREADSHEETS);
-		
+
+		if(KircheConfig.ownGMail == false){
+			GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+					GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(),
+					clientSecrets, scopes)
+					.setDataStoreFactory(new FileDataStoreFactory(new java.io.File("tokens")))
+					.setAccessType("offline")
+					.build();
+			Credential credential = new AuthorizationCodeInstalledApp(
+					flow, new LocalServerReceiver())
+					.authorize("user");
+			return credential;
+		}
+
 		GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
 				GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(),
 				clientSecrets, scopes)
-				.setDataStoreFactory(new FileDataStoreFactory(new java.io.File("tokens")))
+				.setDataStoreFactory(new FileDataStoreFactory(new java.io.File("tokens/own")))
 				.setAccessType("offline")
 				.build();
 		Credential credential = new AuthorizationCodeInstalledApp(
 				flow, new LocalServerReceiver())
 				.authorize("user");
+
 		return credential;
 		
 	}
@@ -69,20 +80,19 @@ public class TabellenMethoden {
 	public static void init() {
 		File file = new File(System.getenv("APPDATA") + "/.minecraft/tokens");
 		if(!file.exists()) file.mkdirs();
-		
-		
+
 		File credentialsFile = new File(System.getenv("APPDATA") + "/.minecraft/tokens/StoredCredential");
 		InputStream credentials = TabellenMethoden.class.getResourceAsStream("/StoredCredential");
-		if(!credentialsFile.exists())
+		if (!credentialsFile.exists())
 			try {
 				Files.copy(credentials, credentialsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-			} catch (IOException e1) {}
-		
-		
-		
+			} catch (IOException e1) {
+			}
+
 		try {
 			sheetsService = getSheetsService();
 		} catch (IOException | GeneralSecurityException e) {}
+
 	}
 	
 	public static void getHVList() throws IOException, GeneralSecurityException {
@@ -140,7 +150,7 @@ public class TabellenMethoden {
 					}
 					main.spender.add(new SpenderInfo(row.get(0).toString(), row.get(1).toString()));
 				}
-			} catch (Exception exception) {}
+			} catch (Exception exception) {exception.printStackTrace();}
 			try {
 				for (List row : list2) {
 					if (SpenderInfo.exists(row.get(0).toString())) {
@@ -149,9 +159,27 @@ public class TabellenMethoden {
 					}
 					main.spender.add(new SpenderInfo(row.get(0).toString(), row.get(1).toString()));
 				}
-			} catch (Exception exception) {}
+			} catch (Exception exception) {exception.printStackTrace();}
 		}
 		System.out.println("Done Tabellen");
+	}
+
+	public static void getDonations() throws IOException {
+		SpenderUtils.publicDonations.clear();
+		String range = "Spender!K5:M998";
+
+		ValueRange response = sheetsService.spreadsheets().values().get(SPREADSHEET_ID, range).execute();
+		List<List<Object>> values = response.getValues();
+		if(values == null || values.isEmpty()) {
+			System.out.println("No data found!");
+		}else {
+			for(List row : values) {
+				try {
+					SpenderUtils.publicDonations.put(row.get(0).toString(), Integer.parseInt(row.get(2).toString().replace("$", "").replace(".", "")));
+				} catch (Exception e) {e.printStackTrace();}
+			}
+		}
+		System.out.println("Done Tabellen2");
 	}
 
 	private static List<List<Object>> getList(String range) throws IOException {
@@ -164,14 +192,11 @@ public class TabellenMethoden {
 		Spreadsheet sp = sheetsService.spreadsheets().get(SPREADSHEET_ID).execute();
 		List<Sheet> sheets = sp.getSheets();
 		for(Sheet sheet : sheets){
-			String[] sortOut = {"Übersicht","Hausverbote","Vorlage Tabelle"};
+			String[] get = {"#0","#1","#2", "#3", "#4", "#5", "#6"};
 			String name = sheet.getProperties().getTitle();
-			if(!Arrays.stream(sortOut).anyMatch(name::contains) && !name.toLowerCase().contains("frei")){
+			if(Arrays.stream(get).anyMatch(name::contains) && !name.toLowerCase().contains("frei")){
 				memberSheets.add(name);
 			}
-		}
-		for(String s : memberSheets){
-			//System.out.println(s);
 		}
 	}
 
