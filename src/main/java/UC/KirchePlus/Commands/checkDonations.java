@@ -1,8 +1,9 @@
 package UC.KirchePlus.Commands;
 
 import UC.KirchePlus.Utils.SpenderInfo;
-import UC.KirchePlus.Utils.TabellenMethoden;
 import UC.KirchePlus.Utils.SpenderUtils;
+import UC.KirchePlus.Utils.TabellenMethoden;
+import UC.KirchePlus.Utils.Utils;
 import UC.KirchePlus.main.main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
@@ -49,7 +50,7 @@ public class checkDonations extends CommandBase implements IClientCommand {
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         if (args.length == 0) {
             if (inTask) {
-                displayMessage(new TextComponentString(TextFormatting.RED + "Bitte warte noch einen Moment!"));
+                Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Bitte warte noch einen Moment!"));
                 return;
             }
             inTask = true;
@@ -65,17 +66,21 @@ public class checkDonations extends CommandBase implements IClientCommand {
                         for (SpenderInfo spender : main.spender) {
                             if (isInPublic(spender.getName())) {
                                 inPublic.put(spender.getName(), spender.getAmount() + SpenderUtils.getAmountByName(spender.getName()));
-                                displayMessage(new TextComponentString(TextFormatting.GRAY + " - " + TextFormatting.GOLD + spender.getName() + TextFormatting.AQUA + " Steht im Öffentlich-Channel : "
+                                Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + " - " + TextFormatting.GOLD + spender.getName() + TextFormatting.AQUA + " Steht im Öffentlich-Channel : "
                                         + TextFormatting.GOLD + (spender.getAmount() + SpenderUtils.getAmountByName(spender.getName())) + TextFormatting.GREEN + "(+" + spender.getAmount() + ")"));
                             }
                             if (spender.getAmount() >= 5000) {
                                 if (!isInPublic(spender.getName())) {
                                     notPublic.put(spender.getName(), spender.getAmount());
-                                    displayMessage(new TextComponentString(TextFormatting.GRAY + " - " + TextFormatting.GOLD + spender.getName() + TextFormatting.AQUA + " muss eingetragen werden : "
+                                    Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + " - " + TextFormatting.GOLD + spender.getName() + TextFormatting.AQUA + " muss eingetragen werden : "
                                             + TextFormatting.GOLD + spender.getAmount()));
                                 }
                             }
                         }
+                        if(inPublic.size() == 0 && notPublic.size() == 0){
+                            Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Es wurden keine Eintrage gefunden, die eingetragen werden müssen!"));
+                        }
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -101,12 +106,6 @@ public class checkDonations extends CommandBase implements IClientCommand {
     @Override
     public boolean isUsernameIndex(String[] args, int index) {
         return false;
-    }
-
-
-
-    private void displayMessage(TextComponentString text) {
-        Minecraft.getMinecraft().player.sendMessage(text);
     }
 
     private boolean isInPublic(String name){

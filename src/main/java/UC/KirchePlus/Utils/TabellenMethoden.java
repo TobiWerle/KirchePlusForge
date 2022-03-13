@@ -9,7 +9,7 @@ import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
@@ -24,26 +24,29 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.security.GeneralSecurityException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
 
 
 public class TabellenMethoden {
 	
 	public static Sheets sheetsService;
-	private static String APPLICATION_NAME = "Hausverbot Kirche";
+	public static String APPLICATION_NAME = "Hausverbot Kirche";
 	public static String SPREADSHEET_ID = "1qBE8L2aL22BRdwfOOdsTd7rBRzwGjGFx2Bui0ZOaf0s";
-	private static ArrayList<String> memberSheets = new ArrayList<>();
-	
+	public static ArrayList<String> memberSheets = new ArrayList<>();
+
 	
 	public static Credential authorize()throws IOException, GeneralSecurityException{
 		InputStream in = TabellenMethoden.class.getResourceAsStream("/credentials.json");
-		GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JacksonFactory.getDefaultInstance(), new InputStreamReader(in));
+		GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(GsonFactory.getDefaultInstance(), new InputStreamReader(in));
 		
 		List<String> scopes = Arrays.asList(SheetsScopes.SPREADSHEETS);
 
 		if(KircheConfig.ownGMail == false){
 			GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-					GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(),
+					GoogleNetHttpTransport.newTrustedTransport(), GsonFactory.getDefaultInstance(),
 					clientSecrets, scopes)
 					.setDataStoreFactory(new FileDataStoreFactory(new java.io.File("tokens")))
 					.setAccessType("offline")
@@ -55,7 +58,7 @@ public class TabellenMethoden {
 		}
 
 		GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-				GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(),
+				GoogleNetHttpTransport.newTrustedTransport(), GsonFactory.getDefaultInstance(),
 				clientSecrets, scopes)
 				.setDataStoreFactory(new FileDataStoreFactory(new java.io.File("tokens/own")))
 				.setAccessType("offline")
@@ -70,9 +73,8 @@ public class TabellenMethoden {
 	
 	public static Sheets getSheetsService() throws IOException, GeneralSecurityException{
 		Credential credential = authorize();
-		
 		return new Sheets.Builder(GoogleNetHttpTransport.newTrustedTransport(),
-				JacksonFactory.getDefaultInstance(), credential)
+				GsonFactory.getDefaultInstance(), credential)
 				.setApplicationName(APPLICATION_NAME)
 				.build();
 	}
@@ -97,9 +99,8 @@ public class TabellenMethoden {
 	
 	public static void getHVList() throws IOException, GeneralSecurityException {
 		Displayname.HVs.clear();
-		
 		String range = "Hausverbote!B19:G92";
-		
+
 		ValueRange response = sheetsService.spreadsheets().values()
 				.get(SPREADSHEET_ID, range)
 				.execute();
@@ -113,8 +114,6 @@ public class TabellenMethoden {
 				} catch (Exception e) {}
 			}
 		}
-
-		//Perma
 		String range2 = "Hausverbote!B9:G17";
 
 		ValueRange response2 = sheetsService.spreadsheets().values()
@@ -132,9 +131,6 @@ public class TabellenMethoden {
 		}
 	}
 
-	//LoadÖffi
-
-
 	public static void checkDonations() throws IOException {
 		main.spender.clear();
 		for (String members : TabellenMethoden.memberSheets) {
@@ -142,26 +138,30 @@ public class TabellenMethoden {
 			String Spenden2 = members + "!H76:I91";
 			List<List<Object>> list1 = TabellenMethoden.getList(Spenden1);
 			List<List<Object>> list2 = TabellenMethoden.getList(Spenden2);
+
 			try {
-				for (List row : list1) {
-					if (SpenderInfo.exists(row.get(0).toString())) {
-						SpenderInfo.getByName(row.get(0).toString()).addAmount(Integer.valueOf(row.get(1).toString()).intValue());
-						continue;
+				if(list1 != null) {
+					for (List row : list1) {
+						if (SpenderInfo.exists(row.get(0).toString())) {
+							SpenderInfo.getByName(row.get(0).toString()).addAmount(Integer.valueOf(row.get(1).toString()).intValue());
+							continue;
+						}
+						main.spender.add(new SpenderInfo(row.get(0).toString(), row.get(1).toString()));
 					}
-					main.spender.add(new SpenderInfo(row.get(0).toString(), row.get(1).toString()));
 				}
 			} catch (Exception exception) {exception.printStackTrace();}
 			try {
-				for (List row : list2) {
-					if (SpenderInfo.exists(row.get(0).toString())) {
-						SpenderInfo.getByName(row.get(0).toString()).addAmount(Integer.valueOf(row.get(1).toString()).intValue());
-						continue;
+				if(list2 != null) {
+					for (List row : list2) {
+						if (SpenderInfo.exists(row.get(0).toString())) {
+							SpenderInfo.getByName(row.get(0).toString()).addAmount(Integer.valueOf(row.get(1).toString()).intValue());
+							continue;
+						}
+						main.spender.add(new SpenderInfo(row.get(0).toString(), row.get(1).toString()));
 					}
-					main.spender.add(new SpenderInfo(row.get(0).toString(), row.get(1).toString()));
 				}
 			} catch (Exception exception) {exception.printStackTrace();}
 		}
-		System.out.println("Done Tabellen");
 	}
 
 	public static void getDonations() throws IOException {
@@ -179,10 +179,9 @@ public class TabellenMethoden {
 				} catch (Exception e) {e.printStackTrace();}
 			}
 		}
-		System.out.println("Done Tabellen2");
 	}
 
-	private static List<List<Object>> getList(String range) throws IOException {
+	public static List<List<Object>> getList(String range) throws IOException {
 		ValueRange response2 = sheetsService.spreadsheets().values().get(SPREADSHEET_ID, range).execute();
 		List<List<Object>> values = response2.getValues();
 		return values;
@@ -200,7 +199,6 @@ public class TabellenMethoden {
 		}
 	}
 
-	
     public static boolean isSameDay(String s) {
 		if(s.equals("Nie")){
 			return false;
@@ -259,6 +257,4 @@ public class TabellenMethoden {
 		}
     	return false;
     }
-    
-
 }

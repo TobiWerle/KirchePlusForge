@@ -1,5 +1,6 @@
 package UC.KirchePlus.Commands;
 
+import UC.KirchePlus.Utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.command.CommandBase;
@@ -55,7 +56,7 @@ public class aEquip extends CommandBase implements IClientCommand {
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         if(args.length == 0 || args.length < 1){
-            displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/aequip <Wasser/Brot>" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Equipe dir automatisch Brot oder Wasser"));
+            Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/aequip <Wasser/Brot>" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Equipe dir automatisch Brot oder Wasser"));
             return;
         }
         if(args.length == 1){
@@ -104,9 +105,6 @@ public class aEquip extends CommandBase implements IClientCommand {
     @Override
     public boolean isUsernameIndex(String[] args, int index) {
         return false;
-    }
-    private void displayMessage(TextComponentString text) {
-        Minecraft.getMinecraft().player.sendMessage(text);
     }
 
     @Override

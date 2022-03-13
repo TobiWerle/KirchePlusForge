@@ -2,6 +2,7 @@ package UC.KirchePlus.Commands;
 
 import UC.KirchePlus.Utils.MarryFile;
 import UC.KirchePlus.Utils.MarryFile.types;
+import UC.KirchePlus.Utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.command.CommandBase;
@@ -47,10 +48,10 @@ public class MarryRP_Command extends CommandBase implements IClientCommand{
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		if(args.length != 3) {
-			displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/marryrp <Type> <Name1> <Name2>" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Erstelle ein Marry RP Text auf deinen Desktop."));
-			displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.GRAY + "Type: MM" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Erstelle ein Mann-Mann RP Text"));
-			displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.GRAY + "Type: FF" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Erstelle ein Frau-Frau RP Text"));
-			displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.GRAY + "Type: MF" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Erstelle ein Mann-Frau RP Text. (Name1 ist immer Mann)"));
+			Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/marryrp <Type> <Name1> <Name2>" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Erstelle ein Marry RP Text auf deinen Desktop."));
+			Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.GRAY + "Type: MM" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Erstelle ein Mann-Mann RP Text"));
+			Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.GRAY + "Type: FF" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Erstelle ein Frau-Frau RP Text"));
+			Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.GRAY + "Type: MF" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Erstelle ein Mann-Frau RP Text. (Name1 ist immer Mann)"));
 		}
 		if(args.length == 3) {
 			types type = types.none;
@@ -58,17 +59,17 @@ public class MarryRP_Command extends CommandBase implements IClientCommand{
 			if(args[0].toLowerCase().equals("mf")) type = types.MF;
 			if(args[0].toLowerCase().equals("ff")) type = types.FF;
 			if(type == types.none) {
-				displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.RED + "Fehler bei den angegebenen Type. Verfügbare Typen:"));
-				displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.GRAY + "Type: MM" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Erstelle ein Mann-Mann RP Text"));
-				displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.GRAY + "Type: FF" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Erstelle ein Frau-Frau RP Text"));
-				displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.GRAY + "Type: MF" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Erstelle ein Mann-Frau RP Text. (Name1 ist immer Mann)"));
+				Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.RED + "Fehler bei den angegebenen Type. Verfügbare Typen:"));
+				Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.GRAY + "Type: MM" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Erstelle ein Mann-Mann RP Text"));
+				Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.GRAY + "Type: FF" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Erstelle ein Frau-Frau RP Text"));
+				Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.GRAY + "Type: MF" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Erstelle ein Mann-Frau RP Text. (Name1 ist immer Mann)"));
 				return;
 			}
 			String name1 = args[1];
 			String name2 = args[2];
 			
 			MarryFile.createMarryRP(type, name1, name2);
-			displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "Du hast erfolgreich ein MarryRP Text für "+ TextFormatting.GREEN + name1 
+			Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "Du hast erfolgreich ein MarryRP Text für "+ TextFormatting.GREEN + name1
 					+ TextFormatting.AQUA + " und " +TextFormatting.GREEN + name2 + TextFormatting.AQUA +" erstellt"));
 			
 		}
@@ -160,9 +161,6 @@ public class MarryRP_Command extends CommandBase implements IClientCommand{
 	@Override
 	public boolean isUsernameIndex(String[] args, int index) {
 		return false;
-	}
-	private void displayMessage(TextComponentString text) {
-		Minecraft.getMinecraft().player.sendMessage(text);
 	}
 
 	@Override

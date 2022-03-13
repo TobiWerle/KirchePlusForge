@@ -4,6 +4,7 @@ import UC.KirchePlus.Events.Displayname;
 import UC.KirchePlus.Utils.HV_User;
 import UC.KirchePlus.Utils.PlayerCheck;
 import UC.KirchePlus.Utils.TabellenMethoden;
+import UC.KirchePlus.Utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -73,13 +74,13 @@ public class HV_Command extends CommandBase implements IClientCommand {
 		}
 		if(args.length == 1) {
 			if(args[0].equalsIgnoreCase("help")) {
-				displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv " + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "synchronisiere die Hausverbote mit dem Client."));
-				displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv list" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Gibt eine Liste mit allen Spielern aus, die Hausverbot haben."));
-				displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv namecheck" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Überprüft ob es Fehler bei den eingetragenen Spielernamen gibt."));
-				displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv info <User>" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Zeigt die Hausverbot-Infos zum Spieler."));
+				Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv " + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "synchronisiere die Hausverbote mit dem Client."));
+				Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv list" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Gibt eine Liste mit allen Spielern aus, die Hausverbot haben."));
+				Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv namecheck" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Überprüft ob es Fehler bei den eingetragenen Spielernamen gibt."));
+				Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv info <User>" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Zeigt die Hausverbot-Infos zum Spieler."));
 			}else
 			if(args[0].equalsIgnoreCase("list")) {
-				displayMessage(new TextComponentString(
+				Utils.displayMessage(new TextComponentString(
 						TextFormatting.DARK_BLUE + "[]"+
 						TextFormatting.DARK_AQUA + "========"+
 						TextFormatting.GRAY + "["+
@@ -128,19 +129,19 @@ public class HV_Command extends CommandBase implements IClientCommand {
 					thread.start();
 			}else
 			if(args[0].equalsIgnoreCase("info")) {
-				displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv info <User>" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Zeigt die Hausverbot-Infos zum Spieler."));
+				Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv info <User>" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Zeigt die Hausverbot-Infos zum Spieler."));
 				return;
 			}else {
-				displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv " + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "synchronisiere die Hausverbote mit dem Client."));
-				displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv list" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Gibt eine Liste mit allen Spielern aus, die Hausverbot haben."));
-				displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv info <User>" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Zeigt die Hausverbot-Infos zum Spieler."));
+				Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv " + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "synchronisiere die Hausverbote mit dem Client."));
+				Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv list" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Gibt eine Liste mit allen Spielern aus, die Hausverbot haben."));
+				Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv info <User>" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Zeigt die Hausverbot-Infos zum Spieler."));
 			}
 		}
 		if(args.length == 2) {
 			if(args[0].equalsIgnoreCase("info")) {
 				for(HV_User users : Displayname.HVs.values()) {
 					if(args[1].equalsIgnoreCase(users.getName())) {
-						displayMessage(new TextComponentString(
+						Utils.displayMessage(new TextComponentString(
 								TextFormatting.DARK_BLUE + "[]"+
 								TextFormatting.DARK_AQUA + "========"+
 								TextFormatting.GRAY + "["+
@@ -148,15 +149,15 @@ public class HV_Command extends CommandBase implements IClientCommand {
 								TextFormatting.GRAY + "]"+
 								TextFormatting.DARK_AQUA + "========"+
 								TextFormatting.DARK_BLUE + "[]"));
-						displayMessage(new TextComponentString(""));
-						displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " -" + TextFormatting.GRAY +" Wer: " + TextFormatting.RED + users.getName()));
-						displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " -" + TextFormatting.GRAY +" Von: " + TextFormatting.RED + users.getVon()));
-						displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " -" + TextFormatting.GRAY +" Grund: " + TextFormatting.RED + users.getGrund()));
-						displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " -" + TextFormatting.GRAY +" Wann: " + TextFormatting.RED + users.getWann()));
-						displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " -" + TextFormatting.GRAY +" Bis: " + TextFormatting.RED + users.getBis()));
+						Utils.displayMessage(new TextComponentString(""));
+						Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " -" + TextFormatting.GRAY +" Wer: " + TextFormatting.RED + users.getName()));
+						Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " -" + TextFormatting.GRAY +" Von: " + TextFormatting.RED + users.getVon()));
+						Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " -" + TextFormatting.GRAY +" Grund: " + TextFormatting.RED + users.getGrund()));
+						Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " -" + TextFormatting.GRAY +" Wann: " + TextFormatting.RED + users.getWann()));
+						Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " -" + TextFormatting.GRAY +" Bis: " + TextFormatting.RED + users.getBis()));
 						String str = ""; if(!users.getDauer().equals("Permanent")) str = " Wochen";
-						displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " -" + TextFormatting.GRAY +" Dauer: " + TextFormatting.RED + users.getDauer() + str));
-						displayMessage(new TextComponentString(""));
+						Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " -" + TextFormatting.GRAY +" Dauer: " + TextFormatting.RED + users.getDauer() + str));
+						Utils.displayMessage(new TextComponentString(""));
 						return;
 					}
 				}	
@@ -206,14 +207,9 @@ public class HV_Command extends CommandBase implements IClientCommand {
 	public boolean isUsernameIndex(String[] args, int index) {
 		return false;
 	}
-	
 
-
-	private void displayMessage(TextComponentString text) {
-		Minecraft.getMinecraft().player.sendMessage(text);
-	}
-	private boolean isOnline(String Playername) {
-		if(Minecraft.getMinecraft().getConnection().getPlayerInfo(Playername) != null) {
+	private boolean isOnline(String playerName) {
+		if(Minecraft.getMinecraft().getConnection().getPlayerInfo(playerName) != null) {
 			return true;
 		}
 		return false;

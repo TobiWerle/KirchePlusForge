@@ -1,7 +1,6 @@
 package UC.KirchePlus.Config;
 
 import UC.KirchePlus.Events.Displayname;
-import UC.KirchePlus.Utils.SpenderUtils;
 import UC.KirchePlus.main.main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -24,14 +23,6 @@ public class KircheConfig {
 @Config.Name("Hausverbot Prefix")
 @Config.Comment("Stelle ein, wie die Spieler mit Hausverbot gekennzeichnet werden sollen")
     public static String prefixHV = "&8[&cHV&8]";
-	
-@Config.Name("Kirchen Brotliste")
-@Config.Comment("Stelle ein, ob die Spieler die Brot bekommen haben angezeigt werden sollen.")
-    public static boolean Brot = true;
-	
-@Config.Name("Brot Prefix")
-@Config.Comment("Stelle ein, wie die Spieler mit Brot gekennzeichnet werden sollen.")
-    public static String prefixBrot = "&8[&2✔&8]";
 
 @Config.Name("ownGMail")
 @Config.Comment("Stelle eine Verbindung zu deiner eigenen GMail her, um Schreibrechte auf eine Tabelle zu erhalten.")

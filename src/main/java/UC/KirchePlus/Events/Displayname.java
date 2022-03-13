@@ -1,8 +1,6 @@
 package UC.KirchePlus.Events;
 
-
 import UC.KirchePlus.Config.KircheConfig;
-import UC.KirchePlus.Utils.Brot_User;
 import UC.KirchePlus.Utils.HV_User;
 import UC.KirchePlus.Utils.TabellenMethoden;
 import net.minecraft.client.Minecraft;
@@ -26,7 +24,6 @@ public class Displayname {
 	public static ArrayList<EntityPlayer> players = new ArrayList<EntityPlayer>();
 	
 	public static HashMap<String, HV_User> HVs = new HashMap<String, HV_User>();
-	public static HashMap<String, Brot_User> BrotUser = new HashMap<String, Brot_User>();
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void onNameFormat(PlayerEvent.NameFormat e) {
@@ -42,13 +39,6 @@ public class Displayname {
 				if(KircheConfig.HV == true) {
 					if(!TabellenMethoden.isDayOver(HVs.get(p.getName()).getBis())){
 						prefix = KircheConfig.prefixHV.replace("&", "§") + "§f ";	
-					}
-				}
-			}
-			if(BrotUser.containsKey(p.getName())) {
-				if(KircheConfig.Brot == true) {
-					if(TabellenMethoden.isSameDay(BrotUser.get(p.getName()).getDatum())){
-						suffix = "§r " + KircheConfig.prefixBrot.replace("&", "§");
 					}
 				}
 			}

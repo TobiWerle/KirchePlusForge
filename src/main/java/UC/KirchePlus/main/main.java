@@ -1,6 +1,10 @@
 package UC.KirchePlus.main;
 
-import UC.KirchePlus.Commands.*;
+import UC.KirchePlus.AutomaticActivity.SaveActivity_Command;
+import UC.KirchePlus.Commands.HV_Command;
+import UC.KirchePlus.Commands.MarryRP_Command;
+import UC.KirchePlus.Commands.aEquip;
+import UC.KirchePlus.Commands.checkDonations;
 import UC.KirchePlus.Utils.MarryFile;
 import UC.KirchePlus.Utils.SpenderInfo;
 import UC.KirchePlus.Utils.TabellenMethoden;
@@ -16,8 +20,10 @@ import java.util.ArrayList;
 public class main{
 	
     public static final String MODID = "kirche+";
-    public static final String VERSION = "1.2";
+    public static final String VERSION = "2.0";
+
     public static ArrayList<SpenderInfo> spender = new ArrayList<>();
+
     //Öffi: 227
     @EventHandler
     public void init(FMLInitializationEvent event) {
@@ -34,7 +40,7 @@ public class main{
     	ClientCommandHandler.instance.registerCommand(new HV_Command());
     	ClientCommandHandler.instance.registerCommand(new MarryRP_Command());
         ClientCommandHandler.instance.registerCommand(new checkDonations());
-        ClientCommandHandler.instance.registerCommand(new spender());
         ClientCommandHandler.instance.registerCommand(new aEquip());
+        ClientCommandHandler.instance.registerCommand(new SaveActivity_Command());
     }
 }
