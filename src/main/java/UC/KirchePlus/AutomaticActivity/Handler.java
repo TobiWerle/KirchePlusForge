@@ -116,13 +116,12 @@ public class Handler {
         }
 
         if(unformattedText.startsWith("News") && unformattedText.contains("sind nun verheiratet!")){
-            System.out.println("Jaaaaaaaaa");
             Style style = new Style().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponentString(TextFormatting.DARK_AQUA + "Aktivität eintragen"))).
                     setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/saveactivity marry"));
             message.setStyle(style);
             message.appendSibling(new TextComponentString(TextFormatting.BLUE + " {⬆}"));
             e.setMessage(message);
-            topic = arr[2] + " & " + arr[4];
+            topic = arr[1] + " & " + arr[3];
             return;
         }
     }
