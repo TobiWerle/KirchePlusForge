@@ -39,7 +39,7 @@ public class Handler {
     public static SheetHandler.activityTypes activityType;
 
     static String[] ranks = {
-            "Theloge","Theologin",
+            "Theologe","Theologin",
             "Diakon", "Diakonin",
             "Priester", "Priesterin",
             "Dekan", "Dekanin",
