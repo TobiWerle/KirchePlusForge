@@ -1,6 +1,9 @@
 package UC.KirchePlus.AutomaticActivity;
 
+import UC.KirchePlus.AutomaticActivity.Imgur.Imgur;
+import UC.KirchePlus.AutomaticActivity.KirchePlusIMG.KirchePlusIMG_API;
 import UC.KirchePlus.Config.KircheConfig;
+import UC.KirchePlus.Config.uploadTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ScreenShotHelper;
 import net.minecraft.util.text.ITextComponent;
@@ -35,6 +38,7 @@ public class Handler {
     public static String screenshotLink = "";
     public static String topic = "";
     public static int amount = 0;
+    public static boolean isDonation = false;
 
     public static SheetHandler.activityTypes activityType;
 
@@ -50,7 +54,7 @@ public class Handler {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onChat(ClientChatReceivedEvent e) {
-        if(KircheConfig.ownGMail == false){
+        if(!KircheConfig.ownGMail){
             return;
         }
         ITextComponent message = e.getMessage();
@@ -101,7 +105,7 @@ public class Handler {
             message.setStyle(style);
             message.appendSibling(new TextComponentString(TextFormatting.BLUE + " {⬆}"));
             e.setMessage(message);
-            topic = unformattedText.split(" ")[3];
+            topic = unformattedText.split(" ")[1];
             return;
         }
 
@@ -127,10 +131,6 @@ public class Handler {
     }
 
 
-
-
-
-
     public BufferedImage makeScreen() throws IOException {
         File file1 = new File(Minecraft.getMinecraft().mcDataDir, "Kirche+");
         file1.mkdir();
@@ -143,10 +143,15 @@ public class Handler {
         return bufferedimage;
     }
 
-    public static String screenshot(BufferedImage image) throws IOException, AWTException {
+    public static String screenshot(BufferedImage image) throws IOException {
         File file = new File(System.getenv("APPDATA") + "/.minecraft/Kirche+/lastActivity.jpg");
         ImageIO.write(addTextWatermark(image), "jpg", file);
-        return ImageUploader.uploadToLink(file);
+
+        if(KircheConfig.uploadType == uploadTypes.KIRCHEPLUSIMG){
+            return KirchePlusIMG_API.uploadIMG(file);
+        }
+
+        return Imgur.uploadToLink(file);
     }
 
 
@@ -154,25 +159,28 @@ public class Handler {
         DateTimeFormatter date = DateTimeFormatter.ofPattern("dd.MM.yyy HH:mm");
         LocalDateTime now = LocalDateTime.now();
 
-        BufferedImage bufferImage = image;
-        Graphics2D g2d = (Graphics2D) bufferImage.getGraphics();
+        Graphics2D g2d = (Graphics2D) image.getGraphics();
 
         // initializes necessary graphic properties
-        AlphaComposite alphaChannel = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
+        AlphaComposite alphaChannel = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f);
         g2d.setComposite(alphaChannel);
-        g2d.setColor(Color.orange);
-        g2d.setFont(new Font("Arial", Font.BOLD, 64));
+        g2d.setColor(Color.MAGENTA);
+        g2d.setFont(new Font("Arial", Font.BOLD, 32));
         FontMetrics fontMetrics = g2d.getFontMetrics();
         Rectangle2D rect = fontMetrics.getStringBounds(date.format(now), g2d);
 
         // calculates the coordinate where the String is painted
-        int centerX = (bufferImage.getWidth() - (int) rect.getWidth()) / 2;
-        int centerY = bufferImage.getHeight() / 2;
-
+        int centerX = (image.getWidth() - (int) rect.getWidth()) / 2;
+        int centerY = image.getHeight() / 2;
         // paints the textual watermark
-        g2d.drawString(date.format(now), centerX, centerY);
+
+        g2d.drawString(date.format(now), centerX, centerY-100);
+        g2d.drawString(Minecraft.getMinecraft().player.getName(), centerX, centerY-50);
+        if(isDonation){
+            g2d.drawString(+amount + "$", centerX, centerY);
+        }
         g2d.dispose();
-        return bufferImage;
+        return image;
         //thanks to codejava.net
     }
 
@@ -185,7 +193,7 @@ public class Handler {
 
     @SubscribeEvent
     public static void onTickEvent(TickEvent e){
-        if(openGUI == true){
+        if(openGUI){
             if(ticks==3){
                 ticks=0;
                 return;
@@ -203,6 +211,7 @@ public class Handler {
             moneyPage = false;
             blessPage = false;
             marryPage = false;
+            isDonation = false;
         }
     }
 }

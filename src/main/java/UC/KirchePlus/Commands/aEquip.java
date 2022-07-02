@@ -55,7 +55,7 @@ public class aEquip extends CommandBase implements IClientCommand {
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-        if(args.length == 0 || args.length < 1){
+        if(args.length < 1){
             Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/aequip <Wasser/Brot>" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Equipe dir automatisch Brot oder Wasser"));
             return;
         }
@@ -113,7 +113,7 @@ public class aEquip extends CommandBase implements IClientCommand {
     }
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onGuiOpen(GuiOpenEvent e) {
-        if(enabled == false)return;
+        if(!enabled)return;
         if (e.getGui() instanceof GuiContainer){
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
@@ -130,7 +130,7 @@ public class aEquip extends CommandBase implements IClientCommand {
     }
     @SubscribeEvent
     public static void onChatReceived(ClientChatReceivedEvent e) {
-        if(enabled == false)return;
+        if(!enabled)return;
         String msg = e.getMessage().getUnformattedText();
         if(msg.contains("Du bist nicht am Equip-Punkt deiner Fraktion.")){
             enabled = false;

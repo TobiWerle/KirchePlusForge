@@ -1,6 +1,8 @@
 package UC.KirchePlus.AutomaticActivity;
 
+import UC.KirchePlus.AutomaticActivity.KirchePlusIMG.KirchePlusIMG_API;
 import UC.KirchePlus.Config.KircheConfig;
+import UC.KirchePlus.Config.uploadTypes;
 import UC.KirchePlus.Utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
@@ -15,7 +17,6 @@ import net.minecraftforge.client.IClientCommand;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,11 +46,24 @@ public class SaveActivity_Command extends CommandBase implements IClientCommand 
         List<String> aliases = new ArrayList<String>();
         return aliases;
     }
-    BufferedImage image = null;
+    public static BufferedImage image = null;
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-        if(KircheConfig.ownGMail == false){
+        if(!KircheConfig.ownGMail){
             Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Für diese Funktion musst du in der Config ownGmail aktiviert haben!"));
+            return;
+        }
+        if(KircheConfig.uploadType == uploadTypes.KIRCHEPLUSIMG){
+            if(KircheConfig.token.equals("")){
+                Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Du brauchst ein KirchePlus Token, für dein jetzigen Upload Typ."));
+                Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Um ein Token zu erstellen, joine den" + TextFormatting.BLUE + " KirchePlus-Mod.de"  + TextFormatting.RED + " Server!"));
+                return;
+            }
+            if(!KirchePlusIMG_API.isTokenValid()){
+                Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Dein Token ist abgelaufen oder ungültig."));
+                Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Erstelle ein neuen Token auf" + TextFormatting.BLUE + "KirchePlus-Mod.de"));
+                return;
+            }
         }
         if(args.length != 1){
             return;
@@ -69,14 +83,12 @@ public class SaveActivity_Command extends CommandBase implements IClientCommand 
                     }
                     if(args[0].equalsIgnoreCase("ablass")){
                         Utils.displayMessage(new TextComponentString(TextFormatting.BLUE + "Screenshot wird hochgeladen dies kann eine Zeit lang dauern!"));
-                        String screen = Handler.screenshot(image);
-                        SheetHandler.saveActivity(SheetHandler.activityTypes.ABLASSBRIEF,  screen);
+                        SheetHandler.saveActivity(SheetHandler.activityTypes.ABLASSBRIEF);
                         return;
                     }
-                    Handler.screenshotLink = Handler.screenshot(image);
 
                     Thread.sleep(50);
-                } catch (IOException | AWTException e) {
+                } catch (IOException e) {
                     Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Es ist ein unerwarteter Fehler aufgetreten!"));
                     e.printStackTrace();
                 } catch (InterruptedException e) {
@@ -102,7 +114,6 @@ public class SaveActivity_Command extends CommandBase implements IClientCommand 
             Handler.marryPage = true;
         }
         Handler.openGUI = true;
-        return;
     }
 
     @Override
@@ -113,8 +124,7 @@ public class SaveActivity_Command extends CommandBase implements IClientCommand 
     @Override
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args,
                                           BlockPos targetPos) {
-        List<String> tabs = new ArrayList<String>();
-        return tabs;
+        return new ArrayList<String>();
     }
 
     @Override
@@ -130,6 +140,4 @@ public class SaveActivity_Command extends CommandBase implements IClientCommand 
     public boolean allowUsageWithoutPrefix(ICommandSender sender, String message) {
         return false;
     }
-
-
 }

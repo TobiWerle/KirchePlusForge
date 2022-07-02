@@ -1,4 +1,4 @@
-package UC.KirchePlus.AutomaticActivity;
+package UC.KirchePlus.AutomaticActivity.Imgur;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -11,7 +11,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-public class ImageUploader {
+public class Imgur {
     private static final String UPLOAD_API_URL = "https://api.imgur.com/3/image";
 
     public static String uploadToLink(File file) {

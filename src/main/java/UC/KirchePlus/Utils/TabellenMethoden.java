@@ -1,5 +1,6 @@
 package UC.KirchePlus.Utils;
 
+import UC.KirchePlus.AutomaticActivity.Handler;
 import UC.KirchePlus.Config.KircheConfig;
 import UC.KirchePlus.Events.Displayname;
 import UC.KirchePlus.main.main;
@@ -13,9 +14,7 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
-import com.google.api.services.sheets.v4.model.Sheet;
-import com.google.api.services.sheets.v4.model.Spreadsheet;
-import com.google.api.services.sheets.v4.model.ValueRange;
+import com.google.api.services.sheets.v4.model.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,7 +43,7 @@ public class TabellenMethoden {
 		
 		List<String> scopes = Arrays.asList(SheetsScopes.SPREADSHEETS);
 
-		if(KircheConfig.ownGMail == false){
+		if(!KircheConfig.ownGMail){
 			GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
 					GoogleNetHttpTransport.newTrustedTransport(), GsonFactory.getDefaultInstance(),
 					clientSecrets, scopes)
@@ -88,12 +87,12 @@ public class TabellenMethoden {
 		if (!credentialsFile.exists())
 			try {
 				Files.copy(credentials, credentialsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-			} catch (IOException e1) {
+			} catch (IOException ignored) {
 			}
 
 		try {
 			sheetsService = getSheetsService();
-		} catch (IOException | GeneralSecurityException e) {}
+		} catch (IOException | GeneralSecurityException ignored) {}
 
 	}
 	
@@ -111,7 +110,7 @@ public class TabellenMethoden {
 			for(List row : values) {
 				try {
 					new HV_User(row.get(0).toString(), row.get(1).toString(), row.get(2).toString(), row.get(4).toString(), row.get(5).toString(), row.get(3).toString());	
-				} catch (Exception e) {}
+				} catch (Exception ignored) {}
 			}
 		}
 		String range2 = "Hausverbote!B9:G17";
@@ -126,10 +125,11 @@ public class TabellenMethoden {
 			for(List row : values2) {
 				try {
 					new HV_User(row.get(0).toString(), row.get(1).toString(), row.get(2).toString(), row.get(4).toString(), "Nie", "Permanent");
-				} catch (Exception e) {}
+				} catch (Exception ignored) {}
 			}
 		}
 	}
+
 
 	public static void checkDonations() throws IOException {
 		main.spender.clear();
@@ -175,10 +175,33 @@ public class TabellenMethoden {
 		}else {
 			for(List row : values) {
 				try {
-					SpenderUtils.publicDonations.put(row.get(0).toString(), Integer.parseInt(row.get(2).toString().replace("$", "").replace(".", "")));
+					SpenderUtils.publicDonations.add(new publicDonators(row.get(0).toString(), row.get(1).toString(), Integer.parseInt(row.get(2).toString().replace("$", "").replace(".", ""))));
 				} catch (Exception e) {e.printStackTrace();}
 			}
 		}
+	}
+
+	public static void updateName(String currentName, String UUID, int amount) throws IOException {
+		String range = "Spender!K5:M998";
+		int count = 0;
+		ValueRange response = sheetsService.spreadsheets().values().get(SPREADSHEET_ID, range).execute();
+		List<List<Object>> values = response.getValues();
+
+		for(List row : values) {
+			if(row.get(1).equals(UUID)){
+				if(!row.get(0).equals(currentName)){
+					List<Object> newvalues = Arrays.asList(currentName, UUID, amount);
+					values.set(count, newvalues);
+					ValueRange body = new ValueRange().setValues(values);
+					UpdateValuesResponse result =
+							TabellenMethoden.sheetsService.spreadsheets().values().update( TabellenMethoden.SPREADSHEET_ID, range, body).setValueInputOption("USER_ENTERED").execute();
+					return;
+				}
+			}
+			count++;
+		}
+
+
 	}
 
 	public static List<List<Object>> getList(String range) throws IOException {
@@ -257,4 +280,8 @@ public class TabellenMethoden {
 		}
     	return false;
     }
+
+
+
+
 }

@@ -36,7 +36,7 @@ public class Displayname {
 			String suffix = "";
 			
 			if(HVs.containsKey(p.getName())) {
-				if(KircheConfig.HV == true) {
+				if(KircheConfig.HV) {
 					if(!TabellenMethoden.isDayOver(HVs.get(p.getName()).getBis())){
 						prefix = KircheConfig.prefixHV.replace("&", "§") + "§f ";	
 					}
@@ -59,20 +59,18 @@ public class Displayname {
 			time--;
 			return;
 		}
-		if(time == 0) {
-			for(EntityPlayer p : players) {
-				p.refreshDisplayName();
-			}
-			try {
-				for(Entity e1 : Minecraft.getMinecraft().world.loadedEntityList) {
-					if(e1 instanceof EntityPlayer) {
-						EntityPlayer p = (EntityPlayer) e1;
-						((EntityPlayer) e1).refreshDisplayName();
-					}
-				}
-			} catch (Exception e2) {}
-			time = 10*60;
+		for(EntityPlayer p : players) {
+			p.refreshDisplayName();
 		}
+		try {
+			for(Entity e1 : Minecraft.getMinecraft().world.loadedEntityList) {
+				if(e1 instanceof EntityPlayer) {
+					EntityPlayer p = (EntityPlayer) e1;
+					((EntityPlayer) e1).refreshDisplayName();
+				}
+			}
+		} catch (Exception e2) {}
+		time = 10*60;
 	}
 	
 	private static boolean isMasked(EntityPlayer ep){

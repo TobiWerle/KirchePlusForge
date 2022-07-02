@@ -83,33 +83,29 @@ public class ActivityGUI extends GuiScreen {
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
-        if(Handler.screenshotLink == ""){
-            Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Der Screenshot wurde noch nicht hochgeladen. Bitte warte etwas!"));
-            return;
-        }
         if(SheetHandler.MemberSheet == null){
-            Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Deine Tabelle wurde noch nicht geladen. Bitte warte etwas!"));
+            Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Deine Tabelle wurde noch nicht geladen. Bitte warte etwas.!"));
             return;
         }
         switch (button.id){
             case 0:
                 //Button für SHG
-                SheetHandler.saveActivity(SheetHandler.activityTypes.SHG, Handler.screenshotLink);
+                SheetHandler.saveActivity(SheetHandler.activityTypes.SHG);
                 Minecraft.getMinecraft().player.closeScreen();
                 break;
             case 1:
                 //Button für Tafel
-                SheetHandler.saveActivity(SheetHandler.activityTypes.TAFEL, Handler.screenshotLink);
+                SheetHandler.saveActivity(SheetHandler.activityTypes.TAFEL);
                 Minecraft.getMinecraft().player.closeScreen();
                 break;
             case 2:
                 //Button für Spendenevent
-                SheetHandler.saveActivity(SheetHandler.activityTypes.SPENDEEVENT, Handler.screenshotLink);
+                SheetHandler.saveActivity(SheetHandler.activityTypes.SPENDEEVENT);
                 Minecraft.getMinecraft().player.closeScreen();
                 break;
             case 3:
                 //Button für Beichtevent
-                SheetHandler.saveActivity(SheetHandler.activityTypes.BEICHTEVENT, Handler.screenshotLink);
+                SheetHandler.saveActivity(SheetHandler.activityTypes.BEICHTEVENT);
                 Minecraft.getMinecraft().player.closeScreen();
                 break;
             case 4:
@@ -143,7 +139,7 @@ public class ActivityGUI extends GuiScreen {
                     return;
                 }
                 Handler.topic = textField.getText();
-                SheetHandler.saveActivity(Handler.activityType, Handler.screenshotLink);
+                SheetHandler.saveActivity(Handler.activityType);
                 Minecraft.getMinecraft().player.closeScreen();
                 break;
             case 8:
@@ -169,7 +165,6 @@ public class ActivityGUI extends GuiScreen {
             case 9:
                 //GUI für Spenden
                 Handler.activityType = SheetHandler.activityTypes.SPENDE;
-                buttonList.clear();
                 buttonList.clear();
                 labelList.clear();
                 moneyPage = false;
@@ -198,7 +193,8 @@ public class ActivityGUI extends GuiScreen {
                     return;
                 }
                 Handler.topic = textField.getText();
-                SheetHandler.saveActivity(Handler.activityType, Handler.screenshotLink);
+                Handler.isDonation = true;
+                SheetHandler.saveActivity(Handler.activityType);
                 Minecraft.getMinecraft().player.closeScreen();
                 break;
             case 12:
@@ -233,7 +229,7 @@ public class ActivityGUI extends GuiScreen {
                 }
                 Handler.topic = textField.getText();
                 Handler.amount = Integer.parseInt(textFieldAmount.getText());
-                SheetHandler.saveActivity(Handler.activityType, Handler.screenshotLink);
+                SheetHandler.saveActivity(Handler.activityType);
                 Minecraft.getMinecraft().player.closeScreen();
                 break;
             case 14:
@@ -261,7 +257,7 @@ public class ActivityGUI extends GuiScreen {
                 //Segen bestätigen
                 Handler.activityType = SheetHandler.activityTypes.SEGEN;
                 Handler.topic = textField.getText();
-                SheetHandler.saveActivity(Handler.activityType, Handler.screenshotLink);
+                SheetHandler.saveActivity(Handler.activityType);
                 Minecraft.getMinecraft().player.closeScreen();
                 break;
             case 16:
@@ -292,7 +288,7 @@ public class ActivityGUI extends GuiScreen {
                 }
                 Handler.activityType = SheetHandler.activityTypes.TAUFE;
                 Handler.topic = textField.getText();
-                SheetHandler.saveActivity(Handler.activityType, Handler.screenshotLink);
+                SheetHandler.saveActivity(Handler.activityType);
                 Minecraft.getMinecraft().player.closeScreen();
                 break;
             case 18:
@@ -308,13 +304,13 @@ public class ActivityGUI extends GuiScreen {
             case 19:
                 //Hochzeit bestätigen
                 Handler.activityType = SheetHandler.activityTypes.HOCHZEIT;
-                SheetHandler.saveActivity(Handler.activityType, Handler.screenshotLink);
+                SheetHandler.saveActivity(Handler.activityType);
                 Minecraft.getMinecraft().player.closeScreen();
                 break;
             case 20:
                 //Befehl /marry bestätigen
                 Handler.activityType = SheetHandler.activityTypes.CMDMARRY;
-                SheetHandler.saveActivity(Handler.activityType, Handler.screenshotLink);
+                SheetHandler.saveActivity(Handler.activityType);
                 Minecraft.getMinecraft().player.closeScreen();
                 break;
         }
@@ -343,7 +339,7 @@ public class ActivityGUI extends GuiScreen {
     }
 
     private void addButtons(){
-        if(eventPage == true){
+        if(eventPage){
             buttonList.add(new GuiButton(0,width / 2 - 50, height / 2 - 98, 100, 20, "SHG"));
             buttonList.add(new GuiButton(1,width / 2 - 50, height / 2 - 76, 100, 20, "Tafel"));
             buttonList.add(new GuiButton(2,width / 2 - 50, height / 2 - 54, 100, 20, "SpendeEvent"));
@@ -353,7 +349,7 @@ public class ActivityGUI extends GuiScreen {
             buttonList.add(new GuiButton(5,width / 2 - 50, height / 2 + 12, 100, 20, "KK"));
             buttonList.add(new GuiButton(6,width / 2 - 50, height / 2 + 34, 100, 20, "Gottesdienst"));
         }else
-        if(topicPage == true){
+        if(topicPage){
             GuiLabel label = new GuiLabel(fontRenderer, 999,width / 2 - 50, height / 2 - 90,50,20,0xd943ff64);
             label.addLine("Thema/Ort eingeben:");
             labelList.add(label);
@@ -362,12 +358,12 @@ public class ActivityGUI extends GuiScreen {
             buttonList.add(new GuiButton(7,width / 2 - 50, height / 2 - 43, 100, 20, "Thema Bestätigen"));
             buttonList.add(new GuiButton(8,width / 2 - 50, height / 2 + 34, 100, 20, "Zurück"));
         }
-        if(moneyPage == true){
+        if(moneyPage){
             buttonList.add(new GuiButton(9,width / 2 - 50, height / 2 - 43, 100, 20, "Spenden"));
             buttonList.add(new GuiButton(10,width / 2 - 50, height / 2 - 20, 100, 20, "Bibeln"));
         }
 
-        if(donationPage == true){
+        if(donationPage){
             GuiLabel label = new GuiLabel(fontRenderer, 888,width / 2 - 50, height / 2 - 90,50,20,0xd943ff64);
             label.addLine("Spielername:");
             labelList.add(label);
@@ -377,14 +373,12 @@ public class ActivityGUI extends GuiScreen {
             buttonList.add(new GuiButton(11,width / 2 - 50, height / 2 - 43, 100, 20, "Bestätigen"));
             buttonList.add(new GuiButton(12,width / 2 - 50, height / 2 + 34, 100, 20, "Zurück"));
         }
-        if(bibelPage == true){
+        if(bibelPage){
             GuiLabel label = new GuiLabel(fontRenderer, 888,width / 2 - 50, height / 2 - 85,50,20,0xd943ff64);
             label.addLine("Spielername:");
             labelList.add(label);
 
             textField.setVisible(true);
-
-
             GuiLabel label2 = new GuiLabel(fontRenderer, 889,width / 2 - 50, height / 2 - 48,50,20,0xd943ff64);
             label2.addLine("Anzahl:");
             labelList.add(label2);
@@ -394,12 +388,12 @@ public class ActivityGUI extends GuiScreen {
             buttonList.add(new GuiButton(14,width / 2 - 50, height / 2 + 34, 100, 20, "Zurück"));
         }
 
-        if(blessPage  == true){
+        if(blessPage){
             buttonList.add(new GuiButton(15,width / 2 - 50, height / 2 - 43, 100, 20, "Segen"));
             buttonList.add(new GuiButton(16,width / 2 - 50, height / 2 - 20, 100, 20, "Taufe"));
         }
 
-        if(taufePage == true){
+        if(taufePage){
             GuiLabel label = new GuiLabel(fontRenderer, 890,width / 2 - 50, height / 2 - 85,50,20,0xd943ff64);
             label.addLine("Täufling:");
             labelList.add(label);
@@ -408,7 +402,7 @@ public class ActivityGUI extends GuiScreen {
             buttonList.add(new GuiButton(17,width / 2 - 50, height / 2 + 11, 100, 20, "Bestätigen"));
             buttonList.add(new GuiButton(18,width / 2 - 50, height / 2 + 34, 100, 20, "Zurück"));
         }
-        if(marryPage  == true){
+        if(marryPage){
             buttonList.add(new GuiButton(19,width / 2 - 50, height / 2 - 43, 100, 20, "Hochzeit"));
             buttonList.add(new GuiButton(20,width / 2 - 50, height / 2 - 20, 100, 20, "Befehl /marry"));
         }

@@ -32,7 +32,7 @@ public class MarryFile {
 			InputStream FF2 = getOriginalFile(types.FF);
 			if(!FF.exists()) Files.copy(FF2, FF.toPath(), StandardCopyOption.REPLACE_EXISTING);
 			
-		} catch (Exception e) {}
+		} catch (Exception ignored) {}
 	}
 
 	
@@ -55,18 +55,15 @@ public class MarryFile {
 		String Path = System.getenv("APPDATA") + "/.minecraft/Kirche+/Vorlagen/";
 		try {
 			if(Type == types.MM) {
-				InputStream file = new FileInputStream(Path + "MM.txt");
-				return file;
+				return new FileInputStream(Path + "MM.txt");
 			}
 			if(Type == types.MF) {
-				InputStream file = new FileInputStream(Path + "MF.txt");
-				return file;
+				return new FileInputStream(Path + "MF.txt");
 			}
 			if(Type == types.FF) {
-				InputStream file = new FileInputStream(Path + "FF.txt");
-				return file;
+				return new FileInputStream(Path + "FF.txt");
 			}
-		} catch (Exception e) {}
+		} catch (Exception ignored) {}
    	    return null;
 	}
 	
@@ -81,7 +78,7 @@ public class MarryFile {
  
     	try{
     		String onedrive = "";
-    		if(oneDrive == true) onedrive = "/OneDrive";
+    		if(oneDrive) onedrive = "/OneDrive";
     	    File outfile = new File(System.getProperty("user.home") + onedrive +"/Desktop/"+ "MarryRP "+Type.name()+" "+Name1+"-"+Name2+".txt");
     	    InputStream instream = getFile(Type);    	    
     	    outstream = new FileOutputStream(outfile);
@@ -105,7 +102,7 @@ public class MarryFile {
     	    outstream.close();
     	    
     	}catch(IOException ioe){
-    		if(oneDrive == false){
+    		if(!oneDrive){
     			createCopyFromFile(Type, Name1, Name2, true);
     			return;
 			}

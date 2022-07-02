@@ -163,7 +163,7 @@ public class HV_Command extends CommandBase implements IClientCommand {
 				}	
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -193,11 +193,7 @@ public class HV_Command extends CommandBase implements IClientCommand {
 				}
 				return tabs;
 			}
-			
-			
-			for(String names : Displayname.HVs.keySet()) {
-				tabs.add(names);
-			}
+			tabs.addAll(Displayname.HVs.keySet());
 			
 		}
 		return tabs;

@@ -1,21 +1,23 @@
 package UC.KirchePlus.Utils;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
+import java.util.ArrayList;
 public class SpenderUtils {
-    public static HashMap<String, Integer> publicDonations = new HashMap<String, Integer>();
+    public static ArrayList<publicDonators> publicDonations = new ArrayList<>();
 
 
     private static boolean isInPublic(String name){
-        return publicDonations.containsKey(name.toLowerCase(Locale.ROOT));
+        ArrayList<String> names = new ArrayList<>();
+        for(publicDonators info : publicDonations){
+            names.add(info.getName());
+        }
+        return names.contains(name);
     }
 
     public static Integer getAmountByName(String name){
-        for(Map.Entry map : publicDonations.entrySet()){
-            if(map.getKey().toString().equalsIgnoreCase(name)){
-                return Integer.valueOf(map.getValue().toString());
+
+        for(publicDonators info : publicDonations){
+            if(info.getName().equalsIgnoreCase(name)){
+                return info.getAmount();
             }
         }
         return 0;

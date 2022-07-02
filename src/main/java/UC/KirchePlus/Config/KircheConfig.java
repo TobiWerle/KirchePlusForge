@@ -27,8 +27,16 @@ public class KircheConfig {
 @Config.Name("ownGMail")
 @Config.Comment("Stelle eine Verbindung zu deiner eigenen GMail her, um Schreibrechte auf eine Tabelle zu erhalten.")
 	public static boolean ownGMail = false;
-	
-	
+
+@Config.Name("Upload Site")
+@Config.Comment("Lege fest, wo deine Screenshots für dein Aktinachweis hochgeladen werden soll. (KirchePlusIMG wird empfohlen!)")
+	public static uploadTypes uploadType = uploadTypes.KIRCHEPLUSIMG;
+
+@Config.Name("KirchePlusIMG-Token")
+@Config.Comment("Wird automatisch gesetzt, wenn du den Server: KirchePlus-Mod.de joinst! Dies ist für unsere eigene Upload Seite erforderlich!")
+	public static String token = "";
+
+
 	@SubscribeEvent
 	public static void configChanged(ConfigChangedEvent e) {
 		ConfigManager.sync(main.MODID, Config.Type.INSTANCE);

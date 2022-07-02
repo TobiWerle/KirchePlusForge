@@ -50,11 +50,20 @@ public class SheetHandler {
         }
     }
 
-    public static void saveActivity(activityTypes type, String screenshot) throws IOException {
+    public static void saveActivity(activityTypes type) throws IOException {
         Utils.displayMessage(new TextComponentString(TextFormatting.AQUA + "Deine Aktivität wird eingetragen..."));
         Thread thread = new Thread(){
             @Override
             public void run() {
+
+                String screenshot = null;
+                try {
+                    screenshot = Handler.screenshot(SaveActivity_Command.image);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
                 DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyy");
                 DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
                 LocalDateTime now = LocalDateTime.now();
@@ -136,7 +145,7 @@ public class SheetHandler {
 
     public static List<String> getRange(activityTypes type){
         if(type == activityTypes.JGA){
-            return Arrays.asList("F35:I35","F365:I36","F37:I37","F38:I38","F39:I39","F40:I40","F41:I41","F42:I42");
+            return Arrays.asList("F35:I35","F36:I36","F37:I37","F38:I38","F39:I39","F40:I40","F41:I41","F42:I42");
         }
         if(type == activityTypes.SHG){
             return Arrays.asList("B48:D48","B49:D49","B50:D50","B51:D51","B52:D52","B53:D53","B54:D54","B55:D55");
@@ -214,11 +223,9 @@ public class SheetHandler {
         for(ValueRange valueRanges : result.getValueRanges()){
             if(valueRanges.getValues() == null || valueRanges.getValues().isEmpty()) {
                 System.out.println(valueRanges.getRange());
-                System.out.println("BRO: Leere Zeile gefunden!");
                 return valueRanges;
             }
         }
-        System.out.println("BRO: KEINE Leere Zeile gefunden!");
         return null;
     }
 }
