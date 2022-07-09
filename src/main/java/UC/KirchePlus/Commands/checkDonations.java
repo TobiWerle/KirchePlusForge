@@ -62,11 +62,10 @@ public class checkDonations extends CommandBase implements IClientCommand {
                                 String currentName = PlayerCheck.NameFromUUID(info.getUUID());
                                 if(!info.getName().equals(currentName)){
                                     wrongNames.put(currentName, info.getName());
-                                    TabellenMethoden.updateName(currentName, info.getUUID(), info.getAmount());
+                                    TabellenMethoden.updateName(currentName, info.getUUID());
                                 }
                             }
 
-                            //Schauen warum manchmal fehler kommt???? Irgendwas mit Mojang API bei einem Spieler. Schauen was da ist.
                             for(String s : wrongNames.keySet()){
                                 Utils.displayMessage(new TextComponentString(TextFormatting.RED + wrongNames.get(s) + " wurde durch " + TextFormatting.GREEN + s + " ersetzt."));
                             }
@@ -100,6 +99,7 @@ public class checkDonations extends CommandBase implements IClientCommand {
                         TabellenMethoden.checkDonations();
                         HashMap<String, Integer> inPublic = new HashMap<String, Integer>();
                         HashMap<String, Integer> notPublic = new HashMap<String, Integer>();
+
                         for (SpenderInfo spender : main.spender) {
                             if (isInPublic(spender.getName())) {
                                 inPublic.put(spender.getName(), spender.getAmount() + SpenderUtils.getAmountByName(spender.getName()));

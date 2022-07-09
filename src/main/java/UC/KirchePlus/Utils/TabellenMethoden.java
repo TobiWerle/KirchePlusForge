@@ -181,7 +181,7 @@ public class TabellenMethoden {
 		}
 	}
 
-	public static void updateName(String currentName, String UUID, int amount) throws IOException {
+	public static void updateName(String currentName, String UUID) throws IOException {
 		String range = "Spender!K5:M998";
 		int count = 0;
 		ValueRange response = sheetsService.spreadsheets().values().get(SPREADSHEET_ID, range).execute();
@@ -190,11 +190,11 @@ public class TabellenMethoden {
 		for(List row : values) {
 			if(row.get(1).equals(UUID)){
 				if(!row.get(0).equals(currentName)){
-					List<Object> newvalues = Arrays.asList(currentName, UUID, amount);
+					List<Object> newvalues = Arrays.asList(currentName, UUID);
 					values.set(count, newvalues);
 					ValueRange body = new ValueRange().setValues(values);
 					UpdateValuesResponse result =
-							TabellenMethoden.sheetsService.spreadsheets().values().update( TabellenMethoden.SPREADSHEET_ID, range, body).setValueInputOption("USER_ENTERED").execute();
+							TabellenMethoden.sheetsService.spreadsheets().values().update( TabellenMethoden.SPREADSHEET_ID, range, body).setValueInputOption("RAW").execute();
 					return;
 				}
 			}
