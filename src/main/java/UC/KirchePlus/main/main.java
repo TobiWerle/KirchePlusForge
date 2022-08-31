@@ -51,6 +51,7 @@ public class main {
     //add mac support(MARRY RP TEXT AND STANDARD SHEET LOGIN)
     // /aSegen <Name> = /segen name + say "Gott segne dich <Name>"
     // /HV ADD <name> <Wochen> <Grund...>
+    // /announceevent <Eventtext> - Gibt eine Discord Nachricht aus. Mit DC Bot
 
 
 
