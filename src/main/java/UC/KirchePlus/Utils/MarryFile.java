@@ -17,6 +17,7 @@ public class MarryFile {
 	
 	public static void load() {
 		try {
+			//TODO MAC SUPPORT
 			File file = new File(System.getenv("APPDATA") + "/.minecraft/Kirche+/Vorlagen");
 			if(!file.exists()) file.mkdirs();
 			
@@ -52,6 +53,7 @@ public class MarryFile {
 	
 	private static InputStream getFile(types Type) {
 		load();
+		//TODO MAC SUPPORT
 		String Path = System.getenv("APPDATA") + "/.minecraft/Kirche+/Vorlagen/";
 		try {
 			if(Type == types.MM) {
@@ -75,7 +77,7 @@ public class MarryFile {
 	
 	private static void createCopyFromFile(types Type, String Name1, String Name2, boolean oneDrive) {
 		FileOutputStream outstream = null;
- 
+ 		//TODO MAC SUPPORT
     	try{
     		String onedrive = "";
     		if(oneDrive) onedrive = "/OneDrive";

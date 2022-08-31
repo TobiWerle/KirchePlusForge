@@ -78,7 +78,6 @@ public class MarryRP_Command extends CommandBase implements IClientCommand{
 
 	@Override
 	public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
@@ -165,7 +164,6 @@ public class MarryRP_Command extends CommandBase implements IClientCommand{
 
 	@Override
 	public boolean allowUsageWithoutPrefix(ICommandSender sender, String message) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

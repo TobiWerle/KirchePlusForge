@@ -1,6 +1,5 @@
 package UC.KirchePlus.Utils;
 
-import UC.KirchePlus.AutomaticActivity.Handler;
 import UC.KirchePlus.Config.KircheConfig;
 import UC.KirchePlus.Events.Displayname;
 import UC.KirchePlus.main.main;
@@ -14,7 +13,10 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
-import com.google.api.services.sheets.v4.model.*;
+import com.google.api.services.sheets.v4.model.Sheet;
+import com.google.api.services.sheets.v4.model.Spreadsheet;
+import com.google.api.services.sheets.v4.model.UpdateValuesResponse;
+import com.google.api.services.sheets.v4.model.ValueRange;
 
 import java.io.File;
 import java.io.IOException;
@@ -182,7 +184,7 @@ public class TabellenMethoden {
 	}
 
 	public static void updateName(String currentName, String UUID) throws IOException {
-		String range = "Spender!K5:M998";
+		String range = "Spender!K5:L998";
 		int count = 0;
 		ValueRange response = sheetsService.spreadsheets().values().get(SPREADSHEET_ID, range).execute();
 		List<List<Object>> values = response.getValues();

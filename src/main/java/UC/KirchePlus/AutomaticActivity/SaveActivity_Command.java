@@ -59,9 +59,14 @@ public class SaveActivity_Command extends CommandBase implements IClientCommand 
                 Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Um ein Token zu erstellen, joine den" + TextFormatting.BLUE + " KirchePlus-Mod.de"  + TextFormatting.RED + " Server!"));
                 return;
             }
+            if(!KirchePlusIMG_API.checkConnection()){
+                Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Die Verbindung zu upload.KirchePlus-Mod.de kann nicht hergestellt werden!"));
+                Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Melde dies einem Leader und wechsel solange in den Mod-Einstellungen zu Imgur."));
+                return;
+            }
             if(!KirchePlusIMG_API.isTokenValid()){
                 Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Dein Token ist abgelaufen oder ungültig."));
-                Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Erstelle ein neuen Token auf" + TextFormatting.BLUE + "KirchePlus-Mod.de"));
+                Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Erstelle ein neuen Token auf " + TextFormatting.BLUE + "KirchePlus-Mod.de"));
                 return;
             }
         }

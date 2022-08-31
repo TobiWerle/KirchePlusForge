@@ -15,12 +15,14 @@ import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.lwjgl.Sys;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -85,6 +87,23 @@ public class KirchePlusIMG_API {
         }catch (Exception ignored){}
         return false;
     }
+
+    public static boolean checkConnection(){
+        try {
+            URL url = new URL("http://upload.kircheplus-mod.de");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.connect();
+            System.out.println(con.getResponseCode());
+            if(HttpURLConnection.HTTP_OK != con.getResponseCode()){
+                return false;
+            }
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+
+    }
+
 
 
     private static String toBase64(File file) throws IOException {

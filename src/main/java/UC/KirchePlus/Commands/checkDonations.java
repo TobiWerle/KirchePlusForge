@@ -157,7 +157,6 @@ public class checkDonations extends CommandBase implements IClientCommand {
 
     @Override
     public boolean allowUsageWithoutPrefix(ICommandSender sender, String message) {
-        // TODO Auto-generated method stub
         return false;
     }
 
