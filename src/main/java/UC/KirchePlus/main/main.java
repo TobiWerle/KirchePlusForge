@@ -48,6 +48,7 @@ public class main {
 
     //TODO
     //fix updateNames format error after executing(TESTING)
+    //fix Sheet change error.
     //add mac support(MARRY RP TEXT AND STANDARD SHEET LOGIN)
     // /aSegen <Name> = /segen name + say "Gott segne dich <Name>"
     // /HV ADD <name> <Wochen> <Grund...>

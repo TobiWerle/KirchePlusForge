@@ -63,6 +63,12 @@ public class SheetHandler {
                     e.printStackTrace();
                 }
 
+                if(screenshot.equals("Nicht erstellt!")){
+                    Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Der Screenshot konnte nicht hochgeladen werden! Versuche es erneut!"));
+                    return;
+                }
+
+
 
                 DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyy");
                 DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
