@@ -1,0 +1,14 @@
+{
+  "entity.drink.master":
+  {
+    "category": "master",
+    "stream": true,
+    "sounds": ["kirche+:drink"]
+  },
+  "entity.dryout.master":
+  {
+    "category": "master",
+    "stream": true,
+    "sounds": ["kirche+:dryout"]
+  }
+}

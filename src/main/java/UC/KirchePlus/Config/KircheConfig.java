@@ -36,6 +36,14 @@ public class KircheConfig {
 @Config.Comment("Wird automatisch gesetzt, wenn du den Server: KirchePlus-Mod.de joinst! Dies ist für unsere eigene Upload Seite erforderlich!")
 	public static String token = "";
 
+@Config.Name("Trink Benachichtigung")
+@Config.Comment("Hier kannst du Einstellen ob du die Warnung bekommen willst wenn du Durstig oder Verdurstest")
+	public static boolean Drink = true;
+
+	@Config.Name("Trink Sound")
+	@Config.Comment("Hier kannst du Einstellen ob du den Sound bekommen willst wenn du Durstig oder Verdurstest")
+	public static boolean DrinkSound = true;
+
 
 	@SubscribeEvent
 	public static void configChanged(ConfigChangedEvent e) {

@@ -6,6 +6,7 @@ import UC.KirchePlus.Commands.MarryRP_Command;
 import UC.KirchePlus.Commands.aEquip;
 import UC.KirchePlus.Commands.checkDonations;
 import UC.KirchePlus.Utils.MarryFile;
+import UC.KirchePlus.Utils.RegistryHandler;
 import UC.KirchePlus.Utils.SpenderInfo;
 import UC.KirchePlus.Utils.TabellenMethoden;
 import net.minecraftforge.client.ClientCommandHandler;
@@ -27,6 +28,7 @@ public class main {
     public void init(FMLInitializationEvent event)  {
     	TabellenMethoden.init();
     	MarryFile.load();
+        RegistryHandler.initRegistries();
 		try {
 			TabellenMethoden.getHVList();
 			TabellenMethoden.getAllMemberSheets();
