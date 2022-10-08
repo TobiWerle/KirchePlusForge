@@ -202,8 +202,6 @@ public class TabellenMethoden {
 			}
 			count++;
 		}
-
-
 	}
 
 	public static List<List<Object>> getList(String range) throws IOException {

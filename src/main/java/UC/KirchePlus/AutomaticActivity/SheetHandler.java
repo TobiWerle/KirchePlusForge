@@ -34,7 +34,7 @@ public class SheetHandler {
     }
 
     public static Sheet MemberSheet = null;
-
+    private static int fixtrys = 0;
     public static void getMemberOwnSheet() throws IOException {
         Spreadsheet sp = TabellenMethoden.sheetsService.spreadsheets().get(TabellenMethoden.SPREADSHEET_ID).execute();
         List<Sheet> sheets = sp.getSheets();
@@ -82,6 +82,7 @@ public class SheetHandler {
                         writeEventActivity(type, getRange(type), values);
                     } catch (IOException e) {
                         Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Es ist ein unerwarteter Fehler aufgetreten!"));
+                        tryUpdateSheetName(e.toString(), type);
                         e.printStackTrace();
                     }
                 }
@@ -92,6 +93,7 @@ public class SheetHandler {
                         writeEventActivity(type, getRange(type), values);
                     } catch (IOException e) {
                         Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Es ist ein unerwarteter Fehler aufgetreten!"));
+                        tryUpdateSheetName(e.toString(), type);
                         e.printStackTrace();
                     }
                 }
@@ -101,6 +103,7 @@ public class SheetHandler {
                         writeEventActivity(type, getRange(type), values);
                     } catch (IOException e) {
                         Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Es ist ein unerwarteter Fehler aufgetreten!"));
+                        tryUpdateSheetName(e.toString(), type);
                         e.printStackTrace();
                     }
                 }
@@ -110,6 +113,7 @@ public class SheetHandler {
                         writeEventActivity(type, getRange(type), values);
                     } catch (IOException e) {
                         Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Es ist ein unerwarteter Fehler aufgetreten!"));
+                        tryUpdateSheetName(e.toString(), type);
                         e.printStackTrace();
                     }
                 }
@@ -119,6 +123,7 @@ public class SheetHandler {
                         writeEventActivity(type, getRange(type), values);
                     } catch (IOException e) {
                         Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Es ist ein unerwarteter Fehler aufgetreten!"));
+                        tryUpdateSheetName(e.toString(), type);
                         e.printStackTrace();
                     }
                 }
@@ -128,6 +133,7 @@ public class SheetHandler {
                         writeEventActivity(type, getRange(type), values);
                     } catch (IOException e) {
                         Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Es ist ein unerwarteter Fehler aufgetreten!"));
+                        tryUpdateSheetName(e.toString(), type);
                         e.printStackTrace();
                     }
                 }
@@ -137,6 +143,7 @@ public class SheetHandler {
                         writeEventActivity(type, getRange(type), values);
                     } catch (IOException e) {
                         Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Es ist ein unerwarteter Fehler aufgetreten!"));
+                        tryUpdateSheetName(e.toString(), type);
                         e.printStackTrace();
                     }
                 }
@@ -144,9 +151,29 @@ public class SheetHandler {
                 Handler.screenshotLink = "";
                 Handler.topic = "";
                 Handler.amount = 0;
+                fixtrys = 0;
             }
         };
         thread.start();
+    }
+
+
+
+    private static void tryUpdateSheetName(String error, activityTypes type) {
+        if(error.contains("Unable to parse range")){
+            if(fixtrys == 1){
+                Utils.displayMessage(new TextComponentString(TextFormatting.YELLOW + "Der Fehler wurde nicht gefunden. Ein Neustart des Spiels wird dies beheben."));
+                return;
+            }
+            fixtrys = 1;
+            try {
+                Utils.displayMessage(new TextComponentString(TextFormatting.YELLOW + "Es wird versucht die Akti erneut einzutragen..."));
+                getMemberOwnSheet();
+                saveActivity(type);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
     public static List<String> getRange(activityTypes type){

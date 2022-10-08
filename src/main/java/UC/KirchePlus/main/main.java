@@ -9,11 +9,13 @@ import UC.KirchePlus.Utils.MarryFile;
 import UC.KirchePlus.Utils.RegistryHandler;
 import UC.KirchePlus.Utils.SpenderInfo;
 import UC.KirchePlus.Utils.TabellenMethoden;
+import UC.KirchePlus.Utils.UpdateCheck;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import scala.tools.nsc.interpreter.Power;
 
 import java.util.ArrayList;
 
@@ -29,6 +31,7 @@ public class main {
     	TabellenMethoden.init();
     	MarryFile.load();
         RegistryHandler.initRegistries();
+        UpdateCheck.updateCheck();
 		try {
 			TabellenMethoden.getHVList();
 			TabellenMethoden.getAllMemberSheets();
@@ -41,21 +44,25 @@ public class main {
         ClientCommandHandler.instance.registerCommand(new checkDonations());
         ClientCommandHandler.instance.registerCommand(new aEquip());
         ClientCommandHandler.instance.registerCommand(new SaveActivity_Command());
+
     }
 
 
     //DONE
-    //Check Upload Server down
+        //Check Upload Server down
+        //
+        //ADD UPDATE MESSAGE
+        //fix updateNames
+        //fix HV namecheck
+        //fix Sheet namechange error.
+
 
 
     //TODO
-    //fix updateNames format error after executing(TESTING)
-    //fix Sheet change error.
-    //add mac support(MARRY RP TEXT AND STANDARD SHEET LOGIN)
-    // /aSegen <Name> = /segen name + say "Gott segne dich <Name>"
-    // /HV ADD <name> <Wochen> <Grund...>
-    // /announceevent <Eventtext> - Gibt eine Discord Nachricht aus. Mit DC Bot
-
+    // /HV ADD | GUI öffnet sich wo man alles eintragen kann. (Ab R3 wegen Tabellen Rechte)
+    // BETTER TABCOMPLETION | Halt wenn man was eintippt, bekommt er das, was besser passt. Wie bei Namen
+    // /aSegen <Name> = /segen name + say "Gott segne dich <Name>" | Schauen wie man das macht wegen GD.... Sollen die sich abwechseln?
+    // /announceevent <Eventtext> - Gibt eine Discord Nachricht aus. Mit DC Bot (IDK KANN ICH NICHT!)
 
 
 

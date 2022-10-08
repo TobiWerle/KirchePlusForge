@@ -51,7 +51,7 @@ public class checkDonations extends CommandBase implements IClientCommand {
                     Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Für diese Funktion musst du in der Config ownGmail aktiviert haben!"));
                     return;
                 }
-
+                Utils.displayMessage(new TextComponentString(TextFormatting.GREEN + "Die Spendenliste wird auf Fehler überprüft. Dies kann einige Zeit brauchen."));
                 Thread thread = new Thread() {
                     @Override
                     public void run() {
@@ -67,10 +67,11 @@ public class checkDonations extends CommandBase implements IClientCommand {
                             }
 
                             for(String s : wrongNames.keySet()){
-                                Utils.displayMessage(new TextComponentString(TextFormatting.RED + wrongNames.get(s) + " wurde durch " + TextFormatting.GREEN + s + " ersetzt."));
+
+                                Utils.displayMessage(new TextComponentString(TextFormatting.YELLOW + wrongNames.get(s) + TextFormatting.RED +" wurde durch " + TextFormatting.GREEN + s + " ersetzt."));
                             }
                             if(wrongNames.isEmpty()){
-                                Utils.displayMessage(new TextComponentString(TextFormatting.GREEN + "Es wurden keine Fehler entdeckt"));
+                                Utils.displayMessage(new TextComponentString(TextFormatting.GREEN + "Es wurden keine veränderten Namen entdeckt."));
                             }
                         }catch (Exception e){
                             e.printStackTrace();
