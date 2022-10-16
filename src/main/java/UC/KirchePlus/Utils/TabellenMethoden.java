@@ -25,10 +25,8 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class TabellenMethoden {
@@ -280,6 +278,75 @@ public class TabellenMethoden {
 		}
     	return false;
     }
+
+
+	public static void getAktis() throws IOException, GeneralSecurityException {
+		String range = "Übersicht!B5:I34";
+		HashMap<Akti_User, Integer> spenden = new HashMap<Akti_User, Integer>();
+		HashMap<Akti_User, Integer> gesamt = new HashMap<Akti_User, Integer>();
+		HashMap<Akti_User, Integer> roleplay = new HashMap<Akti_User, Integer>();
+		ValueRange response = sheetsService.spreadsheets().values()
+				.get(SPREADSHEET_ID, range)
+				.execute();
+		List<List<Object>> values = response.getValues();
+		if(values == null || values.isEmpty()) {
+			System.out.println("No data found!");
+		}else {
+			for(List row : values) {
+				try {
+					Akti_User user = new Akti_User(row.get(1).toString(), row.get(6).toString(), row.get(5).toString(), row.get(7).toString());
+					spenden.put(user, Integer.parseInt(user.getSpenden_aktis()));
+					gesamt.put(user, Integer.parseInt(user.getGesamt_aktis()));
+					roleplay.put(user, Integer.parseInt(user.getRp_aktis()));
+
+				} catch (Exception ignored) {}
+			}
+
+		}
+
+
+		Map<Akti_User, Integer> sorted = spenden.entrySet().stream()
+				.sorted(Comparator.comparingInt(e -> -e.getValue()))
+				.collect(Collectors.toMap(
+						Map.Entry::getKey,
+						Map.Entry::getValue,
+						(a, b) -> { throw new AssertionError(); },
+						LinkedHashMap::new
+				));
+
+
+		for(Akti_User user : sorted.keySet()){
+			main.spenden.put(user, sorted .get(user));
+		}
+		Map<Akti_User, Integer> sorted2 = roleplay.entrySet().stream()
+				.sorted(Comparator.comparingInt(e -> -e.getValue()))
+				.collect(Collectors.toMap(
+						Map.Entry::getKey,
+						Map.Entry::getValue,
+						(a, b) -> { throw new AssertionError(); },
+						LinkedHashMap::new
+				));
+
+
+		for(Akti_User user : sorted2.keySet()){
+			main.roleplay.put(user, sorted2 .get(user));
+		}
+		// Gesamt Aktis
+		Map<Akti_User, Integer> sorted3 = gesamt.entrySet().stream()
+				.sorted(Comparator.comparingInt(e -> -e.getValue()))
+				.collect(Collectors.toMap(
+						Map.Entry::getKey,
+						Map.Entry::getValue,
+						(a, b) -> { throw new AssertionError(); },
+						LinkedHashMap::new
+				));
+
+
+		for(Akti_User user : sorted3.keySet()){
+			main.gesamt.put(user, sorted3 .get(user));
+		}
+	}
+
 
 
 

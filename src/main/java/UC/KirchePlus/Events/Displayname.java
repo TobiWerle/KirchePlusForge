@@ -24,6 +24,7 @@ public class Displayname {
 	public static ArrayList<EntityPlayer> players = new ArrayList<EntityPlayer>();
 	
 	public static HashMap<String, HV_User> HVs = new HashMap<String, HV_User>();
+
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void onNameFormat(PlayerEvent.NameFormat e) {

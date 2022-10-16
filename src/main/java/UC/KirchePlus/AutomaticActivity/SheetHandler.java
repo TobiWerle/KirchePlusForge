@@ -212,7 +212,7 @@ public class SheetHandler {
         }
         if(type == activityTypes.SEGEN){
             return Arrays.asList("B136:D136", "B137:D137", "B138:D138", "B139:D139", "B140:D140", "B141:D141",
-                    "B142:D142", "B143:D143", "B144:D144", "B145:D145", "B146:D146", "IB147:D147", "B148:D148", "B149:D149");
+                    "B142:D142", "B143:D143", "B144:D144", "B145:D145", "B146:D146", "B147:D147", "B148:D148", "B149:D149");
         }
         if(type == activityTypes.TAUFE){
             return Arrays.asList("H119:J119", "H120:J120", "H121:J121", "H122:J122", "H123:J123", "H124:J124",
