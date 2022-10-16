@@ -1,19 +1,12 @@
 package UC.KirchePlus.Events;
 
 
-
 import UC.KirchePlus.Config.KircheConfig;
 import UC.KirchePlus.Utils.SoundsHandler;
 import net.minecraft.client.Minecraft;
-
-import net.minecraft.client.gui.GuiSubtitleOverlay;
 import net.minecraft.entity.player.EntityPlayer;
-
 import net.minecraft.init.SoundEvents;
-
 import net.minecraft.util.SoundCategory;
-
-
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -21,8 +14,6 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.function.DoubleToIntFunction;
 
 
 @SideOnly(Side.CLIENT)

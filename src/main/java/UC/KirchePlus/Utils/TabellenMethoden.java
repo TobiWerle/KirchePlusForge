@@ -280,11 +280,11 @@ public class TabellenMethoden {
     }
 
 
-	public static void getAktis() throws IOException, GeneralSecurityException {
+	public static void getActivitys() throws IOException {
 		String range = "Übersicht!B5:I34";
-		HashMap<Akti_User, Integer> spenden = new HashMap<Akti_User, Integer>();
-		HashMap<Akti_User, Integer> gesamt = new HashMap<Akti_User, Integer>();
-		HashMap<Akti_User, Integer> roleplay = new HashMap<Akti_User, Integer>();
+		HashMap<Activity_User, Integer> donations = new HashMap<Activity_User, Integer>();
+		HashMap<Activity_User, Integer> total = new HashMap<Activity_User, Integer>();
+		HashMap<Activity_User, Integer> roleplay = new HashMap<Activity_User, Integer>();
 		ValueRange response = sheetsService.spreadsheets().values()
 				.get(SPREADSHEET_ID, range)
 				.execute();
@@ -292,58 +292,43 @@ public class TabellenMethoden {
 		if(values == null || values.isEmpty()) {
 			System.out.println("No data found!");
 		}else {
+
+
 			for(List row : values) {
 				try {
-					Akti_User user = new Akti_User(row.get(1).toString(), row.get(6).toString(), row.get(5).toString(), row.get(7).toString());
-					spenden.put(user, Integer.parseInt(user.getSpenden_aktis()));
-					gesamt.put(user, Integer.parseInt(user.getGesamt_aktis()));
-					roleplay.put(user, Integer.parseInt(user.getRp_aktis()));
-
+					if(!row.get(1).toString().toLowerCase().contains("frei")){
+						Activity_User user = new Activity_User(row.get(1).toString().replace("[","").replace("]", "").replace(" ", "").replace("L",""), row.get(6).toString(), row.get(5).toString(), row.get(7).toString());
+						donations.put(user, Integer.parseInt(user.getDonationActivity()));
+						total.put(user, Integer.parseInt(user.getTotalActivity()));
+						roleplay.put(user, Integer.parseInt(user.getRpActivity()));
+					}
 				} catch (Exception ignored) {}
 			}
+			main.totalActivity = total.entrySet().stream()
+					.sorted(Comparator.comparingInt(e -> -e.getValue()))
+					.collect(Collectors.toMap(
+							Map.Entry::getKey,
+							Map.Entry::getValue,
+							(a, b) -> { throw new AssertionError(); },
+							LinkedHashMap::new
+					));
 
-		}
-
-
-		Map<Akti_User, Integer> sorted = spenden.entrySet().stream()
-				.sorted(Comparator.comparingInt(e -> -e.getValue()))
-				.collect(Collectors.toMap(
-						Map.Entry::getKey,
-						Map.Entry::getValue,
-						(a, b) -> { throw new AssertionError(); },
-						LinkedHashMap::new
-				));
-
-
-		for(Akti_User user : sorted.keySet()){
-			main.spenden.put(user, sorted .get(user));
-		}
-		Map<Akti_User, Integer> sorted2 = roleplay.entrySet().stream()
-				.sorted(Comparator.comparingInt(e -> -e.getValue()))
-				.collect(Collectors.toMap(
-						Map.Entry::getKey,
-						Map.Entry::getValue,
-						(a, b) -> { throw new AssertionError(); },
-						LinkedHashMap::new
-				));
-
-
-		for(Akti_User user : sorted2.keySet()){
-			main.roleplay.put(user, sorted2 .get(user));
-		}
-		// Gesamt Aktis
-		Map<Akti_User, Integer> sorted3 = gesamt.entrySet().stream()
-				.sorted(Comparator.comparingInt(e -> -e.getValue()))
-				.collect(Collectors.toMap(
-						Map.Entry::getKey,
-						Map.Entry::getValue,
-						(a, b) -> { throw new AssertionError(); },
-						LinkedHashMap::new
-				));
-
-
-		for(Akti_User user : sorted3.keySet()){
-			main.gesamt.put(user, sorted3 .get(user));
+			main.roleplayActivity = roleplay.entrySet().stream()
+					.sorted(Comparator.comparingInt(e -> -e.getValue()))
+					.collect(Collectors.toMap(
+							Map.Entry::getKey,
+							Map.Entry::getValue,
+							(a, b) -> { throw new AssertionError(); },
+							LinkedHashMap::new
+					));
+			main.donationActivity = donations.entrySet().stream()
+					.sorted(Comparator.comparingInt(e -> -e.getValue()))
+					.collect(Collectors.toMap(
+							Map.Entry::getKey,
+							Map.Entry::getValue,
+							(a, b) -> { throw new AssertionError(); },
+							LinkedHashMap::new
+					));
 		}
 	}
 

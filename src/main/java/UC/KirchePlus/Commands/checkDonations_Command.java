@@ -14,10 +14,12 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.IClientCommand;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class checkDonations extends CommandBase implements IClientCommand {
+public class checkDonations_Command extends CommandBase implements IClientCommand {
     boolean inTask = false;
     @Override
     public int compareTo(ICommand arg0) {

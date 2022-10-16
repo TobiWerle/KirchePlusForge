@@ -1,26 +1,16 @@
 package UC.KirchePlus.main;
 
 import UC.KirchePlus.AutomaticActivity.SaveActivity_Command;
-import UC.KirchePlus.Commands.HV_Command;
-import UC.KirchePlus.Commands.MarryRP_Command;
-import UC.KirchePlus.Commands.aEquip;
-import UC.KirchePlus.Commands.checkDonations;
+import UC.KirchePlus.Commands.*;
 import UC.KirchePlus.Utils.*;
-import akka.actor.ActorKilledException;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import scala.Array;
-import scala.Int;
-import scala.tools.nsc.interpreter.Power;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
 @Mod(modid = main.MODID, version = main.VERSION)
 public class main {
@@ -29,9 +19,10 @@ public class main {
     public static final String VERSION = "3.0";
     public static ArrayList<SpenderInfo> spender = new ArrayList<>();
 
-    public static HashMap<Akti_User, Integer> gesamt = new HashMap<Akti_User, Integer>();
-    public static HashMap<Akti_User, Integer> spenden = new HashMap<Akti_User, Integer>();
-    public static HashMap<Akti_User, Integer> roleplay = new HashMap<Akti_User, Integer>();
+    public static HashMap<Activity_User, Integer> totalActivity = new HashMap<>();
+    public static HashMap<Activity_User, Integer> donationActivity = new HashMap<>();
+    public static HashMap<Activity_User, Integer> roleplayActivity = new HashMap<>();
+
     @EventHandler
     public void init(FMLInitializationEvent event)  {
     	TabellenMethoden.init();
@@ -41,15 +32,7 @@ public class main {
 		try {
 			TabellenMethoden.getHVList();
 			TabellenMethoden.getAllMemberSheets();
-            TabellenMethoden.getAktis();
-
-            Akti_User user1 = (Akti_User) gesamt.keySet().toArray()[0];
-
-            for(Akti_User user : gesamt.keySet()) {
-                System.out.println(user.getGesamt_aktis());
-            }
-
-
+			TabellenMethoden.getActivitys();
 		} catch (Exception e) {e.printStackTrace();}
 
 
@@ -58,10 +41,10 @@ public class main {
     public void preInit(FMLPreInitializationEvent e) {
     	ClientCommandHandler.instance.registerCommand(new HV_Command());
     	ClientCommandHandler.instance.registerCommand(new MarryRP_Command());
-        ClientCommandHandler.instance.registerCommand(new checkDonations());
+        ClientCommandHandler.instance.registerCommand(new checkDonations_Command());
         ClientCommandHandler.instance.registerCommand(new aEquip());
         ClientCommandHandler.instance.registerCommand(new SaveActivity_Command());
-
+        ClientCommandHandler.instance.registerCommand(new topActivity_Command());
     }
 
 

@@ -2,7 +2,6 @@ package UC.KirchePlus.Utils;
 
 
 import UC.KirchePlus.main.main;
-import net.minecraft.client.audio.Sound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
