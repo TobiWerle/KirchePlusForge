@@ -1,7 +1,9 @@
 package UC.KirchePlus.Commands;
 
 import UC.KirchePlus.Utils.Activity_User;
+import UC.KirchePlus.Utils.TabellenMethoden;
 import UC.KirchePlus.Utils.Utils;
+import UC.KirchePlus.main.main;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -10,6 +12,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.IClientCommand;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,46 +37,65 @@ public class topActivity_Command extends CommandBase implements IClientCommand {
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+
         if(args.length == 0) {
-            Utils.displayMessage(new TextComponentString(" ===========Top-Aktivität============="));
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        TabellenMethoden.getActivitys();
+                    } catch (IOException ignored) {}
+
+                    Utils.displayMessage(new TextComponentString(TextFormatting.DARK_AQUA +" =============Top-Aktivität============="));
+                    if(getTotalPlace(1, true) == null){
+                        Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Kein Member hat bisher Aktivitäten eingetragen!"));
+                        Utils.displayMessage(new TextComponentString(TextFormatting.DARK_AQUA +" =============Top-Aktivität============="));
+                        return;
+                    }
+                    String arrow = " ➜ ";
+                    if(getTotalPlace(1, false) != null) Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.GOLD + " 1." + getTotalPlace(1, false)));
+                    if(getTotalPlace(2, false) != null) Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.GOLD + " 2." + getTotalPlace(2, false)));
+                    if(getTotalPlace(3, false) != null) Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.GOLD + " 3." + getTotalPlace(3, false)));
+                    if(getTotalPlace(4, false) != null) Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.GOLD + " 4." + getTotalPlace(4, false)));
+                    if(getTotalPlace(5, false) != null) Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.GOLD + " 5." + getTotalPlace(5, false)));
+                    Utils.displayMessage(new TextComponentString(TextFormatting.DARK_AQUA + " ===========Deine Aktivität=============="));
+                    Activity_User self = Activity_User.getSelf();
+                    Utils.displayMessage(new TextComponentString(  TextFormatting.GRAY + arrow + TextFormatting.AQUA + "Name: "+ self.getName()));
+                    Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.AQUA + "Gesamt: "+ self.getTotalActivity()));
+                    Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.AQUA + "Roleplay: "+ self.getRpActivity()));
+                    Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.AQUA + "Spenden: "+ self.getDonationActivity()));
+                    Utils.displayMessage(new TextComponentString(TextFormatting.DARK_AQUA + " ===================================="));
 
 
-            if(getTotalPlace(1) == null){
-                Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Kein Member hat bisher Aktivitäten eingetragen!"));
-                Utils.displayMessage(new TextComponentString(" ===========Top-Aktivität============="));
-                return;
-            }
-            Utils.displayMessage(new TextComponentString(TextFormatting.GOLD + getTotalPlace(1)));
-            if(getTotalPlace(2) != null) Utils.displayMessage(new TextComponentString(TextFormatting.YELLOW + getTotalPlace(2)));
-            if(getTotalPlace(3) != null) Utils.displayMessage(new TextComponentString(TextFormatting.GREEN + getTotalPlace(3)));
+                }
+            });
 
-            Utils.displayMessage(new TextComponentString(" "));
-            Utils.displayMessage(new TextComponentString(" ===========Deine Aktivität=============="));
-            Activity_User self = Activity_User.getSelf();
-            Utils.displayMessage(new TextComponentString(TextFormatting.AQUA + "Name: "+ self.getName()));
-            Utils.displayMessage(new TextComponentString(TextFormatting.AQUA + "Gesamt: "+ self.getTotalActivity()));
-            Utils.displayMessage(new TextComponentString(TextFormatting.AQUA + "Roleplay: "+ self.getRpActivity()));
-            Utils.displayMessage(new TextComponentString(TextFormatting.AQUA + "Spenden: "+ self.getDonationActivity()));
-            Utils.displayMessage(new TextComponentString(" ===================================="));
+            thread.start();
 
         }
     }
 
 
 
-    private String getTotalPlace(int placeID){
+    private String getTotalPlace(int placeID, boolean b){
         ArrayList<Activity_User> totalActivity = Activity_User.getTotalActivityUsers(placeID);
         String place = "";
+
         int size = totalActivity.size();
+
         for(Activity_User user : totalActivity){
-            if(user.getTotalActivity() == "0"){
+            if(user.getTotalActivity().equals("0")){
                 return null;
             }
+            if(b) return null;
             if(size == 1){
                 place = place + user.getName() + " | " + user.getTotalActivity();
-            }else{
+
+            }else {
                 place = place + user.getName() + " / ";
+
             }
+
             size--;
         }
         return place;

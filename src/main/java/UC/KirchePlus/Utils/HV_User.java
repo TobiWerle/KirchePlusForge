@@ -51,6 +51,6 @@ public class HV_User {
 	public String getDauer() {
 		return dauer;
 	}
-	
+
 
 }
