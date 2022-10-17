@@ -4,6 +4,7 @@ import UC.KirchePlus.AutomaticActivity.Imgur.Imgur;
 import UC.KirchePlus.AutomaticActivity.KirchePlusIMG.KirchePlusIMG_API;
 import UC.KirchePlus.Config.KircheConfig;
 import UC.KirchePlus.Config.uploadTypes;
+import UC.KirchePlus.CustomGUI.HVADD_GUI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ScreenShotHelper;
 import net.minecraft.util.text.ITextComponent;
@@ -190,7 +191,7 @@ public class Handler {
     public static boolean blessPage = false;
     public static boolean marryPage = false;
     static int ticks=3;
-
+    public static boolean openHVGUI = false;
     @SubscribeEvent
     public static void onTickEvent(TickEvent e){
         if(openGUI){
@@ -213,5 +214,14 @@ public class Handler {
             marryPage = false;
             isDonation = false;
         }
+
+        if(openHVGUI){
+            HVADD_GUI gui = new HVADD_GUI();
+            Minecraft.getMinecraft().displayGuiScreen(gui);
+            openHVGUI = false;
+        }
+
+
+
     }
 }

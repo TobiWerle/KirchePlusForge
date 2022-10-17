@@ -281,10 +281,11 @@ public class TabellenMethoden {
 
 
 	public static void getActivitys() throws IOException {
+		main.totalActivity.clear();
 		String range = "Übersicht!B5:I34";
-		HashMap<Activity_User, Integer> donations = new HashMap<Activity_User, Integer>();
-		HashMap<Activity_User, Integer> total = new HashMap<Activity_User, Integer>();
-		HashMap<Activity_User, Integer> roleplay = new HashMap<Activity_User, Integer>();
+		HashMap<Activity_User, Integer> donations = new HashMap<>();
+		HashMap<Activity_User, Integer> total = new HashMap<>();
+		HashMap<Activity_User, Integer> roleplay = new HashMap<>();
 		ValueRange response = sheetsService.spreadsheets().values()
 				.get(SPREADSHEET_ID, range)
 				.execute();

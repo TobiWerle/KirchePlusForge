@@ -32,10 +32,7 @@ public class main {
 		try {
 			TabellenMethoden.getHVList();
 			TabellenMethoden.getAllMemberSheets();
-			TabellenMethoden.getActivitys();
 		} catch (Exception e) {e.printStackTrace();}
-
-
     }
     @EventHandler
     public void preInit(FMLPreInitializationEvent e) {

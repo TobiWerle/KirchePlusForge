@@ -37,33 +37,38 @@ public class topActivity_Command extends CommandBase implements IClientCommand {
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-
         if(args.length == 0) {
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         TabellenMethoden.getActivitys();
-                    } catch (IOException ignored) {}
+                    } catch (IOException ignored) {
+                    }
 
-                    Utils.displayMessage(new TextComponentString(TextFormatting.DARK_AQUA +" =============Top-Aktivität============="));
-                    if(getTotalPlace(1, true) == null){
+                    Utils.displayMessage(new TextComponentString(TextFormatting.DARK_AQUA + " =============Top-Aktivität============="));
+                    if (getTotalPlace(true) == null) {
                         Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Kein Member hat bisher Aktivitäten eingetragen!"));
-                        Utils.displayMessage(new TextComponentString(TextFormatting.DARK_AQUA +" =============Top-Aktivität============="));
+                        Utils.displayMessage(new TextComponentString(TextFormatting.DARK_AQUA + " =============Top-Aktivität============="));
                         return;
                     }
                     String arrow = " ➜ ";
-                    if(getTotalPlace(1, false) != null) Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.GOLD + " 1." + getTotalPlace(1, false)));
-                    if(getTotalPlace(2, false) != null) Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.GOLD + " 2." + getTotalPlace(2, false)));
-                    if(getTotalPlace(3, false) != null) Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.GOLD + " 3." + getTotalPlace(3, false)));
-                    if(getTotalPlace(4, false) != null) Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.GOLD + " 4." + getTotalPlace(4, false)));
-                    if(getTotalPlace(5, false) != null) Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.GOLD + " 5." + getTotalPlace(5, false)));
+                    if (getTotalPlace(true) != null)
+                        Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.GOLD + " 1." + getTotalPlace(false)));
+                    if (getTotalPlace(true) != null)
+                        Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.GOLD + " 2." + getTotalPlace(false)));
+                    if (getTotalPlace(true) != null)
+                        Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.GOLD + " 3." + getTotalPlace(false)));
+                    if (getTotalPlace(true) != null)
+                        Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.GOLD + " 4." + getTotalPlace(false)));
+                    if (getTotalPlace(true) != null)
+                        Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.GOLD + " 5." + getTotalPlace(false)));
                     Utils.displayMessage(new TextComponentString(TextFormatting.DARK_AQUA + " ===========Deine Aktivität=============="));
                     Activity_User self = Activity_User.getSelf();
-                    Utils.displayMessage(new TextComponentString(  TextFormatting.GRAY + arrow + TextFormatting.AQUA + "Name: "+ self.getName()));
-                    Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.AQUA + "Gesamt: "+ self.getTotalActivity()));
-                    Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.AQUA + "Roleplay: "+ self.getRpActivity()));
-                    Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.AQUA + "Spenden: "+ self.getDonationActivity()));
+                    Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.AQUA + "Name: " + self.getName()));
+                    Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.AQUA + "Gesamt: " + self.getTotalActivity()));
+                    Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.AQUA + "Roleplay: " + self.getRpActivity()));
+                    Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.AQUA + "Spenden: " + self.getDonationActivity()));
                     Utils.displayMessage(new TextComponentString(TextFormatting.DARK_AQUA + " ===================================="));
 
 
@@ -71,31 +76,26 @@ public class topActivity_Command extends CommandBase implements IClientCommand {
             });
 
             thread.start();
-
         }
     }
 
 
 
-    private String getTotalPlace(int placeID, boolean b){
-        ArrayList<Activity_User> totalActivity = Activity_User.getTotalActivityUsers(placeID);
+    public static String getTotalPlace(boolean b){
+        ArrayList<Activity_User> totalActivity = Activity_User.getTotalActivityUsers(0);
         String place = "";
-
         int size = totalActivity.size();
-
         for(Activity_User user : totalActivity){
             if(user.getTotalActivity().equals("0")){
                 return null;
             }
-            if(b) return null;
+            if(b) return "";
             if(size == 1){
                 place = place + user.getName() + " | " + user.getTotalActivity();
-
             }else {
                 place = place + user.getName() + " / ";
-
             }
-
+            main.totalActivity.remove(user);
             size--;
         }
         return place;

@@ -34,9 +34,9 @@ public class Activity_User {
 
 
     public static ArrayList<Activity_User> getTotalActivityUsers(int place){
-        int lastCount = Integer.parseInt(((Activity_User) main.totalActivity.keySet().toArray()[place-1]).getTotalActivity());
+        int lastCount = Integer.parseInt(((Activity_User) main.totalActivity.keySet().toArray()[place]).getTotalActivity());
         ArrayList<Activity_User> users = new ArrayList<>();
-        users.add((Activity_User)main.totalActivity.keySet().toArray()[place-1]);
+        users.add((Activity_User)main.totalActivity.keySet().toArray()[place]);
 
         for(Activity_User user : main.totalActivity.keySet()){
             if(!users.contains(user)){
@@ -49,9 +49,9 @@ public class Activity_User {
     }
 
     public static ArrayList<Activity_User> getDonationActivityUsers(int place){
-        int lastCount = Integer.parseInt(((Activity_User) main.donationActivity.keySet().toArray()[place-1]).getTotalActivity());
+        int lastCount = Integer.parseInt(((Activity_User) main.donationActivity.keySet().toArray()[place]).getTotalActivity());
         ArrayList<Activity_User> users = new ArrayList<>();
-        users.add((Activity_User)main.donationActivity.keySet().toArray()[place-1]);
+        users.add((Activity_User)main.donationActivity.keySet().toArray()[place]);
 
         for(Activity_User user : main.donationActivity.keySet()){
             if(!users.contains(user)){
@@ -63,9 +63,9 @@ public class Activity_User {
         return users;
     }
     public static ArrayList<Activity_User> getRoleplayActivityUsers(int place){
-        int lastCount = Integer.parseInt(((Activity_User) main.roleplayActivity.keySet().toArray()[place-1]).getTotalActivity());
+        int lastCount = Integer.parseInt(((Activity_User) main.roleplayActivity.keySet().toArray()[place]).getTotalActivity());
         ArrayList<Activity_User> users = new ArrayList<>();
-        users.add((Activity_User)main.roleplayActivity.keySet().toArray()[place-1]);
+        users.add((Activity_User)main.roleplayActivity.keySet().toArray()[place]);
 
         for(Activity_User user : main.roleplayActivity.keySet()){
             if(!users.contains(user)){

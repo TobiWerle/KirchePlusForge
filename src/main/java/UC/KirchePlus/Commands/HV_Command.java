@@ -1,11 +1,10 @@
 package UC.KirchePlus.Commands;
 
+import UC.KirchePlus.AutomaticActivity.Handler;
 import UC.KirchePlus.Events.Displayname;
-import UC.KirchePlus.Utils.HV_User;
-import UC.KirchePlus.Utils.PlayerCheck;
-import UC.KirchePlus.Utils.TabellenMethoden;
-import UC.KirchePlus.Utils.Utils;
+import UC.KirchePlus.Utils.*;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
@@ -20,7 +19,10 @@ import net.minecraftforge.client.IClientCommand;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class HV_Command extends CommandBase implements IClientCommand {																																																																				
@@ -162,6 +164,16 @@ public class HV_Command extends CommandBase implements IClientCommand {
 					}
 				}	
 			}
+
+			if(args[0].equalsIgnoreCase("add")){
+				DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyy");
+				LocalDateTime now = LocalDateTime.now();
+
+				HV_ADD.temp_fromMember = Minecraft.getMinecraft().player.getName();
+				HV_ADD.temp_fromDate = dateFormatter.format(now);
+				HV_ADD.temp_Who = args[1];
+				Handler.openHVGUI = true;
+			}
 		}
 
 	}
@@ -180,6 +192,7 @@ public class HV_Command extends CommandBase implements IClientCommand {
 			tabs.add("help");
 			tabs.add("info");
 			tabs.add("namecheck");
+			tabs.add("add");
 		}	
 		if(args[0].equalsIgnoreCase("info")) {
 			tabs.clear();
@@ -195,6 +208,21 @@ public class HV_Command extends CommandBase implements IClientCommand {
 			}
 			tabs.addAll(Displayname.HVs.keySet());
 			
+		}
+		if(!args[1].isEmpty()) {
+			ArrayList<String> playerList = new ArrayList<>();
+			Collection<NetworkPlayerInfo> playersC = Minecraft.getMinecraft().getConnection().getPlayerInfoMap();
+			playersC.forEach((loadedPlayer) -> {
+				String name = loadedPlayer.getGameProfile().getName();
+				playerList.add(name);
+			});
+
+			for(String players : playerList) {
+				if(players.toLowerCase().startsWith(args[2].toLowerCase())) {
+					tabs.add(players);
+				}
+			}
+			return tabs;
 		}
 		return tabs;
 	}

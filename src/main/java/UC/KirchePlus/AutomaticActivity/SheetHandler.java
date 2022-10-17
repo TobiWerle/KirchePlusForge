@@ -50,6 +50,14 @@ public class SheetHandler {
         }
     }
 
+    public static int getRang() throws IOException {
+        if(MemberSheet == null){
+            getMemberOwnSheet();
+        }
+        System.out.println("Dein Rang ist: " + MemberSheet.getProperties().getTitle().charAt(1));
+        return MemberSheet.getProperties().getTitle().charAt(1);
+    }
+
     public static void saveActivity(activityTypes type) throws IOException {
         Utils.displayMessage(new TextComponentString(TextFormatting.AQUA + "Deine Aktivität wird eingetragen..."));
         Thread thread = new Thread(){
@@ -167,7 +175,7 @@ public class SheetHandler {
             }
             fixtrys = 1;
             try {
-                Utils.displayMessage(new TextComponentString(TextFormatting.YELLOW + "Es wird versucht die Akti erneut einzutragen..."));
+                Utils.displayMessage(new TextComponentString(TextFormatting.YELLOW + "Es wird versucht die Aktivität erneut einzutragen..."));
                 getMemberOwnSheet();
                 saveActivity(type);
             }catch (Exception e){
