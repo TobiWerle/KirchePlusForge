@@ -283,9 +283,7 @@ public class TabellenMethoden {
 	public static void getActivitys() throws IOException {
 		main.totalActivity.clear();
 		String range = "Übersicht!B5:I34";
-		HashMap<Activity_User, Integer> donations = new HashMap<>();
 		HashMap<Activity_User, Integer> total = new HashMap<>();
-		HashMap<Activity_User, Integer> roleplay = new HashMap<>();
 		ValueRange response = sheetsService.spreadsheets().values()
 				.get(SPREADSHEET_ID, range)
 				.execute();
@@ -293,15 +291,11 @@ public class TabellenMethoden {
 		if(values == null || values.isEmpty()) {
 			System.out.println("No data found!");
 		}else {
-
-
 			for(List row : values) {
 				try {
 					if(!row.get(1).toString().toLowerCase().contains("frei")){
 						Activity_User user = new Activity_User(row.get(1).toString().replace("[","").replace("]", "").replace(" ", "").replace("L",""), row.get(6).toString(), row.get(5).toString(), row.get(7).toString());
-						donations.put(user, Integer.parseInt(user.getDonationActivity()));
 						total.put(user, Integer.parseInt(user.getTotalActivity()));
-						roleplay.put(user, Integer.parseInt(user.getRpActivity()));
 					}
 				} catch (Exception ignored) {}
 			}
@@ -313,28 +307,6 @@ public class TabellenMethoden {
 							(a, b) -> { throw new AssertionError(); },
 							LinkedHashMap::new
 					));
-
-			main.roleplayActivity = roleplay.entrySet().stream()
-					.sorted(Comparator.comparingInt(e -> -e.getValue()))
-					.collect(Collectors.toMap(
-							Map.Entry::getKey,
-							Map.Entry::getValue,
-							(a, b) -> { throw new AssertionError(); },
-							LinkedHashMap::new
-					));
-			main.donationActivity = donations.entrySet().stream()
-					.sorted(Comparator.comparingInt(e -> -e.getValue()))
-					.collect(Collectors.toMap(
-							Map.Entry::getKey,
-							Map.Entry::getValue,
-							(a, b) -> { throw new AssertionError(); },
-							LinkedHashMap::new
-					));
 		}
 	}
-
-
-
-
-
 }

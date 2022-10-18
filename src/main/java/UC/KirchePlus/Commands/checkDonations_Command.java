@@ -100,8 +100,8 @@ public class checkDonations_Command extends CommandBase implements IClientComman
                         TabellenMethoden.getAllMemberSheets();
                         TabellenMethoden.getDonations();
                         TabellenMethoden.checkDonations();
-                        HashMap<String, Integer> inPublic = new HashMap<String, Integer>();
-                        HashMap<String, Integer> notPublic = new HashMap<String, Integer>();
+                        HashMap<String, Integer> inPublic = new HashMap<>();
+                        HashMap<String, Integer> notPublic = new HashMap<>();
 
                         for (SpenderInfo spender : main.spender) {
                             if (isInPublic(spender.getName())) {

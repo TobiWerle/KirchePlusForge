@@ -43,8 +43,7 @@ public class topActivity_Command extends CommandBase implements IClientCommand {
                 public void run() {
                     try {
                         TabellenMethoden.getActivitys();
-                    } catch (IOException ignored) {
-                    }
+                    } catch (IOException ignored) {}
 
                     Utils.displayMessage(new TextComponentString(TextFormatting.DARK_AQUA + " =============Top-Aktivität============="));
                     if (getTotalPlace(true) == null) {
@@ -78,8 +77,6 @@ public class topActivity_Command extends CommandBase implements IClientCommand {
             thread.start();
         }
     }
-
-
 
     public static String getTotalPlace(boolean b){
         ArrayList<Activity_User> totalActivity = Activity_User.getTotalActivityUsers(0);

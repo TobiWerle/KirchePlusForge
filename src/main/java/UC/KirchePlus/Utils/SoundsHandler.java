@@ -11,8 +11,6 @@ public class SoundsHandler {
     public static SoundEvent ENTITY_DRINK_MASTER;
     public static SoundEvent ENTITY_DRYOUT_MASTER;
 
-
-
     public static void registerSounds() {
 
         ENTITY_DRINK_MASTER = registerSound("entity.drink.master");

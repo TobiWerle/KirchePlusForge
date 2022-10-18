@@ -4,7 +4,6 @@ import java.util.ArrayList;
 public class SpenderUtils {
     public static ArrayList<publicDonators> publicDonations = new ArrayList<>();
 
-
     private static boolean isInPublic(String name){
         ArrayList<String> names = new ArrayList<>();
         for(publicDonators info : publicDonations){
@@ -14,7 +13,6 @@ public class SpenderUtils {
     }
 
     public static Integer getAmountByName(String name){
-
         for(publicDonators info : publicDonations){
             if(info.getName().equalsIgnoreCase(name)){
                 return info.getAmount();

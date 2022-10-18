@@ -21,9 +21,9 @@ import java.util.HashMap;
 public class Displayname {
 	
 
-	public static ArrayList<EntityPlayer> players = new ArrayList<EntityPlayer>();
+	public static ArrayList<EntityPlayer> players = new ArrayList<>();
 	
-	public static HashMap<String, HV_User> HVs = new HashMap<String, HV_User>();
+	public static HashMap<String, HV_User> HVs = new HashMap<>();
 
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -38,7 +38,7 @@ public class Displayname {
 			
 			if(HVs.containsKey(p.getName())) {
 				if(KircheConfig.HV) {
-					if(!TabellenMethoden.isDayOver(HVs.get(p.getName()).getBis())){
+					if(!TabellenMethoden.isDayOver(HVs.get(p.getName()).getUtilDate())){
 						prefix = KircheConfig.prefixHV.replace("&", "§") + "§f ";	
 					}
 				}

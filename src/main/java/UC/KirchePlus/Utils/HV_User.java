@@ -5,20 +5,20 @@ import UC.KirchePlus.Events.Displayname;
 public class HV_User {
 	
 	String name;
-	String von;
-	String grund;
-	String wann;
-	String bis;
-	String dauer;
+	String fromMember;
+	String reason;
+	String fromDate;
+	String utilDate;
+	String weeks;
 	
 	
 	public HV_User(String s, String s2, String s3, String s4,String s5, String s6) {
 		name = s;
-		von = s2;
-		grund = s3;
-		wann = s4;
-		bis = s5;
-		dauer = s6;
+		fromMember = s2;
+		reason = s3;
+		fromDate = s4;
+		utilDate = s5;
+		weeks = s6;
 		Displayname.HVs.put(s, this);
 	}
 
@@ -28,28 +28,28 @@ public class HV_User {
 	}
 
 
-	public String getVon() {
-		return von;
+	public String getFromMember() {
+		return fromMember;
 	}
 
 
-	public String getGrund() {
-		return grund;
+	public String getReason() {
+		return reason;
 	}
 
 
-	public String getWann() {
-		return wann;
+	public String getFromDate() {
+		return fromDate;
 	}
 
 
-	public String getBis() {
-		return bis;
+	public String getUtilDate() {
+		return utilDate;
 	}
 
 
-	public String getDauer() {
-		return dauer;
+	public String getWeeks() {
+		return weeks;
 	}
 
 

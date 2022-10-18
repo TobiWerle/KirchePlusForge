@@ -44,7 +44,6 @@ public class MarryRP_Command extends CommandBase implements IClientCommand{
 		return aliases;
 	}
 
-	// /marryrp mm Tobi unban
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		if(args.length != 3) {
@@ -55,9 +54,9 @@ public class MarryRP_Command extends CommandBase implements IClientCommand{
 		}
 		if(args.length == 3) {
 			types type = types.none;
-			if(args[0].toLowerCase().equals("mm")) type = types.MM;
-			if(args[0].toLowerCase().equals("mf")) type = types.MF;
-			if(args[0].toLowerCase().equals("ff")) type = types.FF;
+			if(args[0].equalsIgnoreCase("mm")) type = types.MM;
+			if(args[0].equalsIgnoreCase("mf")) type = types.MF;
+			if(args[0].equalsIgnoreCase("ff")) type = types.FF;
 			if(type == types.none) {
 				Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.RED + "Fehler bei den angegebenen Type. Verfügbare Typen:"));
 				Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.GRAY + "Type: MM" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Erstelle ein Mann-Mann RP Text"));
@@ -84,18 +83,27 @@ public class MarryRP_Command extends CommandBase implements IClientCommand{
 	@Override
 	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args,
 			BlockPos targetPos) {
-		List<String> tabs = new ArrayList<String>();
+		List<String> tabs = new ArrayList<>();
+		List<String> sub = new ArrayList<>();
 		if(args.length == 1) {
-			tabs.add("MM");
-			tabs.add("FF");
-			tabs.add("MF");
+			sub.add("MM");
+			sub.add("FF");
+			sub.add("MF");
+			String start = args[0].toLowerCase();
+			for(String subs : sub) {
+				if(subs.toLowerCase().startsWith(start)) {
+					tabs.add(subs);
+				}
+			}
+			return tabs;
+
 		}
 		
 		if(args.length == 2) {
 			tabs.clear();
 			
 			if(!args[1].isEmpty()) {
-				ArrayList<String> playerList = new ArrayList<String>();			
+				ArrayList<String> playerList = new ArrayList<>();
 	        	Collection<NetworkPlayerInfo> playersC =Minecraft.getMinecraft().getConnection().getPlayerInfoMap();   	
 	        	playersC.forEach((loadedPlayer) -> {
 	    			String name = loadedPlayer.getGameProfile().getName();
@@ -110,7 +118,7 @@ public class MarryRP_Command extends CommandBase implements IClientCommand{
 				return tabs;
 			}
 			
-			ArrayList<String> playerList = new ArrayList<String>();			
+			ArrayList<String> playerList = new ArrayList<>();
         	Collection<NetworkPlayerInfo> playersC =Minecraft.getMinecraft().getConnection().getPlayerInfoMap();
         	playersC.forEach((loadedPlayer) -> {
     			String name = loadedPlayer.getGameProfile().getName();
@@ -126,7 +134,7 @@ public class MarryRP_Command extends CommandBase implements IClientCommand{
 			tabs.clear();
 			
 			if(!args[1].isEmpty()) {
-				ArrayList<String> playerList = new ArrayList<String>();		
+				ArrayList<String> playerList = new ArrayList<>();
 	        	Collection<NetworkPlayerInfo> playersC =Minecraft.getMinecraft().getConnection().getPlayerInfoMap();
 	        	playersC.forEach((loadedPlayer) -> {
 	    			String name = loadedPlayer.getGameProfile().getName();
@@ -141,7 +149,7 @@ public class MarryRP_Command extends CommandBase implements IClientCommand{
 				return tabs;
 			}
 			
-			ArrayList<String> playerList = new ArrayList<String>();			
+			ArrayList<String> playerList = new ArrayList<>();
         	Collection<NetworkPlayerInfo> playersC =Minecraft.getMinecraft().getConnection().getPlayerInfoMap();
         	playersC.forEach((loadedPlayer) -> {
     			String name = loadedPlayer.getGameProfile().getName();

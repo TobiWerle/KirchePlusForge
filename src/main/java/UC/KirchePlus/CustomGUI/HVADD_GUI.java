@@ -86,10 +86,9 @@ public class HVADD_GUI extends GuiScreen {
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) throws IOException {
+    protected void actionPerformed(GuiButton button) {
         switch (button.id){
             case 0:
-
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -121,6 +120,7 @@ public class HVADD_GUI extends GuiScreen {
                             Utils.displayMessage(new TextComponentString(TextFormatting.RED + "§cMit Rang 4 darfst du maximal 4 Wochen vergeben!"));
                             return;
                         }
+
                         Calendar calendar = Calendar.getInstance();
                         calendar.setTime(new Date());
                         calendar.add(Calendar.DATE, 7*Integer.parseInt(weeks.getText()));

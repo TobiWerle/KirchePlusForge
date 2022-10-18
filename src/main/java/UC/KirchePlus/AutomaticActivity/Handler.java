@@ -137,7 +137,7 @@ public class Handler {
         file1.mkdir();
         BufferedImage bufferedimage = ScreenShotHelper.createScreenshot(Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight, Minecraft.getMinecraft().getFramebuffer());
         File file2 = new File(file1, "lastActivity.jpg");
-        file2 = file2.getCanonicalFile(); // FORGE: Fix errors on Windows with paths that include \.\
+        file2 = file2.getCanonicalFile();
         net.minecraftforge.client.event.ScreenshotEvent event = net.minecraftforge.client.ForgeHooksClient.onScreenshot(bufferedimage, file2);
         ImageIO.write(bufferedimage, "jpg", file2);
 
@@ -159,10 +159,7 @@ public class Handler {
     static BufferedImage addTextWatermark(BufferedImage image) {
         DateTimeFormatter date = DateTimeFormatter.ofPattern("dd.MM.yyy HH:mm");
         LocalDateTime now = LocalDateTime.now();
-
         Graphics2D g2d = (Graphics2D) image.getGraphics();
-
-        // initializes necessary graphic properties
         AlphaComposite alphaChannel = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f);
         g2d.setComposite(alphaChannel);
         g2d.setColor(Color.MAGENTA);
@@ -170,10 +167,8 @@ public class Handler {
         FontMetrics fontMetrics = g2d.getFontMetrics();
         Rectangle2D rect = fontMetrics.getStringBounds(date.format(now), g2d);
 
-        // calculates the coordinate where the String is painted
         int centerX = (image.getWidth() - (int) rect.getWidth()) / 2;
         int centerY = image.getHeight() / 2;
-        // paints the textual watermark
 
         g2d.drawString(date.format(now), centerX, centerY-100);
         g2d.drawString(Minecraft.getMinecraft().player.getName(), centerX, centerY-50);

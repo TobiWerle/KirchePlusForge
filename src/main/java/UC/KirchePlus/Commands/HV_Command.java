@@ -48,7 +48,6 @@ public class HV_Command extends CommandBase implements IClientCommand {
 		aliases.add("hausverbot");
 		return aliases;
 	}
-	
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
@@ -93,7 +92,7 @@ public class HV_Command extends CommandBase implements IClientCommand {
 				ArrayList<String> online = new ArrayList<String>();
 				for(String name : Displayname.HVs.keySet()) {
 					if(!isOnline(name)) {
-						if(!TabellenMethoden.isDayOver(Displayname.HVs.get(name).getBis())) {
+						if(!TabellenMethoden.isDayOver(Displayname.HVs.get(name).getUtilDate())) {
 							Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - "+name ));
 						}else {
 							Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - "+ TextFormatting.RED +name));
@@ -101,7 +100,7 @@ public class HV_Command extends CommandBase implements IClientCommand {
 					}else online.add(name);
 				}
 				for(String name : online) {
-					if(!TabellenMethoden.isDayOver(Displayname.HVs.get(name).getBis())) {
+					if(!TabellenMethoden.isDayOver(Displayname.HVs.get(name).getUtilDate())) {
 						Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.GREEN + " - " +name));
 					}else {
 						Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.GREEN + " - " +TextFormatting.RED +name));
@@ -153,12 +152,12 @@ public class HV_Command extends CommandBase implements IClientCommand {
 								TextFormatting.DARK_BLUE + "[]"));
 						Utils.displayMessage(new TextComponentString(""));
 						Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " -" + TextFormatting.GRAY +" Wer: " + TextFormatting.RED + users.getName()));
-						Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " -" + TextFormatting.GRAY +" Von: " + TextFormatting.RED + users.getVon()));
-						Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " -" + TextFormatting.GRAY +" Grund: " + TextFormatting.RED + users.getGrund()));
-						Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " -" + TextFormatting.GRAY +" Wann: " + TextFormatting.RED + users.getWann()));
-						Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " -" + TextFormatting.GRAY +" Bis: " + TextFormatting.RED + users.getBis()));
-						String str = ""; if(!users.getDauer().equals("Permanent")) str = " Wochen";
-						Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " -" + TextFormatting.GRAY +" Dauer: " + TextFormatting.RED + users.getDauer() + str));
+						Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " -" + TextFormatting.GRAY +" Von: " + TextFormatting.RED + users.getFromMember()));
+						Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " -" + TextFormatting.GRAY +" Grund: " + TextFormatting.RED + users.getReason()));
+						Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " -" + TextFormatting.GRAY +" Wann: " + TextFormatting.RED + users.getFromDate()));
+						Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " -" + TextFormatting.GRAY +" Bis: " + TextFormatting.RED + users.getUtilDate()));
+						String str = ""; if(!users.getWeeks().equals("Permanent")) str = " Wochen";
+						Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " -" + TextFormatting.GRAY +" Dauer: " + TextFormatting.RED + users.getWeeks() + str));
 						Utils.displayMessage(new TextComponentString(""));
 						return;
 					}
@@ -186,13 +185,22 @@ public class HV_Command extends CommandBase implements IClientCommand {
 	@Override
 	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args,
 			BlockPos targetPos) {
-		List<String> tabs = new ArrayList<String>();
+		List<String> sub = new ArrayList<>();
+		List<String> tabs = new ArrayList<>();
 		if(args.length == 1) {
-			tabs.add("list");
-			tabs.add("help");
-			tabs.add("info");
-			tabs.add("namecheck");
-			tabs.add("add");
+			sub.add("list");
+			sub.add("help");
+			sub.add("info");
+			sub.add("namecheck");
+			sub.add("add");
+
+			String start = args[0].toLowerCase();
+			for(String subs : sub) {
+				if(subs.toLowerCase().startsWith(start)) {
+					tabs.add(subs);
+				}
+			}
+			return tabs;
 		}	
 		if(args[0].equalsIgnoreCase("info")) {
 			tabs.clear();
@@ -209,20 +217,22 @@ public class HV_Command extends CommandBase implements IClientCommand {
 			tabs.addAll(Displayname.HVs.keySet());
 			
 		}
-		if(!args[1].isEmpty()) {
-			ArrayList<String> playerList = new ArrayList<>();
-			Collection<NetworkPlayerInfo> playersC = Minecraft.getMinecraft().getConnection().getPlayerInfoMap();
-			playersC.forEach((loadedPlayer) -> {
-				String name = loadedPlayer.getGameProfile().getName();
-				playerList.add(name);
-			});
+		if(args[0].equalsIgnoreCase("add")) {
+			if(!args[1].isEmpty()) {
+				ArrayList<String> playerList = new ArrayList<>();
+				Collection<NetworkPlayerInfo> playersC = Minecraft.getMinecraft().getConnection().getPlayerInfoMap();
+				playersC.forEach((loadedPlayer) -> {
+					String name = loadedPlayer.getGameProfile().getName();
+					playerList.add(name);
+				});
 
-			for(String players : playerList) {
-				if(players.toLowerCase().startsWith(args[2].toLowerCase())) {
-					tabs.add(players);
+				for(String players : playerList) {
+					if(players.toLowerCase().startsWith(args[1].toLowerCase())) {
+						tabs.add(players);
+					}
 				}
+				return tabs;
 			}
-			return tabs;
 		}
 		return tabs;
 	}

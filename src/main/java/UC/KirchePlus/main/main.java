@@ -47,37 +47,16 @@ public class main {
 
     //DONE
         //Check Upload Server down
-        //
         //ADD UPDATE MESSAGE
         //fix updateNames
         //fix HV namecheck
         //fix Sheet namechange error.
-
-
+        // /HV ADD | GUI öffnet sich wo man alles eintragen kann. (Ab R3 wegen Tabellen Rechte)
+        // /topactivity
+        // Thirsty/Dryout warner
+        // BETTER TABCOMPLETION | Halt wenn man was eintippt, bekommt er das, was besser passt. Wie bei Namen
 
     //TODO
-    // /HV ADD | GUI öffnet sich wo man alles eintragen kann. (Ab R3 wegen Tabellen Rechte)
-    // BETTER TABCOMPLETION | Halt wenn man was eintippt, bekommt er das, was besser passt. Wie bei Namen
-    // /aSegen <Name> = /segen name + say "Gott segne dich <Name>" | Schauen wie man das macht wegen GD.... Sollen die sich abwechseln?
-    // /announceevent <Eventtext> - Gibt eine Discord Nachricht aus. Mit DC Bot (IDK KANN ICH NICHT!)
-
-
-
-/*
-
-        Top-List Akti:
-        1. Name RP Spenden
-
-
-
-        _________________-
-        Deine Akti punktzahl beträgt:
-        Name: Player.getname
-        Roleplay-Aktis:
-        Spenden-Aktis:
-
-
-
- */
+    // /GDEinteilung?? | Öffnet GUI, wo man überall Namen eingeben darf. Begrüßung, Texte und so.
 
 }

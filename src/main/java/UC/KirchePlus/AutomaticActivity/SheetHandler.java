@@ -54,8 +54,9 @@ public class SheetHandler {
         if(MemberSheet == null){
             getMemberOwnSheet();
         }
-        System.out.println("Dein Rang ist: " + MemberSheet.getProperties().getTitle().charAt(1));
-        return MemberSheet.getProperties().getTitle().charAt(1);
+        String rang = String.valueOf(MemberSheet.getProperties().getTitle().charAt(1));
+        System.out.println("Dein Rang ist: " + Integer.parseInt(rang));
+        return Integer.parseInt(rang);
     }
 
     public static void saveActivity(activityTypes type) throws IOException {
@@ -75,9 +76,6 @@ public class SheetHandler {
                     Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Der Screenshot konnte nicht hochgeladen werden! Versuche es erneut!"));
                     return;
                 }
-
-
-
                 DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyy");
                 DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
                 LocalDateTime now = LocalDateTime.now();

@@ -15,8 +15,6 @@ public class ServerTokenHandler {
 
         @SubscribeEvent
         public static void onChatReceived(ClientChatReceivedEvent e){
-
-                //Abfragen ob es auf KirchePlus Server ist!
                 String message = e.getMessage().getUnformattedText();
                 if(message.startsWith("Token:")){
                         String token = message.replace("Token: ", "");

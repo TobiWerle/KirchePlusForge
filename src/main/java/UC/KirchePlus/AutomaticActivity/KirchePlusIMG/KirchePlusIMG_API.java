@@ -101,8 +101,6 @@ public class KirchePlusIMG_API {
 
     }
 
-
-
     private static String toBase64(File file) throws IOException {
         byte[] fileContent = Files.readAllBytes(file.toPath());
         return Base64.getEncoder().encodeToString(fileContent);

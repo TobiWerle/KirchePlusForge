@@ -72,7 +72,6 @@ public class HV_ADD {
     }
 
     private static ValueRange getSpace(List<String> ranges) throws IOException {
-
         List<String> range = new ArrayList<String>();
         for(String s : ranges){
             range.add("Hausverbote!" +s);
