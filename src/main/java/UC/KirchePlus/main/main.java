@@ -56,6 +56,7 @@ public class main {
         // Thirsty/Dryout warner
         // BETTER TABCOMPLETION | Halt wenn man was eintippt, bekommt er das, was besser passt. Wie bei Namen
 
+
     //TODO
     // /GDEinteilung?? | Öffnet GUI, wo man überall Namen eingeben darf. Begrüßung, Texte und so.
 
