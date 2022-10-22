@@ -18,10 +18,7 @@ public class main {
     public static final String MODID = "kirche+";
     public static final String VERSION = "3.0";
     public static ArrayList<SpenderInfo> spender = new ArrayList<>();
-
     public static HashMap<Activity_User, Integer> totalActivity = new HashMap<>();
-    public static HashMap<Activity_User, Integer> donationActivity = new HashMap<>();
-    public static HashMap<Activity_User, Integer> roleplayActivity = new HashMap<>();
 
     @EventHandler
     public void init(FMLInitializationEvent event)  {
@@ -43,21 +40,4 @@ public class main {
         ClientCommandHandler.instance.registerCommand(new SaveActivity_Command());
         ClientCommandHandler.instance.registerCommand(new topActivity_Command());
     }
-
-
-    //DONE
-        //Check Upload Server down
-        //ADD UPDATE MESSAGE
-        //fix updateNames
-        //fix HV namecheck
-        //fix Sheet namechange error.
-        // /HV ADD | GUI öffnet sich wo man alles eintragen kann. (Ab R3 wegen Tabellen Rechte)
-        // /topactivity
-        // Thirsty/Dryout warner
-        // BETTER TABCOMPLETION | Halt wenn man was eintippt, bekommt er das, was besser passt. Wie bei Namen
-
-
-    //TODO
-    // /GDEinteilung?? | Öffnet GUI, wo man überall Namen eingeben darf. Begrüßung, Texte und so.
-
 }

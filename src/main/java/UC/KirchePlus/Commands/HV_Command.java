@@ -79,6 +79,8 @@ public class HV_Command extends CommandBase implements IClientCommand {
 				Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv list" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Gibt eine Liste mit allen Spielern aus, die Hausverbot haben."));
 				Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv namecheck" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Überprüft ob es Fehler bei den eingetragenen Spielernamen gibt."));
 				Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv info <User>" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Zeigt die Hausverbot-Infos zum Spieler."));
+				Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv add <User>" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Trägt ein Hausverbot ein."));
+
 			}else
 			if(args[0].equalsIgnoreCase("list")) {
 				Utils.displayMessage(new TextComponentString(
@@ -136,6 +138,7 @@ public class HV_Command extends CommandBase implements IClientCommand {
 				Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv " + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "synchronisiere die Hausverbote mit dem Client."));
 				Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv list" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Gibt eine Liste mit allen Spielern aus, die Hausverbot haben."));
 				Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv info <User>" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Zeigt die Hausverbot-Infos zum Spieler."));
+				Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/hv add <User>" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Trägt ein Hausverbot ein."));
 			}
 		}
 		if(args.length == 2) {
@@ -165,9 +168,12 @@ public class HV_Command extends CommandBase implements IClientCommand {
 			}
 
 			if(args[0].equalsIgnoreCase("add")){
+				if(args[1].length() > 16){
+					Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Der Name darf nicht länger als 16 Zeichen lang sein!"));
+					return;
+				}
 				DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyy");
 				LocalDateTime now = LocalDateTime.now();
-
 				HV_ADD.temp_fromMember = Minecraft.getMinecraft().player.getName();
 				HV_ADD.temp_fromDate = dateFormatter.format(now);
 				HV_ADD.temp_Who = args[1];

@@ -21,8 +21,6 @@ public class Activity_User {
 
     }
 
-
-
     public String getName() { return name; }
 
     public String getRpActivity() { return rpActivity; }
@@ -48,50 +46,12 @@ public class Activity_User {
         return users;
     }
 
-    public static ArrayList<Activity_User> getDonationActivityUsers(int place){
-        int lastCount = Integer.parseInt(((Activity_User) main.donationActivity.keySet().toArray()[place]).getTotalActivity());
-        ArrayList<Activity_User> users = new ArrayList<>();
-        users.add((Activity_User)main.donationActivity.keySet().toArray()[place]);
-
-        for(Activity_User user : main.donationActivity.keySet()){
-            if(!users.contains(user)){
-                if(Integer.parseInt(user.getTotalActivity()) == lastCount){
-                    users.add(user);
-                }
-            }
-        }
-        return users;
-    }
-    public static ArrayList<Activity_User> getRoleplayActivityUsers(int place){
-        int lastCount = Integer.parseInt(((Activity_User) main.roleplayActivity.keySet().toArray()[place]).getTotalActivity());
-        ArrayList<Activity_User> users = new ArrayList<>();
-        users.add((Activity_User)main.roleplayActivity.keySet().toArray()[place]);
-
-        for(Activity_User user : main.roleplayActivity.keySet()){
-            if(!users.contains(user)){
-                if(Integer.parseInt(user.getTotalActivity()) == lastCount){
-                    users.add(user);
-                }
-            }
-        }
-        return users;
-    }
-
-
     public static Activity_User getSelf(){
-        for(Activity_User user : main.donationActivity.keySet()){
+        for(Activity_User user : main.totalActivity.keySet()){
             if(user.getName().equals(Minecraft.getMinecraft().player.getName())){
                 return user;
             }
         }
         return null;
     }
-
-
-
-
-
-
-
-
 }

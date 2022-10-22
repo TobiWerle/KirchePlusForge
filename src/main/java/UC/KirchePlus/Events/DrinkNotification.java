@@ -68,5 +68,4 @@ private static void cooldown() {
         }
 
     }
-
 }

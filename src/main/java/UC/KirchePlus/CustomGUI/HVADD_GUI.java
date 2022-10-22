@@ -124,7 +124,7 @@ public class HVADD_GUI extends GuiScreen {
                         Calendar calendar = Calendar.getInstance();
                         calendar.setTime(new Date());
                         calendar.add(Calendar.DATE, 7*Integer.parseInt(weeks.getText()));
-                        DateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+                        DateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
 
                         HV_ADD.temp_untilDate = dateFormatter.format(calendar.getTime());
                         HV_ADD.temp_weeks = weeks.getText();
@@ -156,8 +156,6 @@ public class HVADD_GUI extends GuiScreen {
                 weeks.textboxKeyTyped(typedChar, keyCode);
             }
             reason.textboxKeyTyped(typedChar, keyCode);
-
-
         super.keyTyped(typedChar, keyCode);
     }
 }

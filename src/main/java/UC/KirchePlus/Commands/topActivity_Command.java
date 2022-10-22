@@ -44,6 +44,8 @@ public class topActivity_Command extends CommandBase implements IClientCommand {
                     try {
                         TabellenMethoden.getActivitys();
                     } catch (IOException ignored) {}
+                    Activity_User self = Activity_User.getSelf();
+                    String arrow = " ➜ ";
 
                     Utils.displayMessage(new TextComponentString(TextFormatting.DARK_AQUA + " =============Top-Aktivität============="));
                     if (getTotalPlace(true) == null) {
@@ -51,7 +53,6 @@ public class topActivity_Command extends CommandBase implements IClientCommand {
                         Utils.displayMessage(new TextComponentString(TextFormatting.DARK_AQUA + " =============Top-Aktivität============="));
                         return;
                     }
-                    String arrow = " ➜ ";
                     if (getTotalPlace(true) != null)
                         Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.GOLD + " 1." + getTotalPlace(false)));
                     if (getTotalPlace(true) != null)
@@ -63,7 +64,7 @@ public class topActivity_Command extends CommandBase implements IClientCommand {
                     if (getTotalPlace(true) != null)
                         Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.GOLD + " 5." + getTotalPlace(false)));
                     Utils.displayMessage(new TextComponentString(TextFormatting.DARK_AQUA + " ===========Deine Aktivität=============="));
-                    Activity_User self = Activity_User.getSelf();
+
                     Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.AQUA + "Name: " + self.getName()));
                     Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.AQUA + "Gesamt: " + self.getTotalActivity()));
                     Utils.displayMessage(new TextComponentString(TextFormatting.GRAY + arrow + TextFormatting.AQUA + "Roleplay: " + self.getRpActivity()));

@@ -20,7 +20,7 @@ public class UpdateCheck {
     private static boolean updateStatus = true;
 
     @SubscribeEvent
-    public static void onJoinWorld(EntityJoinWorldEvent e){
+    public static void onWorldJoin(EntityJoinWorldEvent e){
         if(e.getEntity() != null && e.getEntity() instanceof EntityPlayer) {
             if(!sended && !updateStatus){
                 sended = true;
@@ -28,7 +28,6 @@ public class UpdateCheck {
             }
         }
     }
-
 
     public static void updateCheck() {
         try {
