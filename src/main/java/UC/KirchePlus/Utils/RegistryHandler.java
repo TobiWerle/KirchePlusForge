@@ -10,7 +10,7 @@ public class RegistryHandler {
         } catch (IOException e) {
             System.out.println("Fehler beim kopieren der Sounds");
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 }

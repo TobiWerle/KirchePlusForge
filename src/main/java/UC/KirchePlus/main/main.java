@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -19,10 +20,19 @@ public class main {
     public static final String VERSION = "3.0";
     public static ArrayList<SpenderInfo> spender = new ArrayList<>();
     public static HashMap<Activity_User, Integer> totalActivity = new HashMap<>();
+    public static ArrayList<FactionContract> FactionContracs = new ArrayList<>();
 
     @EventHandler
-    public void init(FMLInitializationEvent event)  {
-    	TabellenMethoden.init();
+    public void init(FMLInitializationEvent event) {
+
+        try {
+            VertragInfo_Command.loadFactionInfoJSON();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        TabellenMethoden.init();
     	MarryFile.load();
         RegistryHandler.initRegistries();
         UpdateCheck.updateCheck();
@@ -39,5 +49,6 @@ public class main {
         ClientCommandHandler.instance.registerCommand(new aEquip());
         ClientCommandHandler.instance.registerCommand(new SaveActivity_Command());
         ClientCommandHandler.instance.registerCommand(new topActivity_Command());
+        ClientCommandHandler.instance.registerCommand(new VertragInfo_Command());
     }
 }

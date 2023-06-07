@@ -40,7 +40,7 @@ public class Handler {
     public static String topic = "";
     public static int amount = 0;
     public static boolean isDonation = false;
-
+    static boolean churchdonation = false;
     public static SheetHandler.activityTypes activityType;
 
     static String[] ranks = {
@@ -129,6 +129,28 @@ public class Handler {
             topic = arr[1] + " & " + arr[3];
             return;
         }
+
+        if(unformattedText.startsWith("Danke") && unformattedText.contains("die Spende!")){
+            churchdonation = true;
+            System.out.println("Es wurde eine Spende lokalisiert!");
+            return;
+        }
+        if(churchdonation) {
+            if(unformattedText.contains("$") && unformattedText.contains("-")){
+                int donation = Integer.parseInt(unformattedText.replace("  -", "").replace("$", ""));
+                System.out.println("Es wurde gespendet: " + donation);
+                amount = donation;
+                churchdonation = false;
+                ITextComponent newMessage = new TextComponentString(message.getFormattedText().replace("[⬆]", ""));
+                Style style = new Style().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponentString(TextFormatting.DARK_AQUA + "Aktivität eintragen"))).
+                        setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/saveactivity money"));
+                newMessage.setStyle(style);
+                newMessage.appendSibling(new TextComponentString(TextFormatting.BLUE + " {⬆}"));
+                e.setMessage(newMessage);
+                return;
+            }
+        }
+
     }
 
 

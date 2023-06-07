@@ -44,15 +44,16 @@ private static void cooldown() {
         if (KircheConfig.Drink) {
             EntityPlayer p = Minecraft.getMinecraft().player;
             if (unformattedText.contains("§bDu bist durstig")) {
+
+                //WARUM 2x DISPLAY TITLE???? TESTEN NUR EINMAL!!!
                 Minecraft.getMinecraft().ingameGUI.displayTitle("§bDu bist durstig!", "", 1, 3 * 20, 4);
-                Minecraft.getMinecraft().ingameGUI.displayTitle(null, "§cDu solltest etwas Trinken", 1, 3 * 20, 4);
+                Minecraft.getMinecraft().ingameGUI.displayTitle(null, "§cDu solltest etwas trinken", 1, 3 * 20, 4);
                 if(KircheConfig.DrinkSound) {
                     p.getEntityWorld().playSound(p, p.getPosition(), SoundsHandler.ENTITY_DRINK_MASTER, SoundCategory.MASTER, 2F, 1.0F);
                     p.getEntityWorld().playSound(p, p.getPosition(), SoundEvents.BLOCK_NOTE_BELL, SoundCategory.MASTER, 2F, 1.3F);
                 }
                 cooldown = true;
                 cooldown();
-
             } else if (unformattedText.contains("§cDu verdurstest...")) {
                 Minecraft.getMinecraft().ingameGUI.displayTitle("§cDU VERDURSTEST!", "", 1, 5 * 20, 4);
                 Minecraft.getMinecraft().ingameGUI.displayTitle(null, "§cTRINK SCHNELL ETWAS!!!!!", 1, 5 * 20, 4);
