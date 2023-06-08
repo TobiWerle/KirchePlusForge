@@ -30,17 +30,18 @@ import java.util.stream.Collectors;
 
 
 public class TabellenMethoden {
-	
+
 	public static Sheets sheetsService;
 	public static String APPLICATION_NAME = "Hausverbot Kirche";
 	public static String SPREADSHEET_ID = "1qBE8L2aL22BRdwfOOdsTd7rBRzwGjGFx2Bui0ZOaf0s";
 	public static ArrayList<String> memberSheets = new ArrayList<>();
+	public static boolean ownLoaded = false;
 
-	
+
 	public static Credential authorize()throws IOException, GeneralSecurityException{
 		InputStream in = TabellenMethoden.class.getResourceAsStream("/credentials.json");
 		GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(GsonFactory.getDefaultInstance(), new InputStreamReader(in));
-		
+
 		List<String> scopes = Arrays.asList(SheetsScopes.SPREADSHEETS);
 
 		if(!KircheConfig.ownGMail){
@@ -56,6 +57,7 @@ public class TabellenMethoden {
 			return credential;
 		}
 
+		ownLoaded = true;
 		GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
 				GoogleNetHttpTransport.newTrustedTransport(), GsonFactory.getDefaultInstance(),
 				clientSecrets, scopes)
@@ -65,11 +67,10 @@ public class TabellenMethoden {
 		Credential credential = new AuthorizationCodeInstalledApp(
 				flow, new LocalServerReceiver())
 				.authorize("user");
-
 		return credential;
-		
+
 	}
-	
+
 	public static Sheets getSheetsService() throws IOException, GeneralSecurityException{
 		Credential credential = authorize();
 		return new Sheets.Builder(GoogleNetHttpTransport.newTrustedTransport(),
@@ -77,25 +78,35 @@ public class TabellenMethoden {
 				.setApplicationName(APPLICATION_NAME)
 				.build();
 	}
-	
+
 	public static void init() {
-		File file = new File(System.getenv("APPDATA") + "/.minecraft/tokens");
-		if(!file.exists()) file.mkdirs();
+		Thread thread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				File file = new File(System.getenv("APPDATA") + "/.minecraft/tokens");
+				if(!file.exists()) file.mkdirs();
 
-		File credentialsFile = new File(System.getenv("APPDATA") + "/.minecraft/tokens/StoredCredential");
-		InputStream credentials = TabellenMethoden.class.getResourceAsStream("/StoredCredential");
-		if (!credentialsFile.exists())
-			try {
-				Files.copy(credentials, credentialsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-			} catch (IOException ignored) {
+				File credentialsFile = new File(System.getenv("APPDATA") + "/.minecraft/tokens/StoredCredential");
+				InputStream credentials = TabellenMethoden.class.getResourceAsStream("/StoredCredential");
+				if (!credentialsFile.exists())
+					try {
+						Files.copy(credentials, credentialsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+					} catch (IOException ignored) {
+					}
+
+				try {
+					sheetsService = getSheetsService();
+				} catch (IOException | GeneralSecurityException ignored) {}
 			}
-
-		try {
-			sheetsService = getSheetsService();
-		} catch (IOException | GeneralSecurityException ignored) {}
-
+		});
+		thread.start();
 	}
-	
+
+	public static void deleteOwn(){
+		File credentialsFile = new File(System.getenv("APPDATA") + "/.minecraft/tokens/own/StoredCredential");
+		credentialsFile.delete();
+	}
+
 	public static void getHVList() throws IOException, GeneralSecurityException {
 		Displayname.HVs.clear();
 		String range = "Hausverbote!B19:G92";
@@ -109,7 +120,7 @@ public class TabellenMethoden {
 		}else {
 			for(List row : values) {
 				try {
-					new HV_User(row.get(0).toString(), row.get(1).toString(), row.get(2).toString(), row.get(4).toString(), row.get(5).toString(), row.get(3).toString());	
+					new HV_User(row.get(0).toString(), row.get(1).toString(), row.get(2).toString(), row.get(4).toString(), row.get(5).toString(), row.get(3).toString());
 				} catch (Exception ignored) {}
 			}
 		}
@@ -233,16 +244,16 @@ public class TabellenMethoden {
         
         if(date.length == 2) {
             if(Integer.parseInt(date[0]) == currentday && Integer.parseInt(date[1]) == currentmonth) {
-            	return true;
+				return true;
             }
         }
         if(date.length == 3) {
             if(Integer.parseInt(date[0]) == currentday && Integer.parseInt(date[1]) == currentmonth && Integer.parseInt(date[2]) == currentyear) {
-            	return true;
+				return true;
             }
         }
-        
-    	return false;
+
+		return false;
     }
     
     public static boolean isDayOver(String s) {
@@ -259,16 +270,16 @@ public class TabellenMethoden {
         int monthEnd = Integer.parseInt(date[1]);
         
         if(date.length == 2) {
-        	if(currentday > dayEnd){
-        		if(currentmonth == monthEnd){
-        			return true;
+			if(currentday > dayEnd){
+				if(currentmonth == monthEnd){
+					return true;
 				}
 			}
         }
         if(date.length == 3) {
-        	int yearEnd = Integer.parseInt(date[2]);
+			int yearEnd = Integer.parseInt(date[2]);
 
-        	if(currentyear == yearEnd){
+			if(currentyear == yearEnd){
 				if(currentday > dayEnd){
 					if(currentmonth == monthEnd){
 						return true;
@@ -276,7 +287,7 @@ public class TabellenMethoden {
 				}
 			}
 		}
-    	return false;
+		return false;
     }
 
 

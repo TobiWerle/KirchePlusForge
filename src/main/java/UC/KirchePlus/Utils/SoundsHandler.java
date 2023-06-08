@@ -11,8 +11,7 @@ public class SoundsHandler {
     public static SoundEvent ENTITY_DRINK_MASTER;
     public static SoundEvent ENTITY_DRYOUT_MASTER;
 
-    public static void registerSounds() {
-
+    public static void registerSounds() throws Exception {
         ENTITY_DRINK_MASTER = registerSound("entity.drink.master");
         ENTITY_DRYOUT_MASTER = registerSound("entity.dryout.master");
     }
@@ -21,6 +20,7 @@ public class SoundsHandler {
         ResourceLocation location = new ResourceLocation(main.MODID, name);
         SoundEvent event = new SoundEvent(location);
         event.setRegistryName(name);
+
         ForgeRegistries.SOUND_EVENTS.register(event);
         return event;
     }
