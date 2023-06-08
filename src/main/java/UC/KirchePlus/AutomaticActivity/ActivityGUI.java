@@ -84,7 +84,7 @@ public class ActivityGUI extends GuiScreen {
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
         if(SheetHandler.MemberSheet == null){
-            Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Deine Tabelle wurde noch nicht geladen. Bitte warte etwas.!"));
+            Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Deine Tabelle wurde noch nicht geladen. Bitte warte etwas!"));
             return;
         }
         switch (button.id){

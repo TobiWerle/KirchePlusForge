@@ -39,6 +39,7 @@ public class HVADD_GUI extends GuiScreen {
 
         reason = new GuiTextField(2, fontRenderer, width / 2 - 50, height / 2 - 66, 100, 20);
         reason.setText("");
+        reason.setMaxStringLength(500);
         reason.setFocused(true);
         reason.setEnabled(true);
         reason.setCanLoseFocus(true);

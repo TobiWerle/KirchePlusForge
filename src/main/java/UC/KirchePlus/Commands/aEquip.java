@@ -76,19 +76,24 @@ public class aEquip extends CommandBase implements IClientCommand {
         if(args.length == 2){
            try {
                amount = Integer.parseInt(args[1]);
-               if(args[0].equalsIgnoreCase("brot")){
-                   slot = 0;
-                   enabled = true;
-                   Minecraft.getMinecraft().player.sendChatMessage("/equip");
-                   return;
-               }
-               if(args[0].equalsIgnoreCase("wasser")){
-                   slot = 1;
-                   enabled = true;
-                   Minecraft.getMinecraft().player.sendChatMessage("/equip");
+               if(amount <= 5){
+                   if(args[0].equalsIgnoreCase("brot")){
+                       slot = 0;
+                       enabled = true;
+                       Minecraft.getMinecraft().player.sendChatMessage("/equip");
+                       return;
+                   }
+                   if(args[0].equalsIgnoreCase("wasser")){
+                       slot = 1;
+                       enabled = true;
+                       Minecraft.getMinecraft().player.sendChatMessage("/equip");
+                   }
+               }else{
+                   Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Bitte gib eine Zahl an, die nicht über 5 ist."));
+                   Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/aequip <Wasser/Brot> {Anzahl}"));
                }
            }catch (Exception e){
-               Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Bitte gib eine Zahl an. "));
+               Utils.displayMessage(new TextComponentString(TextFormatting.RED + "Bitte gib eine Zahl an, die nicht über 5 ist."));
                Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/aequip <Wasser/Brot> {Anzahl}"));
            }
         }
