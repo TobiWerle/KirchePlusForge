@@ -56,10 +56,7 @@ public class VertragInfo_Command extends CommandBase implements IClientCommand {
             Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/vertraginfo info" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Zeigt dir an, mit wem die Kirche ein Vertrag hat."));
             Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/vertraginfo <Fraktion>" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Zeigt dir genaue Infos zum jeweiligen Vertrag an."));
             Utils.displayMessage(new TextComponentString(TextFormatting.DARK_GRAY + " - " + TextFormatting.AQUA + "/vertraginfo" + TextFormatting.DARK_GRAY + "-> " + TextFormatting.GRAY + "Zeigt dir diese Liste an und aktualisiert die Liste."));
-
-            try {
-                loadFactionInfoJSON();
-            } catch (IOException ignored) {}
+            loadFactionInfoJSON();
 
             return;
         }
@@ -93,6 +90,7 @@ public class VertragInfo_Command extends CommandBase implements IClientCommand {
                     if(conditions == null ) Utils.displayMessage(new TextComponentString(TextFormatting.WHITE + "   Konditionen: " + TextFormatting.RED + "Keine"));
                     if(conditions != null ) for(String conditionsString : conditions) Utils.displayMessage(new TextComponentString(TextFormatting.WHITE + "    "+conditionsString));
                     Utils.displayMessage(new TextComponentString(TextFormatting.DARK_AQUA + " ===================================="));
+                    return;
                 }
             }
 
@@ -130,34 +128,36 @@ public class VertragInfo_Command extends CommandBase implements IClientCommand {
         return false;
     }
 
-    public static void loadFactionInfoJSON() throws IOException {
-        main.FactionContracs.clear();
-        URL url = new URL("https://kircheplus-mod.de/api/factioncontract.json");
-        String result = IOUtils.toString(url, StandardCharsets.UTF_8);
+    public static void loadFactionInfoJSON() {
+        try {
+            main.FactionContracs.clear();
+            URL url = new URL("https://kircheplus-mod.de/api/factioncontract.json");
+            String result = IOUtils.toString(url, StandardCharsets.UTF_8);
 
-        JsonParser parser = new JsonParser();
-        JsonElement element = parser.parse(result);
-        JsonObject json = element.getAsJsonObject();
-        JsonArray faction = json.getAsJsonArray("factions");
+            JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(result);
+            JsonObject json = element.getAsJsonObject();
+            JsonArray faction = json.getAsJsonArray("factions");
 
-        for(int i = 0; i < faction.size(); i++){
-            JsonObject factionjson = (JsonObject) faction.get(i);
-            String name = factionjson.get("Name").getAsString();
-            boolean contract = factionjson.get("contract").getAsBoolean();
-            JsonArray conditionsArray = factionjson.get("conditions").getAsJsonArray();
-            String[] conditions = null;
+            for(int i = 0; i < faction.size(); i++){
+                JsonObject factionjson = (JsonObject) faction.get(i);
+                String name = factionjson.get("Name").getAsString();
+                boolean contract = factionjson.get("contract").getAsBoolean();
+                JsonArray conditionsArray = factionjson.get("conditions").getAsJsonArray();
+                String[] conditions = null;
 
-            if(conditionsArray.size() != 0){
-                conditions = new String[conditionsArray.size()];
-                for (int s = 0; s < conditionsArray.size(); s++) {
-                    conditions[s] = conditionsArray.get(s).getAsString();
+                if(conditionsArray.size() != 0){
+                    conditions = new String[conditionsArray.size()];
+                    for (int s = 0; s < conditionsArray.size(); s++) {
+                        conditions[s] = conditionsArray.get(s).getAsString();
+                    }
                 }
+                new FactionContract(name, contract, conditions);
             }
-            new FactionContract(name, contract, conditions);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-
     }
-
     public ArrayList<String> getFactions(){
         ArrayList<String> list = new ArrayList<>();
         for(FactionContract faction : main.FactionContracs){
@@ -165,5 +165,4 @@ public class VertragInfo_Command extends CommandBase implements IClientCommand {
         }
         return list;
     }
-
 }

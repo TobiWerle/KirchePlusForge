@@ -24,14 +24,7 @@ public class main {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-
-        try {
-            VertragInfo_Command.loadFactionInfoJSON();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
+        VertragInfo_Command.loadFactionInfoJSON();
         TabellenMethoden.init();
     	MarryFile.load();
         RegistryHandler.initRegistries();
@@ -39,7 +32,7 @@ public class main {
 		try {
 			TabellenMethoden.getHVList();
 			TabellenMethoden.getAllMemberSheets();
-		} catch (Exception e) {e.printStackTrace();}
+		} catch (Exception ignored) {}
     }
     @EventHandler
     public void preInit(FMLPreInitializationEvent e) {
