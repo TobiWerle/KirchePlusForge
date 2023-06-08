@@ -19,7 +19,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.IClientCommand;
 import org.apache.commons.io.IOUtils;
 
-import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -46,7 +45,7 @@ public class VertragInfo_Command extends CommandBase implements IClientCommand {
     @Override
     public List<String> getAliases() {
         List<String> aliases = new ArrayList<String>();
-        aliases.add("/vertraginfo");
+        aliases.add("vinfo");
         return aliases;
     }
 
