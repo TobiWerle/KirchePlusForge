@@ -1,23 +1,12 @@
 package UC.KirchePlus.CustomGUI;
 
-import UC.KirchePlus.AutomaticActivity.SheetHandler;
-import UC.KirchePlus.Utils.HV_ADD;
-import UC.KirchePlus.Utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class GD_GUI extends GuiScreen {
 
@@ -61,7 +50,7 @@ public class GD_GUI extends GuiScreen {
         y = 35;
         text = new GuiTextField(4, fontRenderer, width / 2 - 50, height / 2 - maxy + y, 100, 10);
         text.setText("");
-        brg.setMaxStringLength(500);
+        text.setMaxStringLength(500);
         text.setFocused(false);
         text.setEnabled(true);
         text.setCanLoseFocus(true);
@@ -74,7 +63,7 @@ public class GD_GUI extends GuiScreen {
         y = 60;
         vu = new GuiTextField(4, fontRenderer, width / 2 - 50, height / 2 - maxy + y, 100, 10);
         vu.setText("");
-        brg.setMaxStringLength(500);
+        vu.setMaxStringLength(500);
         vu.setFocused(false);
         vu.setEnabled(true);
         vu.setCanLoseFocus(true);
@@ -88,7 +77,7 @@ public class GD_GUI extends GuiScreen {
         y = 85;
         gbk = new GuiTextField(4, fontRenderer, width / 2 - 50, height / 2 - maxy + y, 100, 10);
         gbk.setText("");
-        brg.setMaxStringLength(500);
+        gbk.setMaxStringLength(500);
         gbk.setFocused(false);
         gbk.setEnabled(true);
         gbk.setCanLoseFocus(true);
@@ -102,7 +91,7 @@ public class GD_GUI extends GuiScreen {
         y = 110;
         vrab = new GuiTextField(4, fontRenderer, width / 2 - 50, height / 2 - maxy + y, 100, 10);
         vrab.setText("");
-        brg.setMaxStringLength(500);
+        vrab.setMaxStringLength(500);
         vrab.setFocused(false);
         vrab.setEnabled(true);
         vrab.setCanLoseFocus(true);
@@ -116,7 +105,7 @@ public class GD_GUI extends GuiScreen {
         y = 135;
         sgn = new GuiTextField(4, fontRenderer, width / 2 - 50, height / 2 - maxy + y, 100, 10);
         sgn.setText("");
-        brg.setMaxStringLength(500);
+        sgn.setMaxStringLength(500);
         sgn.setFocused(false);
         sgn.setEnabled(true);
         sgn.setCanLoseFocus(true);
@@ -130,7 +119,7 @@ public class GD_GUI extends GuiScreen {
         y = 165;
         spdn = new GuiTextField(4, fontRenderer, width / 2 - 50, height / 2 - maxy + y, 100, 10);
         spdn.setText("");
-        brg.setMaxStringLength(500);
+        spdn.setMaxStringLength(500);
         spdn.setFocused(false);
         spdn.setEnabled(true);
         spdn.setCanLoseFocus(true);

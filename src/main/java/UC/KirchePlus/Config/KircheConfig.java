@@ -1,7 +1,6 @@
 package UC.KirchePlus.Config;
 
 import UC.KirchePlus.Events.Displayname;
-import UC.KirchePlus.Utils.SoundsHandler;
 import UC.KirchePlus.Utils.TabellenMethoden;
 import UC.KirchePlus.main.main;
 import net.minecraft.client.Minecraft;

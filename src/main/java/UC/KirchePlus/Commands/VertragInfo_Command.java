@@ -17,10 +17,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.IClientCommand;
-import org.apache.commons.io.IOUtils;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSocketFactory;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -130,11 +132,9 @@ public class VertragInfo_Command extends CommandBase implements IClientCommand {
     public static void loadFactionInfoJSON() {
         try {
             main.FactionContracs.clear();
-            URL url = new URL("https://kircheplus-mod.de/api/factioncontract.json");
-            String result = IOUtils.toString(url, StandardCharsets.UTF_8);
 
             JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(result);
+            JsonElement element = parser.parse(getJson());
             JsonObject json = element.getAsJsonObject();
             JsonArray faction = json.getAsJsonArray("factions");
 
@@ -151,11 +151,39 @@ public class VertragInfo_Command extends CommandBase implements IClientCommand {
                         conditions[s] = conditionsArray.get(s).getAsString();
                     }
                 }
+                System.out.println(name + contract);
                 new FactionContract(name, contract, conditions);
             }
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public static String getJson() {
+        String jsonUrl = "https://kircheplus-mod.de/api/factioncontract.json"; // Die URL der JSON-Datei hier eintragen
+
+        try {
+            SSLSocketFactory socketFactory = Utils.socketFactory();
+            URL url = new URL(jsonUrl);
+            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+            conn.setSSLSocketFactory(socketFactory);
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line;
+            StringBuilder response = new StringBuilder();
+
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            reader.close();
+            conn.disconnect();
+            String json = response.toString();
+            return json;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
     public ArrayList<String> getFactions(){
         ArrayList<String> list = new ArrayList<>();
@@ -164,4 +192,5 @@ public class VertragInfo_Command extends CommandBase implements IClientCommand {
         }
         return list;
     }
+
 }

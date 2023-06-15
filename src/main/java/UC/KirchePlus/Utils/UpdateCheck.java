@@ -7,6 +7,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -40,9 +41,11 @@ public class UpdateCheck {
     }
 
     private static String getVersion() throws IOException {
-        URL uri= new URL("https://kircheplus-mod.de/api/version.txt");
-        URLConnection connection = uri.openConnection();
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
+        URL url = new URL("https://kircheplus-mod.de/api/version.txt");
+        HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+        con.setSSLSocketFactory(Utils.socketFactory());
+
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
         String input;
         StringBuilder builder = new StringBuilder();
         while ((input = bufferedReader.readLine()) != null) builder.append(input);
