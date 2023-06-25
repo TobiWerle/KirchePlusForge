@@ -25,7 +25,7 @@ public class main {
     public void init(FMLInitializationEvent event) {
         VertragInfo_Command.loadFactionInfoJSON();
         TabellenMethoden.init();
-    	MarryFile.load();
+    	//MarryFile.load();
         RegistryHandler.initRegistries();
         UpdateCheck.updateCheck();
 		try {
@@ -36,7 +36,7 @@ public class main {
     @EventHandler
     public void preInit(FMLPreInitializationEvent e) {
     	ClientCommandHandler.instance.registerCommand(new HV_Command());
-    	ClientCommandHandler.instance.registerCommand(new MarryRP_Command());
+    	//ClientCommandHandler.instance.registerCommand(new MarryRP_Command());
         ClientCommandHandler.instance.registerCommand(new checkDonations_Command());
         ClientCommandHandler.instance.registerCommand(new aEquip());
         ClientCommandHandler.instance.registerCommand(new SaveActivity_Command());
