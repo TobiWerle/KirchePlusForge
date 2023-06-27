@@ -63,12 +63,14 @@ public class aEquip extends CommandBase implements IClientCommand {
             if(args[0].equalsIgnoreCase("wasser")){
                 slot = 1;
                 enabled = true;
+                amount = 1;
                 Minecraft.getMinecraft().player.sendChatMessage("/equip");
                 return;
             }
             if(args[0].equalsIgnoreCase("brot")){
                 slot = 0;
                 enabled = true;
+                amount = 1;
                 Minecraft.getMinecraft().player.sendChatMessage("/equip");
                 return;
             }
@@ -135,6 +137,7 @@ public class aEquip extends CommandBase implements IClientCommand {
     public boolean allowUsageWithoutPrefix(ICommandSender sender, String message) {
         return false;
     }
+
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onGuiOpen(GuiOpenEvent e) {
         if(!enabled)return;
@@ -144,6 +147,7 @@ public class aEquip extends CommandBase implements IClientCommand {
                 amount--;
                 return;
             }
+            /*
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
@@ -153,7 +157,7 @@ public class aEquip extends CommandBase implements IClientCommand {
                     container.detectAndSendChanges();
                     Minecraft.getMinecraft().player.openContainer.detectAndSendChanges();
                 }
-            }, 20);
+            }, 20);*/
         }
     }
 
@@ -178,6 +182,7 @@ public class aEquip extends CommandBase implements IClientCommand {
                     Minecraft.getMinecraft().player.openContainer.detectAndSendChanges();
 
                     Thread.sleep(700);
+
                     if(amount != 0){
                         Minecraft.getMinecraft().player.sendChatMessage("/equip");
                     }else {
