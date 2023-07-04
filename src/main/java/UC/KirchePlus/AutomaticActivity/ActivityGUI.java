@@ -342,7 +342,7 @@ public class ActivityGUI extends GuiScreen {
         if(eventPage){
             buttonList.add(new GuiButton(0,width / 2 - 50, height / 2 - 98, 100, 20, "SHG"));
             buttonList.add(new GuiButton(1,width / 2 - 50, height / 2 - 76, 100, 20, "Tafel"));
-            buttonList.add(new GuiButton(2,width / 2 - 50, height / 2 - 54, 100, 20, "SpendeEvent"));
+            buttonList.add(new GuiButton(2,width / 2 - 50, height / 2 - 54, 100, 20, "Spendenevent"));
             buttonList.add(new GuiButton(3,width / 2 - 50, height / 2 - 32, 100, 20, "Beichtevent"));
 
             buttonList.add(new GuiButton(4,width / 2 - 50, height / 2 - 10, 100, 20, "JGA"));

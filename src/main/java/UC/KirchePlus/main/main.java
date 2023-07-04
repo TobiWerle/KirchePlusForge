@@ -14,9 +14,9 @@ import java.util.HashMap;
 
 @Mod(modid = main.MODID, version = main.VERSION)
 public class main {
-	
+
     public static final String MODID = "kirche+";
-    public static final String VERSION = "3.1c";
+    public static final String VERSION = "3.2";
     public static ArrayList<SpenderInfo> spender = new ArrayList<>();
     public static HashMap<Activity_User, Integer> totalActivity = new HashMap<>();
     public static ArrayList<FactionContract> FactionContracs = new ArrayList<>();
@@ -25,18 +25,15 @@ public class main {
     public void init(FMLInitializationEvent event) {
         VertragInfo_Command.loadFactionInfoJSON();
         TabellenMethoden.init();
-    	//MarryFile.load();
+        //MarryFile.load();
         RegistryHandler.initRegistries();
         UpdateCheck.updateCheck();
-		try {
-			TabellenMethoden.getHVList();
-			TabellenMethoden.getAllMemberSheets();
-		} catch (Exception ignored) {}
     }
     @EventHandler
     public void preInit(FMLPreInitializationEvent e) {
-    	ClientCommandHandler.instance.registerCommand(new HV_Command());
-    	//ClientCommandHandler.instance.registerCommand(new MarryRP_Command());
+        ClientCommandHandler.instance.registerCommand(new HV_Command());
+        ClientCommandHandler.instance.registerCommand(new Brot_Command());
+        //ClientCommandHandler.instance.registerCommand(new MarryRP_Command());
         ClientCommandHandler.instance.registerCommand(new checkDonations_Command());
         ClientCommandHandler.instance.registerCommand(new aEquip());
         ClientCommandHandler.instance.registerCommand(new SaveActivity_Command());

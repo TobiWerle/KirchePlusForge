@@ -59,9 +59,7 @@ public class HV_Command extends CommandBase implements IClientCommand {
 					try {
 						TabellenMethoden.getHVList();
 					} catch (IOException | GeneralSecurityException e1) {}
-					for(EntityPlayer p : Displayname.players) {
-						p.refreshDisplayName();
-					}
+					Displayname.refreshAll();
 					for(Entity e : Minecraft.getMinecraft().world.loadedEntityList) {
 						if(e instanceof EntityPlayer) {
 							EntityPlayer p = (EntityPlayer) e;

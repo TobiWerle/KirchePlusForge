@@ -96,6 +96,9 @@ public class TabellenMethoden {
 
 				try {
 					sheetsService = getSheetsService();
+					getHVList();
+					getBrotList();
+					getAllMemberSheets();
 				} catch (IOException | GeneralSecurityException ignored) {}
 			}
 		});
@@ -141,6 +144,25 @@ public class TabellenMethoden {
 		}
 	}
 
+	public static void getBrotList() throws IOException, GeneralSecurityException {
+		Displayname.BrotUser.clear();
+
+		String range = "Brotliste!D6:F105";
+
+		ValueRange response = sheetsService.spreadsheets().values()
+				.get(SPREADSHEET_ID, range)
+				.execute();
+		List<List<Object>> values = response.getValues();
+		if(values == null || values.isEmpty()) {
+			System.out.println("No data found!");
+		}else {
+			for(List row : values) {
+				try {
+					new Brot_User(row.get(0).toString(), row.get(1).toString(), row.get(2).toString());
+				} catch (Exception e) {}
+			}
+		}
+	}
 
 	public static void checkDonations() throws IOException {
 		main.spender.clear();
