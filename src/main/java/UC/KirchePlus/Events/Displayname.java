@@ -30,13 +30,14 @@ public class Displayname {
 		addTeam(e.getEntityPlayer());
 	}
 
-
 	public static void addTeam(EntityPlayer p) {
 		if(Minecraft.getMinecraft().gameSettings.hideGUI){
 			return;
 		}
 		try {
 			String teamName = p.getName();
+			boolean b = p.getWorldScoreboard().getTeam("nopush").getMembershipCollection().stream().anyMatch(name -> name.equalsIgnoreCase(p.getName()));
+			if(b)return;
 
 			if (!HVs.containsKey(p.getName()) && !BrotUser.containsKey(p.getName())) {
 				if (Minecraft.getMinecraft().player.getWorldScoreboard().getTeams().stream().anyMatch(team -> team.getName().equals(teamName))) {
@@ -82,44 +83,56 @@ public class Displayname {
 	}
 
 
-	static int time = 10*60;
+	static int time = 20*30;
+	static int reloadTime = 60*20*2*5;
+	static boolean hide = false;
 
 	@SubscribeEvent
 	public static void onTick(TickEvent.ClientTickEvent e) {
+
+		if(reloadTime != 0){
+			reloadTime--;
+		}else{
+			TabellenMethoden.reloadLists();
+			reloadTime = 60*20*2*5;
+		}
+
 		if(Minecraft.getMinecraft().gameSettings.hideGUI){
 			for(Entity e1 : Minecraft.getMinecraft().world.loadedEntityList) {
 				if(e1 instanceof EntityPlayer) {
 					if (Minecraft.getMinecraft().player.getWorldScoreboard().getTeams().stream().anyMatch(team -> team.getName().equals(e1.getName()))) {
 						Minecraft.getMinecraft().player.getWorldScoreboard().removeTeam(teams.get(e1.getName()));
-
 					}
 				}
 			}
+			hide = true;
 			return;
 		}
+		if(hide){
+			refreshAll();
+			System.out.println("Refresh all after dingsens... hier F1 :D");
+			hide = false;
+		}
+
 		if(time != 0) {
 			time--;
 			return;
 		}
 		try {
-			for(Entity e1 : Minecraft.getMinecraft().world.loadedEntityList) {
-				if(e1 instanceof EntityPlayer) {
-					//WENN SPIELER AFK IST EINFACH NICHTS MACHEN ERSPART VIEL ARBEIT UND KOPFSCHMERZEN!!!!!
-					if (((EntityPlayer) e1).getWorldScoreboard().getTeams().stream().anyMatch(team -> team.getName().equals("nopush"))) {
-						return;
-					}
-					addTeam((EntityPlayer) e1);
-				}
-			}
+			refreshAll();
 		} catch (Exception s) {
 			s.printStackTrace();
 		}
-		time = 10*60;
+		System.out.println("jetzt");
+		time = 20*30*2;
 	}
 
 	public static void refreshAll(){
 		for(Entity e1 : Minecraft.getMinecraft().world.loadedEntityList) {
 			if(e1 instanceof EntityPlayer) {
+				if (((EntityPlayer) e1).getWorldScoreboard().getTeams().stream().anyMatch(team -> team.getName().equals("nopush"))) {
+					return;
+				}
 				addTeam((EntityPlayer) e1);
 			}
 		}

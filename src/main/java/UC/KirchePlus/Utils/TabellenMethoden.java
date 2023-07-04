@@ -146,7 +146,6 @@ public class TabellenMethoden {
 
 	public static void getBrotList() throws IOException, GeneralSecurityException {
 		Displayname.BrotUser.clear();
-
 		String range = "Brotliste!D6:F105";
 
 		ValueRange response = sheetsService.spreadsheets().values()
@@ -162,6 +161,23 @@ public class TabellenMethoden {
 				} catch (Exception e) {}
 			}
 		}
+	}
+
+	public static void reloadLists(){
+		Thread thread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					getHVList();
+					getBrotList();
+					Displayname.refreshAll();
+					System.out.println("Refresh list!! JUHUUUU");
+				} catch (IOException | GeneralSecurityException e) {
+					throw new RuntimeException(e);
+				}
+			}
+		});
+		thread.start();
 	}
 
 	public static void checkDonations() throws IOException {

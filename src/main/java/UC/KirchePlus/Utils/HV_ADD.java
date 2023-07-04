@@ -1,5 +1,6 @@
 package UC.KirchePlus.Utils;
 
+import UC.KirchePlus.Events.Displayname;
 import com.google.api.services.sheets.v4.model.BatchGetValuesResponse;
 import com.google.api.services.sheets.v4.model.UpdateValuesResponse;
 import com.google.api.services.sheets.v4.model.ValueRange;
@@ -51,6 +52,7 @@ public class HV_ADD {
                     temp_Who = null;
                     temp_reason = null;
                     temp_weeks = null;
+                    Displayname.refreshAll();
                 }catch (Exception e){
                     e.printStackTrace();
                     if(e.getMessage().contains("400 Bad Request")){
