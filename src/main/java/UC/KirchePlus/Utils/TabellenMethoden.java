@@ -303,7 +303,6 @@ public class TabellenMethoden {
         int currentmonth = calendar.get(Calendar.MONTH)+1;
         int currentyear = calendar.get(Calendar.YEAR);
         String[] date = s.replace(".", "-").split("-");
-
         int dayEnd = Integer.parseInt(date[0]);
         int monthEnd = Integer.parseInt(date[1]);
         

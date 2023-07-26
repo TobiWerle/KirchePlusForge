@@ -20,7 +20,6 @@ import java.util.HashMap;
 public class Displayname {
 
 	public static HashMap<String, ScorePlayerTeam> teams = new HashMap<>();
-
 	public static HashMap<String, HV_User> HVs = new HashMap<>();
 	public static HashMap<String, Brot_User> BrotUser = new HashMap<>();
 
@@ -29,7 +28,6 @@ public class Displayname {
 	public static void onNameTagFormatEvent(PlayerEvent.NameFormat e){
 		addTeam(e.getEntityPlayer());
 	}
-
 	public static void addTeam(EntityPlayer p) {
 		if(Minecraft.getMinecraft().gameSettings.hideGUI){
 			return;

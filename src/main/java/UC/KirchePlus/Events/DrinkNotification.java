@@ -45,7 +45,6 @@ private static void cooldown() {
             EntityPlayer p = Minecraft.getMinecraft().player;
             if (unformattedText.contains("§bDu bist durstig")) {
 
-                //WARUM 2x DISPLAY TITLE???? TESTEN NUR EINMAL!!!
                 Minecraft.getMinecraft().ingameGUI.displayTitle("§bDu bist durstig!", "", 1, 3 * 20, 4);
                 Minecraft.getMinecraft().ingameGUI.displayTitle(null, "§cDu solltest etwas trinken", 1, 3 * 20, 4);
                 if(KircheConfig.DrinkSound) {
@@ -64,9 +63,6 @@ private static void cooldown() {
                 cooldown = true;
                 cooldown();
             }
-
-
         }
-
     }
 }

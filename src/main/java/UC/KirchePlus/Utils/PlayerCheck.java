@@ -36,7 +36,6 @@ public class PlayerCheck {
         return jsonObject.get("name").toString().replace("\"","");
     }
 
-
     public static String NameFromUUID(String uuid) throws IOException {
         URL Fetcher = new URL("https://sessionserver.mojang.com/session/minecraft/profile/"+uuid.replace("-", ""));
         InputStreamReader reader = new InputStreamReader(Fetcher.openStream());
