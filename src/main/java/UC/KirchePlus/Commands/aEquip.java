@@ -183,7 +183,7 @@ public class aEquip extends CommandBase implements IClientCommand {
 
                     Thread.sleep(700);
 
-                    if(amount != 0){
+                    if(amount > 0){
                         Minecraft.getMinecraft().player.sendChatMessage("/equip");
                     }else {
                         enabled = false;
