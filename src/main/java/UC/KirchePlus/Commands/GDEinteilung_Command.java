@@ -34,6 +34,9 @@ public class GDEinteilung_Command extends CommandBase implements IClientCommand 
     public List<String> getAliases() {
         List<String> aliases = new ArrayList<String>();
         aliases.add("/gdeinteilung");
+        aliases.add("/gd");
+        aliases.add("/gde");
+        aliases.add("/einteilung");
         return aliases;
     }
 
