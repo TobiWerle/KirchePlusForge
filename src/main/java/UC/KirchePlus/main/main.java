@@ -16,7 +16,7 @@ import java.util.HashMap;
 public class main {
 
     public static final String MODID = "kirche+";
-    public static final String VERSION = "3.2c";
+    public static final String VERSION = "3.3";
     public static ArrayList<SpenderInfo> spender = new ArrayList<>();
     public static HashMap<Activity_User, Integer> totalActivity = new HashMap<>();
     public static ArrayList<FactionContract> FactionContracs = new ArrayList<>();
@@ -40,5 +40,6 @@ public class main {
         ClientCommandHandler.instance.registerCommand(new topActivity_Command());
         ClientCommandHandler.instance.registerCommand(new VertragInfo_Command());
         ClientCommandHandler.instance.registerCommand(new GDEinteilung_Command());
+        ClientCommandHandler.instance.registerCommand(new aEvent_Command());
     }
 }
